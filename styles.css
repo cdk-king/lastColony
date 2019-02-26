@@ -1,0 +1,73 @@
+body {
+    /* background: #090009; */
+
+    /* Disable scroll bars */
+    overflow: hidden;
+
+    /* Disable long touch hold select on mobile browsers */
+    -webkit-touch-callout: none !important;
+}
+
+#wrapper {
+    position: absolute;
+
+    /* Wrapper covers entire window height and width */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    /* Prevent the ugly blue highlighting from accidental selection of text */
+    user-select: none;
+}
+
+#gamecontainer{
+    width: 640px;
+    height: 480px;
+    background: url(images/screens/splashscreen.png);
+    border: 1px solid black;
+}
+
+.gamelayer{
+    width: 640px;
+    height: 480px;
+    position: absolute;
+    display: none;
+}
+
+/* 启动画面与主菜单 */
+#gamestartscreen{
+    padding-top: 320px;
+    text-align: left;
+    padding-left: 50px;
+    width: 590px;
+    height: 160px;
+}
+
+#gamestartscreen span{
+    margin: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 48px;
+    cursor: pointer;
+    color: white;
+    text-shadow: -2px 0 purple, 0 2px purple, 2px 0 purple, 0 -2px purple;
+}
+
+#gamestartscreen span:hover{
+    color: yellow;
+}
+
+/* 加载画面 */
+#loadingscreen{
+    background: rgba(100, 100, 100, 0.7);
+    z-index: 10;
+}
+
+#loadingmessage{
+    margin-top: 400px;
+    text-align: center;
+    height: 48px;
+    color: white;
+    background: url(images/loader.gif) no-repeat center;
+    font: 12px Arial;
+}
