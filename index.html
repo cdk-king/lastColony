@@ -24,9 +24,20 @@
                 <div id="missionscreen" class="gamelayer">
                     <img src="images/screens/interface-left.png" class="left-panel" draggable="false">
                     <img src="images/screens/interface-right-briefing.png" class="right-panel" draggable="false">
-                    <input type="button" id="entermission" onclick="singleplayer.player()">
+                    <input type="button" id="entermission" onclick="singleplayer.play()">
                     <input type="button" id="exitmission" onclick="singleplayer.exit()">
                     <div id="missionbriefing"></div>
+                </div>
+
+                <div id="gameinterfacescreen" class="gamelayer">
+                        <img src="images/screens/interface-left.png" class="left-panel" draggable="false">
+                        <img src="images/screens/interface-right-game.png" class="right-panel" draggable="false">
+                    <div id="gamemessages"></div>
+                    <div id="callerpicture"></div>
+                    <div id="cash"></div>
+                    <div id="sidebarbuttons"></div>
+                    <canvas id="gamebackgroundcanvas" height="400" width="480"></canvas>
+                    <canvas id="gameforegroundcanvas" height="400" width="480"></canvas>
                 </div>
 
                 <div id="loadingscreen" class="gamelayer">

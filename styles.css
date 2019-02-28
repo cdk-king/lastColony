@@ -145,3 +145,62 @@ input[type="button"] {
     font-size: 13px;
     font-family: 'Courier New', Courier, monospace;
 }
+
+/*游戏界面*/
+
+#gameinterfacescreen{
+    background: url(images/screens/interface-middle.png);
+}
+
+#gameinterfacescreen #gamemessage{
+    position: absolute;
+    padding-left: 10px;
+    top:5px;
+    left: 5px;
+    width: 450px;
+    height: 60px;
+    color: rgb(130, 150, 162);
+    overflow: hidden;
+    font-size: 13px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#gameinterfacescreen #gamemessage span{
+    color: white;
+}
+
+#gameinterfacescreen #callerpicture{
+    position: absolute;
+    left: 498px;
+    top: 154px;
+    width: 126px;
+    height: 88px;
+    overflow: none;
+}
+
+#gameinterfacescreen #cash{
+    width: 120px;
+    height: 22px;
+    position: absolute;
+    left: 498px;
+    top: 256px;
+    color: rgb(130, 150, 162);
+    overflow: hidden;
+    font-size: 13px;
+    font-family: 'Courier New', Courier, monospace;
+    text-align:  right;
+}
+
+#gameinterfacescreen canvas{
+    position: absolute;
+    top: 79px;
+    left: 0px;
+}
+
+#gameinterfacescreen #foregroundcanvas{
+    z-index: 1;
+}
+
+#gameinterfacescreen #backgroundcanvas{
+    z-index: 0;
+}

@@ -31,6 +31,9 @@ var singleplayer = {
         game.currentMapImage = loader.loadImage(level.mapImage);
         game.currentLevel = level;
 
+        game.offsetX = level.startX * game.gridSize;
+        game.offsetY = level.startY * game.gridSize;
+
         //加载资源完成后，启动“开始任务“按钮
         if(loader.loaded){
             enterMissionButton.disabled = false;
@@ -51,5 +54,14 @@ var singleplayer = {
 
         // Display the mission briefing screen
         game.showScreen("missionscreen");
+    },
+    play: function() {
+        // Run the animation loop once
+        game.animationLoop();
+
+        // Start the animation loop interval
+        game.animationInterval = setInterval(game.animationLoop, game.animationTimeout);
+
+        game.start();
     },
 }
