@@ -20,6 +20,15 @@
                     <span id="singleplayer" onclick="singleplayer.start()">Campaign</span><br>
                     <span id="multiplayer" onclick="multiplayer.start()">multiplayer</span><br>
                 </div>
+
+                <div id="missionscreen" class="gamelayer">
+                    <img src="images/screens/interface-left.png" class="left-panel" draggable="false">
+                    <img src="images/screens/interface-right-briefing.png" class="right-panel" draggable="false">
+                    <input type="button" id="entermission" onclick="singleplayer.player()">
+                    <input type="button" id="exitmission" onclick="singleplayer.exit()">
+                    <div id="missionbriefing"></div>
+                </div>
+
                 <div id="loadingscreen" class="gamelayer">
                     <div id="loadingmessage"></div>
                 </div>
