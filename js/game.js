@@ -13,7 +13,7 @@ var game = {
     //开始预加载资源
     init:function(){
         loader.init();
-
+        mouse.init();
         // Display the main game menu
         game.hideScreens();
         game.showScreen("gamestartscreen");
@@ -22,6 +22,7 @@ var game = {
         game.initCanvases();
 
     },
+    scale: 1,
     canvasWidth: 480,
     canvasHeight: 400,
     initCanvases:function(){
@@ -63,6 +64,9 @@ var game = {
         //
     },
     drawingLoop:function(){
+        
+        //console.log(game.offsetX);
+
         //处理地图平移
         //绘制背景地图是一项庞大的工作，我们仅在地图改变平移时重新绘制
         if(game.refreshBackground){
@@ -70,6 +74,13 @@ var game = {
             game.canvasWidth,game.canvasHeight,0,0,game.canvasWidth,game.canvasHeight);
             game.refreshBackground = false;
         }
+
+        //清空前景
+        game.foregroundContext.clearRect(0,0,game.canvasWidth,game.canvasHeight);
+
+
+        //绘制鼠标
+        mouse.draw();
 
         //使用requestAnimationFrame调用下一次绘图循环
         if(game.running){
