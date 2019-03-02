@@ -88,10 +88,12 @@ var aircraft = {
             var colorIndex = (this.team == "blue")?0:1;
             var colorOffset = colorIndex*this.pixelHeight;
             var shadowOffset = 2*this.pixelHeight;
+
             game.foregroundContext.drawImage(this.spriteSheet,this.imageOffset*this.pixelWidth,colorOffset,
-                this.pixelWidth,this.pixelHeight,x,y,this.pixelWidth,this.pixelHeight);
+                this.pixelWidth,this.pixelHeight,x,y-this.pixelShadowHeight,this.pixelWidth,this.pixelHeight);
+
             game.foregroundContext.drawImage(this.spriteSheet,this.imageOffset*this.pixelWidth,shadowOffset,
-                this.pixelWidth,this.pixelHeight,x,y+this.pixelShadowHeight,this.pixelWidth,this.pixelHeight);
+                this.pixelWidth,this.pixelHeight,x,y,this.pixelWidth,this.pixelHeight);
         }
     },
     load:loadItem,
