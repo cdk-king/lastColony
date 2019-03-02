@@ -78,6 +78,39 @@ var buildings = {
                 {name:"damaged",count:1},        
             ],
         },
+        "ground-turret":{
+            name:"ground-turret",
+            canAttack:true,
+            canAttackLand:true,
+            canAttackAir:false,
+            weaponType:"cannon-ball",
+            action:"guard",//默认动作
+            direction:0,//默认朝向北方
+            directions:8,//允许八个方向
+            orders:{
+                type:"guard"
+            },
+            pixelWidth:38,
+            pixelHeight:32,
+            baseWidth:20,
+            baseHeight:18,
+            pixelOffsetX:9,
+            pixelOffsetY:12,
+            buildableGrid:[
+                [1],
+            ],
+            passableGrid:[
+                [1],
+            ],
+            sight:5,
+            cost:1500,
+            hitPoints: 200,
+            spriteImages:[
+                {name:"teleport",count:9},    
+                {name:"healthy",count:1,directions:8},
+                {name:"damaged",count:1},        
+            ],
+        },
     },
     defaults:{
         type:"buildings",
@@ -165,6 +198,16 @@ var buildings = {
                         this.animationIndex = 0;
                         this.action = "stand";
                     }
+                    break;
+                case "guard":
+                    if(this.lifeCode == "damaged"){
+                        //损坏的炮塔没有方向
+                        this.imageList = this.spriteArray[this.lifeCode];
+                    }else{
+                        //完好的炮塔有八个方向
+                        this.imageList = this.spriteArray[this.lifeCode+"-"+this.direction];
+                    }
+                    this.imageOffset = this.imageList.offset;
                     break;
             }
         },

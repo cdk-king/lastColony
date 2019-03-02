@@ -10,7 +10,7 @@ var maps = {
 
             //预加载的单位类型
             "requirements":{
-                "buildings":["base","starport","harvester"],
+                "buildings":["base","starport","harvester","ground-turret"],
                 "vehicles":[],
                 "aircraft":[],
                 "terrain":[]
@@ -28,6 +28,10 @@ var maps = {
 
                 {"type":"buildings","name":"harvester",x:20,y:10,"team":"blue"},
                 {"type":"buildings","name":"harvester",x:22,y:12,"team":"green","action":"deploy"},
+
+                {"type":"buildings","name":"ground-turret",x:14,y:9,"team":"blue","direction":3},
+                {"type":"buildings","name":"ground-turret",x:14,y:12,"team":"green","direction":1},
+                {"type":"buildings","name":"ground-turret",x:16,y:10,"team":"blue","action":"teleport"},
             ]
         },
     ]
