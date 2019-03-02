@@ -102,7 +102,7 @@ function loadItem(name){
     item.spriteArray = [];
     item.spriteCount = 0;
 
-    for(var i = 0;i<spriteImages.length;i++){
+    for(var i = 0;i<item.spriteImages.length;i++){
         var constructImageCount = item.spriteImages[i].count;
         var constructDirectionCount = item.spriteImages[i].directions;
         if(constructDirectionCount){

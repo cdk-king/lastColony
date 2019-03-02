@@ -100,7 +100,18 @@ var game = {
         }
     },
     animationLoop:function(){
-        //
+        //执行游戏中每个单位的动画循环
+        for(var i = game.items.length-1;i>=0;i--){
+            game.items[i].animate();
+        }
+
+        //基于x和y坐标对游戏中所有的单位项排序为sortedItems数组
+        game.sortedItems = Object.assign([],game.items);
+        game.sortedItems.sort(function(a, b) {
+            return a.y - b.y + ((a.y === b.y) ? (b.x - a.x) : 0);
+        });
+
+
     },
     drawingLoop:function(){
         
@@ -118,6 +129,14 @@ var game = {
         //清空前景
         game.foregroundContext.clearRect(0,0,game.canvasWidth,game.canvasHeight);
 
+        //开始绘制前景元素
+        //深度排序确保近的物体遮挡远的物体
+        for(var i = 0;i<=game.sortedItems.length-1;i++){
+            game.sortedItems[i].draw();
+        }
+        // game.sortedItems.forEach(function(item) {
+        //     item.draw();
+        // });
 
         //绘制鼠标
         mouse.draw();
