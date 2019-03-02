@@ -13,7 +13,7 @@ var maps = {
                 "buildings":["base","starport","harvester","ground-turret"],
                 "vehicles":["transport","harvester","scout-tank","heavy-tank"],
                 "aircraft":["chopper","wraith"],
-                "terrain":[]
+                "terrain":["oilfield","bigrocks","smallrocks"]
             },
 
             //预加载的单位项
@@ -44,6 +44,12 @@ var maps = {
 
                 {"type":"aircraft","name":"chopper",x:20,y:22,"team":"blue","direction":2},
                 {"type":"aircraft","name":"wraith",x:23,y:22,"team":"green","direction":3},
+
+                {"type":"terrain","name":"oilfield",x:5,y:7,},
+                {"type":"terrain","name":"oilfield",x:8,y:7,"action":"hint"},
+                {"type":"terrain","name":"bigrocks",x:5,y:3,},
+                {"type":"terrain","name":"smallrocks",x:8,y:3,},
+
             ]
         },
     ]
