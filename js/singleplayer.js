@@ -34,6 +34,27 @@ var singleplayer = {
         game.offsetX = level.startX * game.gridSize;
         game.offsetY = level.startY * game.gridSize;
 
+
+        //加载关卡的预加载单位类型
+        game.resetArrays();
+        for(var type in level.requirements){
+            var requirementArray = level.requirements[type];
+            for(var i = 0;i<requirementArray.length;i++){
+                var name = requirementArray[i];
+                if(window[type]){
+                    console.log(window[type]);
+                    window[type].load(name);
+                }else{
+                    console.log("不能加载"+type);
+                }
+            }
+        }
+
+       for(var i = level.items.length-1;i>=0;i--){
+            var itemDetails = level.items[i];
+            game.add(itemDetails);
+        }
+
         //加载资源完成后，启动“开始任务“按钮
         if(loader.loaded){
             enterMissionButton.disabled = false;

@@ -144,5 +144,59 @@ var game = {
 
         screen.style.display = "block";
     },
+    resetArrays: function() {
+        // Count items added in game, to assign them a unique id
+        game.counter = 1;
 
+        // Track all the items currently in the game
+        game.items = [];
+        game.buildings = [];
+        game.vehicles = [];
+        game.aircraft = [];
+        game.terrain = [];
+
+        // Track items that have been selected by the player
+        game.selectedItems = [];
+
+        game.triggeredEvents = [];
+        game.sortedItems = [];
+    },
+    add:function(itemDetails){
+        //为每个单位项设置唯一的id
+        if(!itemDetails.uid){
+            itemDetails.uid = game.counter++;
+        }
+        var item = window[itemDetails.type].add(itemDetails);
+        //将单位项加入items数组
+        game.items.push(item);
+        //将单位项加入指定的单位类型数组
+        game[item.type].push(item);
+        return item;
+    },
+    remove:function(item){
+        //如果已经选中该单位，解除选中
+        item.selected = false;
+        for(var i = game.selectedItems.length-1;i>=0;i--){
+            if(game.selectedItems[i].uid == item.uid){
+                game.selectedItems.splice(i,1);
+                break;
+            }
+        }
+
+        //从items数组中移除该单位
+        for(var i = game.items.length-1;i>=0;i--){
+            if(game.items[i].uid == item.uid){
+                game.items.splice(i,1);
+                break;
+            }
+        }
+
+        //从指定的单位类型数组中移除该单位
+        for(var i = game[item.type].length-1;i>=0;i--){
+            if(game[item.type][i].uid == item.uid){
+                game[item.type].splice(i,1);
+                break;
+            }
+        }
+    }
 }
