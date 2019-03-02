@@ -55,6 +55,29 @@ var buildings = {
                 {name:"damaged",count:1},        
             ],
         },
+        "harvester":{
+            name:"harvester",
+            pixelWidth:40,
+            pixelHeight:60,
+            baseWidth:40,
+            baseHeight:20,
+            pixelOffsetX:-2,
+            pixelOffsetY:40,
+            buildableGrid:[
+                [1,1],
+            ],
+            passableGrid:[
+                [1,1],
+            ],
+            sight:3,
+            cost:5000,
+            hitPoints:300,
+            spriteImages:[
+                {name:"deploy",count:17},    
+                {name:"healthy",count:3},
+                {name:"damaged",count:1},        
+            ],
+        },
     },
     defaults:{
         type:"buildings",
@@ -131,6 +154,16 @@ var buildings = {
                     if(this.animationIndex>=this.imageList.count){
                         this.animationIndex = 0;
                         this.action = "close";
+                    }
+                    break;
+                case "deploy":
+                    this.imageList = this.spriteArray["deploy"];
+                    this.imageOffset = this.imageList.offset + this.animationIndex;
+                    this.animationIndex++;
+                    //deploy模式结束后，转到stand模式
+                    if(this.animationIndex>=this.imageList.count){
+                        this.animationIndex = 0;
+                        this.action = "stand";
                     }
                     break;
             }
