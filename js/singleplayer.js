@@ -42,7 +42,7 @@ var singleplayer = {
             for(var i = 0;i<requirementArray.length;i++){
                 var name = requirementArray[i];
                 if(window[type]){
-                    console.log(window[type]);
+                    //console.log(window[type]);
                     window[type].load(name);
                 }else{
                     console.log("不能加载"+type);

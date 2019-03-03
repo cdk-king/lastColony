@@ -153,20 +153,22 @@ var mouse = {
     // Called whenever player completes a left click on the game canvas
     leftClick: function(shiftPressed) {
         let clickedItem = mouse.itemUnderMouse();
-
+        //console.log(clickedItem);
         if (clickedItem) {
+            
             // Pressing shift adds to existing selection. If shift is not pressed, clear existing selection
             if (!shiftPressed) {
                 game.clearSelection();
             }
 
             game.selectItem(clickedItem, shiftPressed);
+            
         }
     },
     itemUnderMouse:function(){
         for(var i = game.items.length-1;i>=0;i--){
             var item = game.items[i];
-            if(item.typs == "buildings" || item.type == "terrain"){
+            if(item.type == "buildings" || item.type == "terrain"){
                 if(item.lifeCode != "dead" 
                 && item.x<=(mouse.gameX)/game.gridSize
                 && item.x>=(mouse.gameX - item.baseWidth)/game.gridSize
@@ -177,7 +179,7 @@ var mouse = {
                 }
             }else if(item.type == "aircraft"){
                 if(item.lifeCode != "dead" 
-                && Math.pow(item.x-mouse.gameX/game.gridSize,2) + Math.pow(item.y-(mouse.gameY-item.pixelShadowHeight)/game.gridSize,2)
+                && Math.pow(item.x-mouse.gameX/game.gridSize,2) + Math.pow(item.y-(mouse.gameY+item.pixelShadowHeight)/game.gridSize,2)
                 <Math.pow((item.radius)/game.gridSize,2)
                 ){
                     return item;
