@@ -49,7 +49,81 @@ var mouse = {
         canvas.addEventListener("mousedown", mouse.mousedownhandler, false);
         canvas.addEventListener("mouseup", mouse.mouseuphandler, false);
 
+        canvas.addEventListener("contextmenu", mouse.mouserightclickhandler, false);
+
         mouse.canvas = canvas;
+    },
+    mouserightclickhandler: function(ev) {
+        mouse.rightClick();
+
+        // Prevent the browser from showing the context menu
+        ev.preventDefault(true);
+    },
+    rightClick:function(){
+        var uids = [];
+        let clickedItem = mouse.itemUnderMouse();
+        if(clickedItem){
+            if(clickedItem.type != "terrain"){
+                if(clickedItem.team != game.team){
+                    //从选中的单位中挑出具备攻击能力的单位
+                    for(var i = game.selectedItems.length-1;i>=0;i--){
+                        var item = game.selectedItems[i];
+                        if(item.team == game.team && item.canAttack){
+                            uids.push(item.uid);
+                        }
+                    };
+                    //接着命令它们攻击被右击的单位
+                    if(uids.length>0){
+                        game.sendCommand(uids,{type:"attack",toUid:clickedItem.uid});
+                    }
+
+                }else{
+                    //玩家右击友方单位
+                    //从选中的单位中挑出能移动的
+                    for(var i = game.selectedItems.length-1;i>=0;i--){
+                        var item = game.selectedItems[i];
+                        if(item.team == game.team && (item.type ==="vehicles" || item.type === "aircraft")){
+                            uids.push(item.uid);
+                        }
+                    };
+                    //接着命令它们守卫被右击的单位
+                    if(uids.length>0){
+                        game.sendCommand(uids,{type:"guard",toUid:clickedItem.uid});
+                    }
+                }
+            }else if(clickedItem.name == "oilfield"){
+                //右击一块油田
+                //从选中的单位中挑出第一辆采油车
+                for(var i = game.selectedItems.length-1;i>=0;i--){
+                    var item = game.selectedItems[i];
+                    if(item.team == game.team && (item.type ==="vehicles" && item.name === "harvester")){
+                        uids.push(item.uid);
+                        break;//确保一个
+                    }
+                };
+                //接着命令它在油田上展开
+                if(uids.length>0){
+                    game.sendCommand(uids,{type:"deploy",toUid:clickedItem.uid});
+                }
+
+            }
+        }else{
+            //玩家右击地面
+            //从队伍中挑出能够移动的单位
+            for(var i = game.selectedItems.length-1;i>=0;i--){
+                var item = game.selectedItems[i];
+                if(item.team == game.team && (item.type ==="vehicles" || item.type === "aircraft")){
+                    uids.push(item.uid);
+                }
+            };
+            //接着命令它们移动到右击的位置
+            if(uids.length>0){
+                game.sendCommand(uids,{type:"move",to:{
+                    x:mouse.gameX/game.gridSize,
+                    y:mouse.gameY/game.gridSize
+                }});
+            }
+        }
     },
     mousemovehandler:function(ev){
         mouse.insideCanvas = true;

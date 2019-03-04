@@ -139,7 +139,8 @@ var aircraft = {
             game.foregroundContext.moveTo(x,y);
             game.foregroundContext.lineTo(x,y-this.pixelShadowHeight);
             game.foregroundContext.stroke();
-        }
+        },
+        
     },
     load:loadItem,
     add:addItem,

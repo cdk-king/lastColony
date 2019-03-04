@@ -100,7 +100,14 @@ var game = {
         }
     },
     animationLoop:function(){
-        //执行游戏中每个单位的动画循环
+        //使所有指定了命令的单位执行命令
+        for(var i = game.items.length-1;i>=0;i--){
+            if(game.items[i].processOrders){
+                game.items[i].processOrders();
+            }
+        }
+
+        //生成游戏中每个单位的动画循环
         for(var i = game.items.length-1;i>=0;i--){
             game.items[i].animate();
         }
@@ -110,6 +117,7 @@ var game = {
         game.sortedItems.sort(function(a, b) {
             return a.y - b.y + ((a.y === b.y) ? (b.x - a.x) : 0);
         });
+
 
 
     },
@@ -248,5 +256,43 @@ var game = {
             item.selected = true;
             game.selectedItems.push(item);
         }
+    },
+    sendCommand:function(uids,details){
+        if(game.type == "singleplayer"){
+            singleplayer.sendCommand(uids,details);
+        }else{
+            multiplayer.sendCommand(uids,details);
+        }
+    },
+    getItemByUid:function(){
+        for(var i = game.items.length;i>=0;i--){
+            if(game.items[i].uid==uid){
+                return game.items[i];
+            }
+        };
+    },
+    processCommand:function(uids,details){
+        //如果时uid类型，那么获取对应的目标对象
+        var toObject;
+        if(details.toUid){
+            toObjectc = game.getItemByUid(details.toUid);
+            if(!toObject || toObject.lifeCode == "dead"){
+                //toObject不存在，无效的命令
+                return;
+            }
+        }
+        //注意区别for( a in b )
+        for(var i in uids){
+            var uid = uids[i];
+            var item = game.getItemByUid(uid);
+            //如果uid是合法的单位，则为该单位设置命令
+            if(item){
+                item.orders = Object.assign({}, details);
+                if(toObject){
+                    item.orders.to = toObject;
+                }
+            }
+        }
+
     }
 }
