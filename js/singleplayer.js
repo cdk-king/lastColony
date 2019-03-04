@@ -85,4 +85,7 @@ var singleplayer = {
 
         game.start();
     },
+    sendCommand:function(uids,details){
+        game.processCommand(uids,details);
+    }
 }

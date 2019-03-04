@@ -264,8 +264,8 @@ var game = {
             multiplayer.sendCommand(uids,details);
         }
     },
-    getItemByUid:function(){
-        for(var i = game.items.length;i>=0;i--){
+    getItemByUid:function(uid){
+        for(var i = game.items.length-1;i>=0;i--){
             if(game.items[i].uid==uid){
                 return game.items[i];
             }
