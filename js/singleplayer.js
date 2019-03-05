@@ -55,6 +55,21 @@ var singleplayer = {
             game.add(itemDetails);
         }
 
+        //创建网格，将不可通过的网格单位赋值1，可通行的赋值0
+        game.currentMapTerrainGrid = [];
+        for(var y = 0;y<level.mapGridHeight;y++){
+            game.currentMapTerrainGrid[y] = [];
+            for(var x = 0;x<level.mapGridWidth;x++){
+                game.currentMapTerrainGrid[y][x] = 0;
+            }
+        };
+
+        for(var i= level.mapObstructedTerrain.length-1;i>=0;i--){
+            var obstruction = level.mapObstructedTerrain[i];
+            game.currentMapTerrainGrid[obstruction[1]][obstruction[0]] = 1;
+        };
+        game.currentMapPassableGrid = undefined;
+
         //加载资源完成后，启动“开始任务“按钮
         if(loader.loaded){
             enterMissionButton.disabled = false;

@@ -198,6 +198,11 @@ var game = {
         game.items.push(item);
         //将单位项加入指定的单位类型数组
         game[item.type].push(item);
+
+        if(item.type =="buildings" || item.type == "terrain"){
+            game.currentMapPassableGrid = undefined;
+        }
+
         return item;
     },
     remove:function(item){
@@ -225,6 +230,11 @@ var game = {
                 break;
             }
         }
+
+        if(item.type =="buildings" || item.type == "terrain"){
+            game.currentMapPassableGrid = undefined;
+        }
+
     },
     selectionBorderColor:"rgba(255,255,0,0.5)",
     selectionFillColor:"rgba(255,215,0,0.2)",
@@ -299,4 +309,35 @@ var game = {
     /* Movement related properties */
     speedAdjustmentFactor: 1 / 64,
     turnSpeedAdjustmentFactor: 1 / 8,
+    // Make a copy of a 2 Dimensional Array
+    makeArrayCopy: function(originalArray) {
+        var length = originalArray.length;
+        var copy = new Array(length);
+
+        for (let i = 0; i < length; i++) {
+            copy[i] = originalArray[i].slice(0);
+        }
+
+        return copy;
+    },
+    rebuildPassableGrid: function() {
+
+        // Initialize Passable Grid with the value of Terrain Grid
+        game.currentMapPassableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
+
+        // Also mark all building and terrain as unpassable items
+        for (let i = game.items.length - 1; i >= 0; i--) {
+            var item = game.items[i];
+
+            if (item.type === "buildings" || item.type === "terrain") {
+                for (let y = item.passableGrid.length - 1; y >= 0; y--) {
+                    for (let x = item.passableGrid[y].length - 1; x >= 0; x--) {
+                        if (item.passableGrid[y][x]) {
+                            game.currentMapPassableGrid[item.y + y][item.x + x] = 1;
+                        }
+                    }
+                }
+            }
+        }
+    },
 }
