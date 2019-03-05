@@ -108,6 +108,7 @@ var mouse = {
 
             }
         }else{
+            console.log("玩家右击地面");
             //玩家右击地面
             //从队伍中挑出能够移动的单位
             for(var i = game.selectedItems.length-1;i>=0;i--){
@@ -116,6 +117,7 @@ var mouse = {
                     uids.push(item.uid);
                 }
             };
+            console.log("uids:"+uids);
             //接着命令它们移动到右击的位置
             if(uids.length>0){
                 game.sendCommand(uids,{type:"move",to:{

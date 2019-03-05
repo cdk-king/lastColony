@@ -83,7 +83,7 @@ var loader = {
                     game.hideScreen("loadingscreen");
                     loader.onload();
                     loader.onload = undefined;
-                },500);
+                },250);
             }
         }
     }
@@ -172,3 +172,49 @@ function addItem(details){
 
     return item;
 }
+
+//转向和移动的通用函数
+//根据两个物体的位置计算一个方向（满足0<=angle<=directions）
+function findAngle(object,unit,directions){
+    var dy = (object.y)-unit.y;
+    var dx = object.x-unit.x;
+    //将正切值转换0到directions之间的值
+    //[-π, π] 需要转换成0-360
+    var angle = wrapDirection(directions/2-(Math.atan2(dx,dy)*directions/(2*Math.PI)),directions);
+    return angle;
+}
+
+//处理方向值，使其在0到directions-1之间
+function wrapDirection(direction,directions){
+    if(direction<0){
+        direction += directions;
+    }
+    if(direction>=directions){
+        direction -= directions;
+    }
+    return direction;
+}
+
+//返回两个角度（0<=angle<directions）之间的最小差值（-direction/2到+directions/2）之间的值
+
+function angleDiff(angle1,angle2,directions){
+    if(angle1>=directions/2){
+        angle1 = angle1 - directions;
+    }
+    if(angle2>=directions/2){
+        angle2 = angle2 - directions;
+    }
+
+    var diff = angle2-angle1;
+    
+    if(diff<-directions/2){
+        diff+=directions;
+    }
+    if(diff>directions/2){
+        diff -=directions;
+    }
+
+    return diff;
+}
+
+

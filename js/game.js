@@ -272,6 +272,7 @@ var game = {
         };
     },
     processCommand:function(uids,details){
+        
         //如果时uid类型，那么获取对应的目标对象
         var toObject;
         if(details.toUid){
@@ -293,6 +294,9 @@ var game = {
                 }
             }
         }
-
-    }
+        console.log(item.orders);
+    },
+    /* Movement related properties */
+    speedAdjustmentFactor: 1 / 64,
+    turnSpeedAdjustmentFactor: 1 / 8,
 }

@@ -72,7 +72,7 @@ var aircraft = {
 
             switch (this.action){
                 case "fly":
-                    var direction = this.direction;
+                    var direction = wrapDirection(Math.round(this.direction),this.directions);
                     this.imageList = this.spriteArray["fly-"+direction];
                     this.imageOffset = this.imageList.offset + this.animationIndex;
                     this.animationIndex++;
@@ -140,7 +140,58 @@ var aircraft = {
             game.foregroundContext.lineTo(x,y-this.pixelShadowHeight);
             game.foregroundContext.stroke();
         },
-        
+        processOrders:function(){
+            this.lastMovementX = 0;
+            this.lastMovementY = 0;
+            switch (this.orders.type){
+                case "move":
+                    //向目的地移动，直到飞行器与目的地的距离小于飞行器的半径
+                    var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
+                    if(distanceFromDestinationSquared < Math.pow(this.radius/game.gridSize,2)){
+                        this.orders = {type:"float"};
+                    }else{
+                        var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
+                        this.moveTo(this.orders.to,distanceFromDestination);
+                    }
+                    break;
+            }
+        },
+        // How slow should unit move while turning
+        //讲道理转弯要慢
+        speedAdjustmentWhileTurningFactor: 0.4,
+        moveTo:function(destination,distanceFromDestination){
+            //计算飞行到目的地的方向
+            var newDirection = findAngle(destination,this,this.directions);
+            //console.log(this.direction);
+            //console.log(newDirection);
+            //计算当前方向与新方向差
+            var difference = angleDiff(this.direction,newDirection,this.directions);
+            //console.log(difference);
+            //计算每个动画循环飞行器转过的角度
+            var turnAmount = this.turnSpeed*game.turnSpeedAdjustmentFactor;
+            if(Math.abs(difference)>turnAmount){
+                //console.log(turnAmount*Math.abs(difference)/difference);
+                this.direction = wrapDirection(this.direction+turnAmount*Math.abs(difference)/difference,this.directions);
+                //this.direction = (this.direction + this.directions) % this.directions;
+                this.turning = true;
+            }else{
+                this.direction =newDirection;
+                this.turning = false;
+            }
+                // Calculate maximum distance that aircraft can move per animation cycle
+                var maximumMovement = this.speed * game.speedAdjustmentFactor * (this.turning ? this.speedAdjustmentWhileTurningFactor : 1);
+                var movement = Math.min(maximumMovement, distanceFromDestination);
+                //计算每个动画循环飞行器应当移动的距离
+                //var movement = this.speed*game.speedAdjustmentFactor;
+                //计算移动距离的x和y分量
+                var angleRadians = -(this.direction/this.directions)*2*Math.PI;
+                this.lastMovementX = -(movement*Math.sin(angleRadians));
+                this.lastMovementY = -(movement*Math.cos(angleRadians));
+                //console.log(this.direction);
+                this.x = (this.x+this.lastMovementX);
+                this.y = (this.y+this.lastMovementY);
+                
+        }
     },
     load:loadItem,
     add:addItem,
