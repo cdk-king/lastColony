@@ -221,8 +221,8 @@ var vehicles = {
             //如果车辆在地图边缘之外，直接到达目标
             if(vehicleOutsideMapBounds || vehicleReachedDestinationTile){
                 // Don't use A*. Just turn towards destination.
-                this.orders.path = [this,destination];
-                
+                //this.orders.path = [this,destination];
+                this.orders.path = [[this.x, this.y], [destination.x, destination.y]];
                 newDirection = findAngle(destination,this,this.directions);
 
                 //this.orders.path = [[this.x, this.y], [destination.x, destination.y]];
@@ -360,7 +360,7 @@ var vehicles = {
             for(var j = x1;j<=x2;j++){
                 for(var i = y1;i<=y2;i++){
                     if(grid[i][j]==1){
-                        if(Math.pow(j+0.5-newX,2)+Math.pow(i+0.5-newY,2)<Math.pow(this.radius/game.gridSize+0.1,2)){
+                        if(Math.pow(j+0.5-newX,2)+Math.pow(i+0.5-newY,2)<Math.pow(this.radius*0.9/game.gridSize,2)){
                             //车辆与阻塞网格间距离低于硬碰撞阈值
                             collisionObjects.push(
                                 {
@@ -372,8 +372,10 @@ var vehicles = {
                                     }
                                 }
                             );
+                            this.colliding = true;
+                            this.hardCollision = true;
 
-                        }else if(Math.pow(j+0.5-newX,2)+Math.pow(i+0.5-newY,2)<Math.pow(this.radius/game.gridSize+0.7,2)){
+                        }else if(Math.pow(j+0.5-newX,2)+Math.pow(i+0.5-newY,2)<Math.pow(this.radius*1.1/game.gridSize,2)){
                             //车辆与阻塞网格间距离低于软碰撞阈值
                             collisionObjects.push(
                                 {
@@ -385,6 +387,8 @@ var vehicles = {
                                     }
                                 }
                             );
+                            this.colliding = true;
+                            
                         }
                     }
                 }
@@ -402,14 +406,17 @@ var vehicles = {
                                 with:vehicle
                             }
                         );
+                        this.colliding = true;
+                        this.hardCollision = true;
                     }else if(Math.pow(vehicle.x-newX,2) + Math.pow(vehicle.y-newY,2)<Math.pow((this.radius*1.5+vehicle.radius)/game.gridSize,2)){
                         //车辆间的距离低于硬碰撞阈值（车辆半径之和的1.5倍）
                         collisionObjects.push(
                             {
-                                collisionType:"soft",
+                                collisionType:"soft", 
                                 with:vehicle
                             }
                         );
+                        this.colliding = true;
                     }
                 }
             }
