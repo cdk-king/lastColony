@@ -5,7 +5,7 @@ var singleplayer = {
         game.hideScreens();
 
         //从第一关开始
-        singleplayer.currentLevel = 1;
+        singleplayer.currentLevel = 2;
         game.type = "singleplayer";
         game.team = "blue";
 
@@ -54,7 +54,7 @@ var singleplayer = {
             var itemDetails = level.items[i];
             game.add(itemDetails);
         }
-        console.log(game.items);
+        
         //创建网格，将不可通过的网格单位赋值1，可通行的赋值0
         game.currentMapTerrainGrid = [];
         for(var y = 0;y<level.mapGridHeight;y++){
@@ -69,6 +69,10 @@ var singleplayer = {
             game.currentMapTerrainGrid[obstruction[1]][obstruction[0]] = 1;
         };
         game.currentMapPassableGrid = undefined;
+
+
+        //为游戏加载启动资金
+        game.cash = Object.assign({}, level.cash);
 
         //加载资源完成后，启动“开始任务“按钮
         if(loader.loaded){

@@ -182,11 +182,11 @@ input[type="button"] {
     width: 120px;
     height: 22px;
     position: absolute;
-    left: 498px;
-    top: 256px;
+    right: 20px;
+    top: 241px;
     color: rgb(130, 150, 162);
     overflow: hidden;
-    font-size: 13px;
+    font-size: 14px;
     font-family: 'Courier New', Courier, monospace;
     text-align:  right;
 }

@@ -100,6 +100,9 @@ var game = {
         }
     },
     animationLoop:function(){
+        //显示侧边栏
+        sidebar.animate();
+
         //使所有指定了命令的单位执行命令
         for(var i = game.items.length-1;i>=0;i--){
             if(game.items[i].processOrders){
