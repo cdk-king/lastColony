@@ -204,3 +204,96 @@ input[type="button"] {
 #gameinterfacescreen #backgroundcanvas{
     z-index: 0;
 }
+
+/* 侧边栏按钮 */
+#gameinterfacescreen #sidebarbuttons{
+    position: absolute;
+
+    right: 12px;
+    top: 265px;
+
+    width: 130px;
+    height: 214px;
+
+    padding: 0;
+    margin: 0;
+
+    overflow: none;
+}
+
+#gameinterfacescreen #sidebarbuttons input[type="button"]{
+    width: 64px;
+    height: 54px;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    position: absolute;
+    background-image: url(images/buttons.png);
+}
+
+/* 按钮变灰状态 */
+#starportbutton:active,#starportbutton:disabled{
+    background-position: -208px -247px;
+}
+#placeholder1:active,#placeholder1:disabled{
+    /* background-position: -52px -305px; */
+}
+#turretbutton:active,#turretbutton:disabled{
+    background-position: -278px -247px;
+}
+#scouttankbutton:active,#scouttankbutton:disabled{
+    background-position: -208px -306px;
+}
+#heavytankbutton:active,#heavytankbutton:disabled{
+    background-position: -278px -306px;
+}
+#harvesterbutton:active,#harvesterbutton:disabled{
+    background-position: -344px -364px;
+}
+#chopperbutton:active,#chopperbutton:disabled{
+    background-position: -208px -364px;
+}
+#placeholder2:active,#placeholder1:disabled{
+    /* background-position: -52px -387px; */
+}
+#wraithbutton:active,#wraithbutton:disabled{
+    background-position: -278px -364px;
+}
+
+/* 按钮正常状态 */
+
+#starportbutton{
+    background-position: -4px -247px;
+}
+#placeholder1{
+    /* background-position: -216px -305px; */
+}
+#turretbutton{
+    right: 0;
+    background-position: -74px -247px;
+}
+#scouttankbutton{
+    top: 107px;
+    background-position: -4px -306px;
+}
+#heavytankbutton{
+    right: 0;
+    top: 107px;
+    background-position: -74px -306px;
+}
+#harvesterbutton{
+    top: 55px;
+    background-position: -140px -364px;
+}
+#chopperbutton{
+    top: 159px;
+    background-position: -4px -364px;
+}
+#placeholder2{
+    /* background-position: -216px -387px; */
+}
+#wraithbutton{
+    background-position: -74px -364px;
+    top: 159px;
+    right: 0;
+}
