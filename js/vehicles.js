@@ -110,8 +110,8 @@ var vehicles = {
             }
         },
         draw:function(){
-            var x = (this.x*game.gridSize)-game.offsetX-this.pixelOffsetX;
-            var y = (this.y*game.gridSize)-game.offsetY-this.pixelOffsetY;
+            var x = (this.x*game.gridSize)-game.offsetX-this.pixelOffsetX+(this.lastMovementX*game.drawingInterpolationFactor*game.gridSize);
+            var y = (this.y*game.gridSize)-game.offsetY-this.pixelOffsetY+(this.lastMovementY*game.drawingInterpolationFactor*game.gridSize);
 
             this.drawingX = x;
             this.drawingY = y;

@@ -118,7 +118,8 @@ var game = {
             return a.y - b.y + ((a.y === b.y) ? (b.x - a.x) : 0);
         });
 
-
+        //保存最后一次动画循环完成的时间
+        game.lastAnimationTime = (new Date()).getTime();
 
     },
     drawingLoop:function(){
@@ -126,7 +127,20 @@ var game = {
         //处理地图平移
         game.handlePanning();
 
-        //处理地图平移
+        //检查距离上一次动画循环时间并计算出一个线性插值量（-1~0）
+        //绘制比动画发生得更频繁
+        game.lastDrawTime = (new Date()).getTime();
+        if(game.lastAnimationTime){
+            game.drawingInterpolationFactor = (game.lastDrawTime-game.lastAnimationTime)/game.animationTimeout-1;//animationTimeout100
+            
+            if(game.drawingInterpolationFactor>0){
+                //下一个动画循环之外无点插值
+                game.drawingInterpolationFactor = 0;
+            }
+        }
+        else{
+            game.drawingInterpolationFactor = -1;
+        }
         //绘制背景地图是一项庞大的工作，我们仅在地图改变平移时重新绘制
         if(game.refreshBackground){
             game.backgroundContext.drawImage(game.currentMapImage,game.offsetX,game.offsetY,

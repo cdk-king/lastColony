@@ -83,8 +83,9 @@ var aircraft = {
             }
         },
         draw:function(){
-            var x = (this.x*game.gridSize)-game.offsetX-this.pixelOffsetX;
-            var y = (this.y*game.gridSize)-game.offsetY-this.pixelOffsetY;
+            //console.log(game.drawingInterpolationFactor);
+            var x = (this.x*game.gridSize)-game.offsetX-this.pixelOffsetX+(this.lastMovementX*game.drawingInterpolationFactor*game.gridSize);
+            var y = (this.y*game.gridSize)-game.offsetY-this.pixelOffsetY+(this.lastMovementY*game.drawingInterpolationFactor*game.gridSize);
 
             this.drawingX = x;
             this.drawingY = y;
@@ -178,18 +179,18 @@ var aircraft = {
                 this.direction =newDirection;
                 this.turning = false;
             }
-                // Calculate maximum distance that aircraft can move per animation cycle
-                var maximumMovement = this.speed * game.speedAdjustmentFactor * (this.turning ? this.speedAdjustmentWhileTurningFactor : 1);
-                var movement = Math.min(maximumMovement, distanceFromDestination);
-                //计算每个动画循环飞行器应当移动的距离
-                //var movement = this.speed*game.speedAdjustmentFactor;
-                //计算移动距离的x和y分量
-                var angleRadians = -(this.direction/this.directions)*2*Math.PI;
-                this.lastMovementX = -(movement*Math.sin(angleRadians));
-                this.lastMovementY = -(movement*Math.cos(angleRadians));
-                //console.log(this.direction);
-                this.x = (this.x+this.lastMovementX);
-                this.y = (this.y+this.lastMovementY);
+            // Calculate maximum distance that aircraft can move per animation cycle
+            var maximumMovement = this.speed * game.speedAdjustmentFactor * (this.turning ? this.speedAdjustmentWhileTurningFactor : 1);
+            var movement = Math.min(maximumMovement, distanceFromDestination);
+            //计算每个动画循环飞行器应当移动的距离
+            //var movement = this.speed*game.speedAdjustmentFactor;
+            //计算移动距离的x和y分量
+            var angleRadians = -(this.direction/this.directions)*2*Math.PI;
+            this.lastMovementX = -(movement*Math.sin(angleRadians));
+            this.lastMovementY = -(movement*Math.cos(angleRadians));
+            //console.log(this.direction);
+            this.x = (this.x+this.lastMovementX);
+            this.y = (this.y+this.lastMovementY);
                 
         }
     },
