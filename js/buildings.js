@@ -196,8 +196,22 @@ var buildings = {
                     //deploy模式结束后，转到stand模式
                     if(this.animationIndex>=this.imageList.count){
                         this.animationIndex = 0;
-                        this.action = "stand";
+                        this.action = "harvest";
                     }
+                    break;
+                case "harvest":
+                    this.imageList = this.spriteArray[this.lifeCode];
+                    this.imageOffset = this.imageList.offset + this.animationIndex;
+                    this.animationIndex++;
+
+                    if (this.animationIndex >= this.imageList.count) {
+                        this.animationIndex = 0;
+                        if (this.lifeCode === "healthy") {
+                            // Harvesters mine 2 credits of cash per animation cycle
+                            game.cash[this.team] += 2;
+                        }
+                    }
+
                     break;
                 case "guard":
                     if(this.lifeCode == "damaged"){

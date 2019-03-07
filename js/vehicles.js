@@ -158,7 +158,7 @@ var vehicles = {
             this.lastMovementY = 0;
             switch (this.orders.type){
                 case "move":
-                    console.log("move");
+                    //console.log("move");
                     //向目标位置移动，直到距离小于车辆半径
                     var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
                     if(distanceFromDestinationSquared < Math.pow(this.radius/game.gridSize,2)){
