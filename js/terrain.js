@@ -13,7 +13,7 @@ var terrain = {
                 [1,1]
             ],
             passableGrid:[
-                [1,1]
+                [0,0]
             ],
             spriteImages:[
                 {name:"hint",count:1},

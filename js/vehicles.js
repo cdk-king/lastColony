@@ -158,6 +158,7 @@ var vehicles = {
             this.lastMovementY = 0;
             switch (this.orders.type){
                 case "move":
+                    console.log("move");
                     //向目标位置移动，直到距离小于车辆半径
                     var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
                     if(distanceFromDestinationSquared < Math.pow(this.radius/game.gridSize,2)){
@@ -193,7 +194,66 @@ var vehicles = {
                         }
                     }
                     break;
-            }
+                case "deploy":
+                    //console.log("deploy");
+                    //如果油田已经被使用了。取消命令
+                    if(this.orders.to.lifeCode == "dead"){
+                        this.orders = {type:"stand"};
+                        return;
+                    }
+                    //移动到油田网格的中央
+                    var target = {
+                        x:this.orders.to.x+1,
+                        y:this.orders.to.y+0.5,
+                        type:"terrain"
+                    };
+                    
+                    var distanceFromDestinationSquared = (Math.pow(target.x-this.x,2)+Math.pow(target.y-this.y,2));
+                    if(distanceFromDestinationSquared<Math.pow(this.radius*2/game.gridSize,2)){
+                        //到达油田后，旋转采油车使其面向左侧（方向值为6）
+                        var difference = angleDiff(this.direction,6,this.directions);
+                        var turnAmount = this.turnSpeed*game.turnSpeedAdjustmentFactor;
+                        if(Math.abs(difference)>turnAmount){
+                         // Change direction by turn amount
+                            this.direction += turnAmount * Math.abs(difference) / difference;
+
+                            // Ensure direction doesn't go below 0 or above this.directions
+                            this.direction = (this.direction + this.directions) % this.directions;
+
+                            this.turning = true;
+                        } else {
+                            this.direction = 6;
+                            this.turning = false;
+                        }
+                        if (!this.turning) {
+                            // If oil field has been used already, then cancel order
+                            if (this.orders.to.lifeCode === "dead") {
+                                this.orders = { type: "stand" };
+
+                                return;
+                            }
+
+                            // Once it is pointing to the left, remove the harvester and oil field and deploy a harvester building
+                            game.remove(this.orders.to);
+                            this.orders.to.lifeCode = "dead";
+
+                            game.remove(this);
+                            this.lifeCode = "dead";
+
+                            game.add({ type: "buildings", name: "harvester", x: this.orders.to.x, y: this.orders.to.y, action: "deploy", team: this.team });
+                        }
+                    }else{
+                        var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
+                        let moving = this.moveTo(this.orders.to, distanceFromDestination);
+                        
+                        // Pathfinding couldn't find a path so stop
+                        if (!moving) {
+                            this.orders = { type: "stand" };
+                        }
+                    }
+                    break;
+            }       
+
         },
         // How slow should unit move while turning
         //讲道理转弯要慢
@@ -239,6 +299,7 @@ var vehicles = {
                 }else{
                     //路径不存在
                     console.log("路径不存在");
+                    console.log(end);
                     return false;
                 }
             }
@@ -290,7 +351,7 @@ var vehicles = {
             }else{
                 this.colliding = false;
             }
-            console.log(newDirection);
+            //console.log(newDirection);
 
             //计算转向新方向的角度量
             var difference = angleDiff(this.direction,newDirection,this.directions);

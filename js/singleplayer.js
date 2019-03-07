@@ -54,7 +54,7 @@ var singleplayer = {
             var itemDetails = level.items[i];
             game.add(itemDetails);
         }
-
+        console.log(game.items);
         //创建网格，将不可通过的网格单位赋值1，可通行的赋值0
         game.currentMapTerrainGrid = [];
         for(var y = 0;y<level.mapGridHeight;y++){

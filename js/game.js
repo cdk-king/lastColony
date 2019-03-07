@@ -286,9 +286,13 @@ var game = {
         //如果时uid类型，那么获取对应的目标对象
         var toObject;
         if(details.toUid){
-            toObjectc = game.getItemByUid(details.toUid);
-            if(!toObject || toObject.lifeCode == "dead"){
+            toObject = game.getItemByUid(details.toUid);
+            if(!toObject || toObject.lifeCode === "dead"){
                 //toObject不存在，无效的命令
+                console.log("toObject不存在，无效的命令");
+                console.log(details.toUid);
+                console.log(toObject);
+                console.log(game.items);
                 return;
             }
         }
@@ -339,5 +343,6 @@ var game = {
                 }
             }
         }
+        //console.log( game.currentMapPassableGrid[3][5]);
     },
 }

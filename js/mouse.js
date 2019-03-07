@@ -93,6 +93,7 @@ var mouse = {
                 }
             }else if(clickedItem.name == "oilfield"){
                 //右击一块油田
+                console.log("玩家右击油田");
                 //从选中的单位中挑出第一辆采油车
                 for(var i = game.selectedItems.length-1;i>=0;i--){
                     var item = game.selectedItems[i];
@@ -240,6 +241,7 @@ var mouse = {
             game.selectItem(clickedItem, shiftPressed);
             
         }
+        console.log(clickedItem);
     },
     itemUnderMouse:function(){
         for(var i = game.items.length-1;i>=0;i--){
