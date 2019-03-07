@@ -98,6 +98,7 @@ var vehicles = {
 
             switch (this.action){
                 case "stand":
+                    //处理非整数方向值
                     var direction = wrapDirection(Math.round(this.direction),this.directions);
                     this.imageList = this.spriteArray["stand-"+direction];
                     this.imageOffset = this.imageList.offset + this.animationIndex;
@@ -162,7 +163,25 @@ var vehicles = {
                     if(distanceFromDestinationSquared < Math.pow(this.radius/game.gridSize,2)){
                         this.orders = {type:"stand"};
                         return;
+                    }else if(this.colliding && distanceFromDestinationSquared < Math.pow(this.radius*3/game.gridSize,2)){
+                        this.orders = {type:"stand"};
+                        return;
                     }else{
+                        
+                        if (this.colliding && distanceFromDestinationSquared < Math.pow(this.radius*5/game.gridSize,2)) {
+                            // Count collisions within 5 radius distance of goal
+                            if (!this.orders.collisionCount) {
+                                this.orders.collisionCount = 1;
+                            } else {
+                                this.orders.collisionCount ++;
+                            }
+
+                            // Stop if more than 30 collisions occur
+                            if (this.orders.collisionCount > 30) {
+                                this.orders = { type: "stand" };
+                                break;
+                            }
+                        }
                         //试图向目标移动
                         //console.log("试图向目标移动");
                         var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
@@ -216,7 +235,7 @@ var vehicles = {
                         y:this.orders.path[1][1]+0.5,
                     };
                     newDirection = findAngle(nextStep,this,this.directions);
-                    console.log(newDirection);
+                    //console.log(newDirection);
                 }else{
                     //路径不存在
                     console.log("路径不存在");
@@ -224,10 +243,60 @@ var vehicles = {
                 }
             }
             
+            //检查按照现有的方向运动是否会产生碰撞
+            var collisionObjects = this.checkCollisionObjects(grid,distanceFromDestination);
+            this.hardCollision = false;
+            if(collisionObjects.length>0){
+                this.colliding = true;
+                //生成力向量对象为所有接触的物体添加斥力
+                var forceVector = {x:0,y:0};
+                //默认的，下一步有较小的引力
+                collisionObjects.push(
+                    {
+                        collisionType:"attraction",
+                        with:{
+                            x:this.orders.path[1][0]+0.5,
+                            y:this.orders.path[1][1]+0.5
+                        }
+                    }
+                );
+                for(var i = collisionObjects.length-1;i>=0;i--){
+                    var collObject = collisionObjects[i];
+                    console.log(collObject);
+                    var objectAngle = findAngle(collObject.with,this,this.directions);
+                    var objectAngleRadius = -(objectAngle/this.directions)*2*Math.PI;
+                    var forceMagnitude;
+                    switch (collObject.collisionType){
+                        case "hard":
+                            forceMagnitude = 2;
+                            this.hardCollision = true;
+                            break;
+                        case "soft":
+                            forceMagnitude = 1;
+                            break;
+                        case "attraction":
+                            forceMagnitude = -0.25;
+                            break;
+                    }
+                    console.log(forceMagnitude);
+                    forceVector.x += (forceMagnitude*Math.sin(objectAngleRadius));
+                    forceVector.y += (forceMagnitude*Math.cos(objectAngleRadius));
+
+                };
+                console.log(forceVector);
+                //根据力向量得到新的方向
+                newDirection = findAngle(forceVector,{x:0,y:0},this.directions);
+                
+            }else{
+                this.colliding = false;
+            }
+            console.log(newDirection);
+
             //计算转向新方向的角度量
             var difference = angleDiff(this.direction,newDirection,this.directions);
             var turnAmount = this.turnSpeed*game.turnSpeedAdjustmentFactor;
-            console.log(difference);
+            //console.log(difference);
+            
             if(Math.abs(difference)>turnAmount){
                 this.direction = wrapDirection(this.direction+turnAmount*Math.abs(difference)/difference,this.directions);
                 this.turning = true;
@@ -237,8 +306,16 @@ var vehicles = {
             }
             //向前移动，并按照需要转向
             var maximumMovement = this.speed * game.speedAdjustmentFactor * (this.turning ? this.speedAdjustmentWhileTurningFactor : 1);
+            
             var movement = Math.min(maximumMovement, distanceFromDestination);
+            if(this.hardCollision){
+                //硬碰撞的情况下,原地转向
+                var movement = 0;
+            }
+            //转换坐标系角度
+            //调整方向
             var angleRadians = -(this.direction/this.directions)*2*Math.PI;
+            //沿着x轴旋转坐标系180度，xy值转换
             this.lastMovementX = -(movement*Math.sin(angleRadians));
             this.lastMovementY = -(movement*Math.cos(angleRadians));
             this.x = (this.x+this.lastMovementX);
@@ -249,15 +326,13 @@ var vehicles = {
         turnTo: function(newDirection) {
             // Calculate difference between new direction and current direction
             let difference = this.angleDiff(newDirection);
-            //console.log(this.direction);
-            //console.log(difference);
             // Calculate maximum amount that aircraft can turn per animation cycle
             let turnAmount = this.turnSpeed * this.turnSpeedAdjustmentFactor;
     
             if (Math.abs(difference) > turnAmount) {
                 // Change direction by turn amount
                 this.direction += turnAmount * Math.abs(difference) / difference;
-    
+
                 // Ensure direction doesn't go below 0 or above this.directions
                 this.direction = (this.direction + this.directions) % this.directions;
     
@@ -267,6 +342,79 @@ var vehicles = {
                 this.turning = false;
             }
         },
+        checkCollisionObjects:function(grid,distanceFromDestination){
+            //计算当前路径上的下一个位置
+            var maximumMovement = this.speed * game.speedAdjustmentFactor * (this.turning ? this.speedAdjustmentWhileTurningFactor : 1);
+            var movement = Math.min(maximumMovement, distanceFromDestination);
+            var angleRadians = -(this.direction/this.directions)*2*Math.PI;
+            var newX = this.x-(movement*Math.sin(angleRadians));
+            var newY = this.y-(movement*Math.cos(angleRadians));
+
+            //下一步移动后会发生碰撞的车辆
+            var collisionObjects = [];
+            var x1 = Math.max(0,Math.floor(newX)-3);
+            var x2 = Math.min(game.currentLevel.mapGridWidth-1,Math.floor(newX)+3);
+            var y1 = Math.max(0,Math.floor(newY)-3);
+            var y2 = Math.min(game.currentLevel.mapGridHeight-1,Math.floor(newY)+3);
+            //最远测试三步以后
+            for(var j = x1;j<=x2;j++){
+                for(var i = y1;i<=y2;i++){
+                    if(grid[i][j]==1){
+                        if(Math.pow(j+0.5-newX,2)+Math.pow(i+0.5-newY,2)<Math.pow(this.radius/game.gridSize+0.1,2)){
+                            //车辆与阻塞网格间距离低于硬碰撞阈值
+                            collisionObjects.push(
+                                {
+                                    collisionType:"hard",
+                                    with:{
+                                        type:"wall",
+                                        x:j+0.5,
+                                        y:i+0.5
+                                    }
+                                }
+                            );
+
+                        }else if(Math.pow(j+0.5-newX,2)+Math.pow(i+0.5-newY,2)<Math.pow(this.radius/game.gridSize+0.7,2)){
+                            //车辆与阻塞网格间距离低于软碰撞阈值
+                            collisionObjects.push(
+                                {
+                                    collisionType:"soft",
+                                    with:{
+                                        type:"wall",
+                                        x:j+0.5,
+                                        y:i+0.5
+                                    }
+                                }
+                            );
+                        }
+                    }
+                }
+            }
+
+            for(var i = game.vehicles.length-1;i>=0;i--){
+                var vehicle = game.vehicles[i];
+                //测试距离碰撞少于三步的车辆
+                if(vehicle != this && Math.abs(vehicle.x-this.x)<3 && Math.abs(vehicle.y-this.y)<3){
+                    if(Math.pow(vehicle.x-newX,2) + Math.pow(vehicle.y-newY,2)<Math.pow((this.radius+vehicle.radius)/game.gridSize,2)){
+                        //车辆间的距离低于硬碰撞阈值（车辆半径之和）
+                        collisionObjects.push(
+                            {
+                                collisionType:"hard",
+                                with:vehicle
+                            }
+                        );
+                    }else if(Math.pow(vehicle.x-newX,2) + Math.pow(vehicle.y-newY,2)<Math.pow((this.radius*1.5+vehicle.radius)/game.gridSize,2)){
+                        //车辆间的距离低于硬碰撞阈值（车辆半径之和的1.5倍）
+                        collisionObjects.push(
+                            {
+                                collisionType:"soft",
+                                with:vehicle
+                            }
+                        );
+                    }
+                }
+            }
+            return collisionObjects;
+        }
     },
     load:loadItem,
     add:addItem,

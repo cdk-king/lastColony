@@ -117,7 +117,7 @@ var mouse = {
                     uids.push(item.uid);
                 }
             };
-            console.log("uids:"+uids);
+            //console.log("uids:"+uids);
             //接着命令它们移动到右击的位置
             if(uids.length>0){
                 game.sendCommand(uids,{type:"move",to:{
