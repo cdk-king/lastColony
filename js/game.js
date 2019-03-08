@@ -14,6 +14,8 @@ var game = {
     init:function(){
         loader.init();
         mouse.init();
+        sidebar.init();
+
         // Display the main game menu
         game.hideScreens();
         game.showScreen("gamestartscreen");
