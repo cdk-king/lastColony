@@ -364,4 +364,30 @@ var game = {
         }
         //console.log( game.currentMapPassableGrid[3][5]);
     },
+    //与玩家交互的函数
+    characters:{
+        "system":{
+            "name":"System",
+            "image":"images/characters/system.png"
+        }
+    },
+    showMessage:function(from,message){
+        var character = game.characters[from];
+        if(character){
+            from = character.name;
+            if(character.image){
+                document.getElementById("callerpicture").innerHTML = '<img src="'+character.image+'"/>';
+                //6秒后隐藏个人资料
+                setTimeout(function(){
+                    document.getElementById("callerpicture").innerHTML = "";
+                },6000);
+            }
+        }
+        //为消息板添加消息，并滚动到底部
+        let gamemessages = document.getElementById("gamemessages");
+        let messageHTML = "<span>" + from + ": </span>" + message + "<br>";
+
+        gamemessages.innerHTML += messageHTML;
+        gamemessages.scrollTop = gamemessages.scrollHeight;
+    }
 }

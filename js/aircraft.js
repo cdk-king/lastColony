@@ -80,6 +80,24 @@ var aircraft = {
                         this.animationIndex = 0;
                     }
                     break;
+                case "teleport":
+                    //处理非整数方向值
+                    var direction = wrapDirection(Math.round(this.direction),this.directions);
+                    this.imageList = this.spriteArray["fly-"+direction];
+                    this.imageOffset = this.imageList.offset + this.animationIndex;
+                    this.animationIndex++;
+                    if(this.animationIndex>=this.imageList.count){
+                        this.animationIndex = 0;
+                    }
+                    if(!this.brightness){
+                        this.brightness = 1;
+                    }
+                    this.brightness -=0.05;
+                    if(this.brightness<=0){
+                        this.brightness = undefined;
+                        this.action = "fly";
+                    }
+                    break;
             }
         },
         draw:function(){
@@ -103,6 +121,14 @@ var aircraft = {
 
             game.foregroundContext.drawImage(this.spriteSheet,this.imageOffset*this.pixelWidth,shadowOffset,
                 this.pixelWidth,this.pixelHeight,x,y,this.pixelWidth,this.pixelHeight);
+
+            //绘制出现的光圈
+            if(this.brightness){
+                game.foregroundContext.beginPath();
+                game.foregroundContext.arc(x+this.pixelOffsetX,y+this.pixelOffsetY-this.pixelShadowHeight,this.radius,0,Math.PI*2,false);
+                game.foregroundContext.fillStyle = "rgba(255,255,255,"+this.brightness+")";
+                game.foregroundContext.fill();
+            }
         },
         drawLifeBar:function(){
             //var x = this.drawingX + this.pixelOffsetX;

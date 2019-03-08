@@ -187,6 +187,11 @@ var buildings = {
                     if(this.animationIndex>=this.imageList.count){
                         this.animationIndex = 0;
                         this.action = "close";
+                        //如果constructUnit
+                        if(this.constructUnit){
+                            game.add(this.constructUnit);
+                            this.constructUnit = undefined;
+                        }
                     }
                     break;
                 case "deploy":
@@ -266,6 +271,49 @@ var buildings = {
             game.foregroundContext.fillStyle = game.selectionFillColor;
             game.foregroundContext.fillRect(x-1,y-1,this.baseWidth+2,this.baseHeight+2);
             game.foregroundContext.strokeRect(x-1,y-1,this.baseWidth+2,this.baseHeight+2);
+        },
+        processOrders:function(){
+            switch (this.orders.type){
+                case "construct-unit":
+                    if(this.lifeCode!="healthy"){
+                        return;
+                    }
+                    //首先确保在建筑上没有其他单位
+                    var unitOnTop = false;
+                    for(var i = game.items.length-1;i>=0;i--){
+                        var item = game.items[i];
+                        if(item.type == "vehicles" || item.type == "aircraft"){
+                            if(item.x>this.x && item.x<this.x+2 && item.y>this.y && item.y<this.y+3){
+                                unitOnTop = true;
+                                break;
+                            }
+                        }
+                    };
+
+                    var cost = window[this.orders.details.type].list[this.orders.details.name].cost;
+                    if(unitOnTop){
+                        if(this.team == game.team){
+                            game.showMessage("system","Warning!Cannot teleport unit while landing bay is occupied.");
+                        }else if(game.cash[this.team]<cost){
+                            game.showMessage("system","Warning!Insufficcent Funds.Need"+cost+" credits.");
+                        }
+                    }else{
+                        this.action = "open";
+                        this.animationIndex = 0;
+                        //新的单位将出现在星港中心位置上方
+                        var itemDetails = this.orders.details;
+                        itemDetails.x = this.x+0.5*this.pixelWidth/game.gridSize;
+                        itemDetails.y = this.y+0.5*this.pixelHeight/game.gridSize;
+                        //出现新的单位，并从玩家资金中扣除耗费
+                        itemDetails.action = "teleport";
+                        itemDetails.team = this.team;
+                        game.cash[this.team] -= cost;
+                        //this.constructUnit = Object.assign([],itemDetails);
+                        this.constructUnit = itemDetails;
+                    }
+                    this.orders = {type:"stand"};
+                    break;
+            }
         }
     },
     load:loadItem,

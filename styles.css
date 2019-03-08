@@ -152,7 +152,7 @@ input[type="button"] {
     background: url(images/screens/interface-middle.png);
 }
 
-#gameinterfacescreen #gamemessage{
+#gameinterfacescreen #gamemessages{
     position: absolute;
     padding-left: 10px;
     top:5px;
@@ -165,17 +165,27 @@ input[type="button"] {
     font-family: 'Courier New', Courier, monospace;
 }
 
-#gameinterfacescreen #gamemessage span{
+#gameinterfacescreen #gamemessages span{
     color: white;
 }
 
-#gameinterfacescreen #callerpicture{
+/* #gameinterfacescreen #callerpicture{
     position: absolute;
     left: 498px;
     top: 154px;
     width: 126px;
     height: 88px;
     overflow: none;
+} */
+#callerpicture {
+    position: absolute;
+
+    right: 20px;
+    top: 155px;
+    width: 114px;
+    height: 72px;
+
+    overflow: hidden;
 }
 
 #gameinterfacescreen #cash{

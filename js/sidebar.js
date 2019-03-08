@@ -2,7 +2,36 @@ var sidebar = {
     init:function(){
         this.cash = document.getElementById("cash");
 
+        document.getElementById("scouttankbutton").addEventListener("click",function(){
+            sidebar.constructAtStarport({type:"vehicles","name":"scout-tank"});
+        });
+        document.getElementById("heavytankbutton").addEventListener("click",function(){
+            sidebar.constructAtStarport({type:"vehicles","name":"heavy-tank"});
+        });
+        document.getElementById("harvesterbutton").addEventListener("click",function(){
+            sidebar.constructAtStarport({type:"vehicles","name":"harvester"});
+        });
+        document.getElementById("chopperbutton").addEventListener("click",function(){
+            sidebar.constructAtStarport({type:"aircraft","name":"chopper"});
+        });
+        document.getElementById("wraithbutton").addEventListener("click",function(){
+            sidebar.constructAtStarport({type:"aircraft","name":"wraith"});
+        });
         
+    },
+    constructAtStarport:function(unitDetails){
+        var starport;
+        //在选中的单位中找到第一个合适的星港
+        for(var i = game.selectedItems.length-1;i>=0;i--){
+            var item = game.selectedItems[i];
+            if(item.type == "buildings" && item.name == "starport" && item.team==game.team && item.lifeCode == "healthy" && item.action == "stand"){
+                starport = item;
+                break;
+            }
+        };
+        if(starport){
+            game.sendCommand([starport.uid],{type:"construct-unit",details:unitDetails});
+        }
     },
     animate:function(){
         //显示当前资金数目
