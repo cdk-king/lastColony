@@ -150,6 +150,35 @@ var maps = {
                 "blue":5000,
                 "green":1000
             },
+            /* 条件和时间触发器事件 */
+            "triggers":[
+                /* 时间事件 */
+                {
+                    "type":"timed",
+                    "time":1000,
+                    "action":function(){
+                        game.showMessage("system","You have 20 seconds left.\n Get the harvester near this oil field.");
+                    },
+                },
+                {
+                    "type":"timed",
+                    "time":21000,
+                    "action":function(){
+                        singleplayer.endLevel(false);
+                    },
+                },
+                /* 条件事件 */
+                {
+                    "type":"conditional",
+                    "condition":function(){
+                        var transport = game.getItemByUid(-1);
+                        return (transport.x<7 && transport.y<7);
+                    },
+                    "action":function(){
+                        singleplayer.endLevel(true);
+                    },
+                },
+            ]
         },
     ]
 }

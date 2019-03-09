@@ -108,5 +108,36 @@ var singleplayer = {
     },
     sendCommand:function(uids,details){
         game.processCommand(uids,details);
+    },
+    endLevel:function(success){
+        clearInterval(game.animationInterval);
+        game.end();
+        
+        if(success){
+            var moreLevels = (singleplayer.currentLevel < maps.singleplayer.length-1);
+            if(moreLevels){
+                game.showMessageBox("Mission Accomplished.",function(){
+                    game.hideScreens();
+                    // Start the next level
+                    singleplayer.currentLevel++;
+                    singleplayer.startCurrentLevel();
+                });
+            }else{
+                game.showMessageBox("Mission Accomplished.<br><br>This was the last mission in the campaign."
+                +"<br<br>Thank you for playing.",function(){
+                    game.hideScreens();
+                    // Return to the main menu
+                    game.showScreen("gamestartscreen");
+                });
+            }
+        }else{
+            game.showMessageBox("Mission Failed.<br><bt>Try again?",function(){
+                game.hideScreens();
+                singleplayer.startCurrentLevel();
+            },function(){
+                game.hideScreens();
+                game.showScreen("gamestartscreen");
+            });
+        }
     }
 }

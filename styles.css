@@ -320,7 +320,7 @@ input[type="button"] {
     width: 296px;
     height: 178px;
     color: white;
-    background: url(images/messagebox.png) no-repeat center;
+    background: url(images/screens/messagebox.png) no-repeat center;
     color: rgb(130, 150, 162);
     overflow: hidden;
     font-size: 13px;
@@ -343,7 +343,7 @@ input[type="button"] {
 }
 
 #messageboxok{
-    background-position: -2px -150px;
+    background-position: -2px -120px;
     top: 126px;
     left: 11px;
     width: 74px;
@@ -351,11 +351,11 @@ input[type="button"] {
 }
 
 #messageboxok:active,#messageboxok:disabled{
-    background-position: -2px -186px;
+    background-position: -82px -120px;
 }
 
 #messageboxcancel{
-    background-position: -86px -150px;
+    background-position: -2px -154px;
     top: 129px;
     left: 197px;
     width: 73px;
@@ -363,5 +363,5 @@ input[type="button"] {
 }
 
 #messageboxcancel:active,#messageboxcancel:disabled{
-    background-position: -86px -184px;
+    background-position: -82px -154px;
 }
