@@ -364,6 +364,38 @@ var game = {
         }
         //console.log( game.currentMapPassableGrid[3][5]);
     },
+    rebuildBuildableGrid:function(){
+        game.currentMapPassableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
+
+        // Also mark all building and terrain as unpassable items
+        for (let i = game.items.length - 1; i >= 0; i--) {
+            var item = game.items[i];
+
+            if (item.type === "buildings" || item.type === "terrain") {
+                for (let y = item.passableGrid.length - 1; y >= 0; y--) {
+                    for (let x = item.passableGrid[y].length - 1; x >= 0; x--) {
+                        if (item.passableGrid[y][x]) {
+                            game.currentMapPassableGrid[item.y + y][item.x + x] = 1;
+                        }
+                    }
+                }
+            }else if(item.type == "vehicles"){
+                //将车辆下方及附近的网格设置为“不可建造”
+                var radius = item.radius/game.gridSize;
+                var x1 = Math.max(Math.floor(item.x-radius),0);
+                var x2 = Math.min(Math.floor(item.x+radius),game.currentLevel.mapGridWidth-1);
+                var y1 = Math.max(Math.floor(item.y-radius),0);
+                var y2 = Math.min(Math.floor(item.y+radius),game.currentLevel.mapGridHeight-1);
+
+                for (var x = x1; x <= x2; x++) {
+                    for (var y = y1; y <= y2; y++) {
+                        
+                        game.currentMapPassableGrid[y][x] = 1;
+                    }
+                }
+            }
+        }
+    },
     //与玩家交互的函数
     characters:{
         "system":{

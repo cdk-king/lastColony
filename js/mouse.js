@@ -30,13 +30,36 @@ var mouse = {
             game.foregroundContext.strokeRect(x-game.offsetX,y-game.offsetY,width,height);
 
         }
+        if(game.deployBuilding && game.placementGrid){
+            var buildingType = buildings.list[game.deployBuilding];
+            var x = (this.gridX * game.gridSize) - game.offsetX;
+            var y = (this.gridY * game.gridSize) - game.offsetY;
+            for(var i = game.placementGrid.length-1;i>=0;i--){
+                for(var j = game.placementGrid[i].length-1;j>=0;j--){
+                    if(game.placementGrid[i][j]){
+                        game.foregroundContext.fillStyle = "rgba(0,0,255,0.3)";
+                    }else{
+                        game.foregroundContext.fillStyle = "rgba(255,0,0,0.3)";
+                    }
+                    game.foregroundContext.fillRect(x+j*game.gridSize,y+i*game.gridSize,game.gridSize,game.gridSize);
+                }
+            }
+        }
     },
     calculateGameCoordinates:function(){
         mouse.gameX = mouse.x + game.offsetX;
         mouse.gameY = mouse.y + game.offsetY;
         
-        mouse.gridX = Math.floor(game.gameX / game.gridSize);
-        mouse.gridY = Math.floor(game.gameY / game.gridSize);
+        mouse.gridX = Math.floor(mouse.gameX / game.gridSize);
+        mouse.gridY = Math.floor(mouse.gameY / game.gridSize);
+        // console.log(mouse.x);
+        // console.log(game.offsetX);
+        // console.log(mouse.x + game.offsetX);
+        // console.log(game.gridSize);
+        // console.log(mouse.gameX);
+        // console.log(game.gameX / game.gridSize);
+        // console.log(mouse.gameX);
+        // console.log(mouse.gridX);
     },
     init:function(){
         let canvas = document.getElementById("gameforegroundcanvas");
@@ -60,6 +83,12 @@ var mouse = {
         ev.preventDefault(true);
     },
     rightClick:function(){
+        //如果游戏处于建造模式
+        if(game.deployBuilding){
+            sidebar.cancelDeployingBuilding()
+            return;
+        }
+
         var uids = [];
         let clickedItem = mouse.itemUnderMouse();
         if(clickedItem){
@@ -229,6 +258,17 @@ var mouse = {
     },
     // Called whenever player completes a left click on the game canvas
     leftClick: function(shiftPressed) {
+
+        //如果游戏处于建造模式
+        if(game.deployBuilding){
+            if(game.canDeployBuilding){
+                sidebar.finishDeployingBuilding();
+            }else{
+                game.showMessage("system","Warning! Cannot deploy building here.");
+            }
+            return;
+        }
+
         let clickedItem = mouse.itemUnderMouse();
         //console.log(clickedItem);
         if (clickedItem) {

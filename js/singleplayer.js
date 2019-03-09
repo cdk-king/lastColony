@@ -71,6 +71,8 @@ var singleplayer = {
         game.currentMapPassableGrid = undefined;
 
 
+        game.rebuildPassableGrid();
+
         //为游戏加载启动资金
         game.cash = Object.assign({}, level.cash);
 

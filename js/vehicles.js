@@ -349,7 +349,7 @@ var vehicles = {
                 );
                 for(var i = collisionObjects.length-1;i>=0;i--){
                     var collObject = collisionObjects[i];
-                    console.log(collObject);
+                    //console.log(collObject);
                     var objectAngle = findAngle(collObject.with,this,this.directions);
                     var objectAngleRadius = -(objectAngle/this.directions)*2*Math.PI;
                     var forceMagnitude;
@@ -365,12 +365,12 @@ var vehicles = {
                             forceMagnitude = -0.25;
                             break;
                     }
-                    console.log(forceMagnitude);
+                    //console.log(forceMagnitude);
                     forceVector.x += (forceMagnitude*Math.sin(objectAngleRadius));
                     forceVector.y += (forceMagnitude*Math.cos(objectAngleRadius));
 
                 };
-                console.log(forceVector);
+                //console.log(forceVector);
                 //根据力向量得到新的方向
                 newDirection = findAngle(forceVector,{x:0,y:0},this.directions);
                 

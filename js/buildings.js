@@ -151,7 +151,7 @@ var buildings = {
                     //construct模式结束后，回到stand模式
                     if(this.animationIndex >= this.imageList.count){
                         this.animationIndex = 0;
-                        this.lifeCode = "stand";
+                        this.action = "stand";
                     }
                     break;
                 case "teleport":
@@ -311,6 +311,19 @@ var buildings = {
                         //this.constructUnit = Object.assign([],itemDetails);
                         this.constructUnit = itemDetails;
                     }
+                    this.orders = {type:"stand"};
+                    break;
+                case "construct-building":
+                    this.action = "construct";
+                    this.animationIndex = 0;
+                    var itemDetails = this.orders.details;
+                    
+                    itemDetails.action = "teleport";
+                    itemDetails.team = this.team;
+                    //出现新的单位，并从玩家资金中扣除耗费
+                    var item = game.add(itemDetails);
+                    game.cash[this.team] -= item.cost; 
+
                     this.orders = {type:"stand"};
                     break;
             }

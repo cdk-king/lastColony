@@ -17,6 +17,14 @@ var sidebar = {
         document.getElementById("wraithbutton").addEventListener("click",function(){
             sidebar.constructAtStarport({type:"aircraft","name":"wraith"});
         });
+
+        //初始化建筑建造按钮
+        document.getElementById("starportbutton").addEventListener("click",function(){
+            game.deployBuilding = "starport";
+        });
+        document.getElementById("turretbutton").addEventListener("click",function(){
+            game.deployBuilding = "ground-turret";
+        });
         
     },
     constructAtStarport:function(unitDetails){
@@ -41,6 +49,32 @@ var sidebar = {
 
         // Enable buttons if player has sufficient cash and has the correct building selected
         this.enableSidebarButtons();
+
+        if(game.deployBuilding){
+            //创建可用于建造的网格，以示建筑可能被放置的位置
+            game.rebuildBuildableGrid();
+            //与可用于建造建筑的网格对比，以示能否在当前鼠标位置放置建筑
+            var placementGrid = game.makeArrayCopy(buildings.list[game.deployBuilding].buildableGrid);
+            game.placementGrid = placementGrid;
+            game.canDeployBuilding = true;
+            //console.log(mouse.gameX);
+            //console.log(mouse.gridX);
+            //console.log(mouse.gameY );
+            //console.log(placementGrid);
+            for(var i = game.placementGrid.length-1;i>=0;i--){
+                for(var j = game.placementGrid[i].length-1;j>=0;j--){
+                    
+                    //console.log(game.currentMapPassableGrid[mouse.gridY][mouse.gridX]);
+                    if(game.placementGrid[i][j] 
+                    && (mouse.gridY+i>=game.currentLevel.mapGridHeight || mouse.gridX+j>=game.currentLevel.mapGridWidth || 
+                    game.currentMapPassableGrid[mouse.gridY+i][mouse.gridX+j] == 1) 
+                        ){
+                            game.canDeployBuilding = false;
+                            game.placementGrid[i][j] = 0;
+                    }
+                }
+            }
+        }
     },
     // Cache the value to avoid unnecessary DOM updates
     _cash: undefined,
@@ -108,5 +142,28 @@ var sidebar = {
                 document.getElementById("wraithbutton").disabled = false;
             }
         }
+    },
+    cancelDeployingBuilding:function(){
+        game.deployBuilding = undefined;
+        sidebar.placementGrid = undefined;
+        sidebar.canDeployBuilding = false;
+    },
+    finishDeployingBuilding:function(){
+        var buildingName = game.deployBuilding;
+        var base;
+        for(var i = game.selectedItems.length-1;i>=0;i--){
+            var item = game.selectedItems[i];
+            if(item.type == "buildings" && item.name == "base" && item.team == game.team 
+            && item.lifeCode == "healthy" && item.action == "stand"){
+                base = item;
+                break;
+            }
+        };
+        if(base){
+            var buildingDetails = {type:"buildings",name:buildingName,x:mouse.gridX,y:mouse.gridY};
+            game.sendCommand([base.uid],{type:"construct-building",details:buildingDetails});
+        }
+        //清除deployBuilding标签
+        game.deployBuilding = undefined;
     }
 }
