@@ -307,3 +307,61 @@ input[type="button"] {
     top: 159px;
     right: 0;
 }
+
+/* 消息框画面 */
+#messageboxscreen{
+    background: rgba(0,0,0, 0.7);
+    z-index: 20;
+}
+#messagebox{
+    position: absolute;
+    top: 170px;
+    left: 140px;
+    width: 296px;
+    height: 178px;
+    color: white;
+    background: url(images/messagebox.png) no-repeat center;
+    color: rgb(130, 150, 162);
+    overflow: hidden;
+    font-size: 13px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#messagebox span{
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    width: 200px;
+    height: 100px;
+}
+
+#messagebox input[type="button"]{
+    background-image: url(images/buttons.png);
+    position: absolute;
+    border-width: 0px;
+    padding: 0px;
+}
+
+#messageboxok{
+    background-position: -2px -150px;
+    top: 126px;
+    left: 11px;
+    width: 74px;
+    height: 26px;
+}
+
+#messageboxok:active,#messageboxok:disabled{
+    background-position: -2px -186px;
+}
+
+#messageboxcancel{
+    background-position: -86px -150px;
+    top: 129px;
+    left: 197px;
+    width: 73px;
+    height: 24px;
+}
+
+#messageboxcancel:active,#messageboxcancel:disabled{
+    background-position: -86px -184px;
+}
