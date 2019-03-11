@@ -110,6 +110,76 @@ var buildings = {
                 {name:"healthy",count:1,directions:8},
                 {name:"damaged",count:1},        
             ],
+            isValidTarget:isValidTarget,
+            findTargetsInSight:findTargetsInSight,
+            processOrders:function(){
+                if(this.reloadTimeLeft){
+                    this.reloadTimeLeft--;
+                }
+    
+                //损坏的炮塔不能攻击
+                if(this.lifeCode!="healthy"){
+                    return;
+                }
+
+                switch (this.orders.type){
+                    case "guard":
+                        var targets = this.findTargetsInSight();
+                        if(targets.length>0){
+                            this.orders = {type:"attack",to:targets[0]};
+                        }
+                        break;
+                    case "attack":
+                        //丢失目标
+                        if(!this.orders.to || this.orders.to.lifeCode=="dead" || 
+                        !this.isValidTarget(this.orders.to) ||
+                        Math.pow(this.orders.to.x-this.x,2) + Math.pow(this.orders.to.y-this.y,2)>Math.pow(this.sight,2)
+                        ){
+                            var targets = this.findTargetsInSight();
+                            if(targets.length>0){
+                                //更换目标
+                                this.orders.to = targets[0]
+                            }else{
+                                //守卫
+                                this.orders = {type:"guard"};
+                            }
+                        }
+
+                        if(this.orders.to){
+                            //console.log(this.orders.to);
+                            var newDirection = findFiringAngle(this.orders.to,this,this.directions);
+                            var difference = angleDiff(this.direction,newDirection,this.directions);
+                            var turnAmount = this.turnSpeed*game.turnSpeedAdjustmentFactor;
+                            if(Math.abs(difference)>turnAmount){
+                                this.direction = wrapDirection(this.direction+turnAmount*Math.abs(difference)/difference,this.directions);
+                                this.turning = true;
+                            }else{
+                                this.direction = newDirection;
+                                this.turning = false;
+                                if(!this.reloadTimeLeft){
+                                    this.reloadTimeLeft = bullets.list[this.weaponType].reloadTime;
+                                    var angleRadians = -(Math.round(this.direction)/this.directions)*2*Math.PI; 
+                                    var bulletX = this.x+0.5-(Math.sin(angleRadians));
+                                    var bulletY = this.y+0.5-(Math.cos(angleRadians));
+                                    var bullet = game.add({
+                                        name:this.weaponType,
+                                        type:"bullets",
+                                        x:bulletX,
+                                        y:bulletY,
+                                        direction:this.direction,
+                                        target:this.orders.to
+                                    });
+                                    //console.log(bulletX);
+                                    //console.log(bulletY);
+                                }
+
+                            }
+                            
+                        }
+                        break;
+                    
+                }
+            }
         },
     },
     defaults:{
@@ -224,7 +294,8 @@ var buildings = {
                         this.imageList = this.spriteArray[this.lifeCode];
                     }else{
                         //完好的炮塔有八个方向
-                        this.imageList = this.spriteArray[this.lifeCode+"-"+this.direction];
+                        var direction = wrapDirection(Math.round(this.direction),this.directions);
+                        this.imageList = this.spriteArray[this.lifeCode+"-"+direction];
                     }
                     this.imageOffset = this.imageList.offset;
                     break;
@@ -326,6 +397,7 @@ var buildings = {
 
                     this.orders = {type:"stand"};
                     break;
+                
             }
         }
     },

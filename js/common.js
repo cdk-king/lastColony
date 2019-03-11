@@ -189,26 +189,28 @@ function findAngle(object,unit,directions){
 }
 
 function findFiringAngle(target,source,directions){
-    var dy = (target.y)-unit.y;
-    var dx = target.x-unit.x;
-
+    var dy = target.y-source.y;
+    var dx = target.x-source.x;
+    
     if(target.type == "buildings"){
+        console.log(target.baseWidth);
         dy += target.baseWidth/2/game.gridSize;
         dx += target.baseHeight/2/game.gridSize;
-    }else if(target.type = "aircraft"){
+    }else if(target.type == "aircraft"){
         dy -= target.pixelShadowHeight/game.gridSize;
     }
 
     if(source.type == "buildings"){
         dy -= source.baseWidth/2/game.gridSize;
         dx -= source.baseHeight/2/game.gridSize;
-    }else if(unit.type = "aircraft"){
+    }else if(unit.type == "aircraft"){
         dy += source.pixelShadowHeight/game.gridSize;
     }
 
     //将正切值转换0到directions之间的值
     //[-π, π] 需要转换成0-360
     var angle = wrapDirection(directions/2-(Math.atan2(dx,dy)*directions/(2*Math.PI)),directions);
+    
     return angle;
 }
 
@@ -245,4 +247,32 @@ function angleDiff(angle1,angle2,directions){
     return diff;
 }
 
+//战斗有关的公用方法
+function isValidTarget(item){
+    return item.team !=this.team && (this.canAttackLand && (item.type == "buildings" || item.type == "vehicles") || 
+    (this.canAttackAir && (item.type == "aircraft")));
+}
 
+function findTargetsInSight(increment){
+    if(!increment){
+        increment=0;
+    }
+    var targets = [];
+    for(var i = game.items.length-1;i>=0;i--){
+        var item = game.items[i];
+        if(this.isValidTarget(item)){
+            if(Math.pow(item.x-this.x,2)+Math.pow(item.y-this.y,2)<Math.pow(this.sight+increment,2)){
+                targets.push(item);
+            }
+        }
+    };
+
+    //按照与攻击者的距离对目标进行排序
+    var attacker = this;
+    
+    targets.sort(function(a, b) {
+        return (Math.pow(a.x - attacker.x, 2) + Math.pow(a.y - attacker.y, 2)) - (Math.pow(b.x - attacker.x, 2) + Math.pow(b.y - attacker.y, 2));
+    });
+
+    return targets;
+}

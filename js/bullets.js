@@ -52,11 +52,13 @@ var bullets = {
         animationIndex:0,
         direction:0,
         directions:8,
+
         pixelWidth:10,
         pixelHeight:11,
         pixelOffsetX:5,
         pixelOffsetY:5,
         radius:6,
+
         action:"fly",
         selected:false,
         selectable:false,
@@ -75,7 +77,8 @@ var bullets = {
                 }
             }
 
-            var movement = this.speed*game.speedAdjustmentFacor;
+            var movement = this.speed*game.speedAdjustmentFactor;
+            console.log(movement);
             this.distanceTravelled += movement;//统计路程
 
             var angleRadians = -((this.direction)/this.directions)*2*Math.PI;
@@ -107,6 +110,7 @@ var bullets = {
                     //向目标移动，进入射程后停止
                     var reachedTarget = false;
                     if(this.distanceTravelled>this.range || (reachedTarget = this.reachedTarget())){
+                        console.log(reachedTarget);
                         if(reachedTarget){
                             //击中目标
                             this.target.life -= this.damage;
@@ -119,6 +123,7 @@ var bullets = {
                             game.remove(this);
                         }
                     }else{
+                        
                         this.moveTo(this.target);
                     }
                     break;
@@ -128,13 +133,15 @@ var bullets = {
         animate:function(){
             switch (this.action){
                 case "fly":
-                    var direction = warpDirection(Math.round(this.direction),this.directions);
+                    var direction = wrapDirection(Math.round(this.direction),this.directions);
+                    //console.log(this.direction);
                     this.imageList = this.spriteArray["fly-"+direction];
                     this.imageOffset = this.imageList.offset;
                     break;
                 case "explode":
                     this.imageList = this.spriteArray["explode"];
-                    this,imageOffset = this.imageList.offset+this.animationIndex;
+                    this.imageOffset = this.imageList.offset+this.animationIndex;
+                    //console.log(this.imageOffset);
                     this.animationIndex++;
                     if(this.animationIndex>=this.imageList.count){
                         //炮弹完全爆炸并消失
@@ -146,6 +153,7 @@ var bullets = {
         draw:function(){
             var x = (this.x*game.gridSize)-game.offsetX-this.pixelOffsetX+this.lastMovementX*game.drawingInterpolationFactor*game.gridSize;
             var y = (this.y*game.gridSize)-game.offsetY-this.pixelOffsetY+this.lastMovementY*game.drawingInterpolationFactor*game.gridSize;
+            //console.log(this.lastMovementX);
             var colorOffset = 0;
             game.foregroundContext.drawImage(this.spriteSheet,this.imageOffset*this.pixelWidth,colorOffset,this.pixelWidth,this.pixelHeight,x,y,this.pixelWidth,this.pixelHeight);
         },
