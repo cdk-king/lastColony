@@ -124,6 +124,10 @@ function loadItem(name){
             };
             item.spriteCount += constructImageCount;
         }
+    };
+    //如果单位具有武器，同时加载武器
+    if(item.weaponType){
+        bullets.load(item.weaponType);
     }  
 }
 ////对于仍不支持object.assign的一些浏览器，polyfill

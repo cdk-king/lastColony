@@ -169,11 +169,18 @@ var game = {
         //开始绘制前景元素
         //深度排序确保近的物体遮挡远的物体
         for(var i = 0;i<=game.sortedItems.length-1;i++){
-            game.sortedItems[i].draw();
+            if(game.sortedItems[i].type!="bullets"){
+                game.sortedItems[i].draw();
+            }
         }
         // game.sortedItems.forEach(function(item) {
         //     item.draw();
         // });
+
+        //在其他所有的物体上方绘制炮群
+        for(var i = 0;i<=game.bullets.length-1;i++){
+            game.bullets[i].draw();
+        };
 
         //绘制鼠标
         mouse.draw();
@@ -216,6 +223,7 @@ var game = {
 
         game.triggeredEvents = [];
         game.sortedItems = [];
+        game.bullets = [];
     },
     add:function(itemDetails){
         //为每个单位项设置唯一的id
