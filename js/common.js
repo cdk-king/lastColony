@@ -184,6 +184,30 @@ function findAngle(object,unit,directions){
     return angle;
 }
 
+function findFiringAngle(target,source,directions){
+    var dy = (target.y)-unit.y;
+    var dx = target.x-unit.x;
+
+    if(target.type == "buildings"){
+        dy += target.baseWidth/2/game.gridSize;
+        dx += target.baseHeight/2/game.gridSize;
+    }else if(target.type = "aircraft"){
+        dy -= target.pixelShadowHeight/game.gridSize;
+    }
+
+    if(source.type == "buildings"){
+        dy -= source.baseWidth/2/game.gridSize;
+        dx -= source.baseHeight/2/game.gridSize;
+    }else if(unit.type = "aircraft"){
+        dy += source.pixelShadowHeight/game.gridSize;
+    }
+
+    //将正切值转换0到directions之间的值
+    //[-π, π] 需要转换成0-360
+    var angle = wrapDirection(directions/2-(Math.atan2(dx,dy)*directions/(2*Math.PI)),directions);
+    return angle;
+}
+
 //处理方向值，使其在0到directions-1之间
 function wrapDirection(direction,directions){
     if(direction<0){
