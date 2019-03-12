@@ -73,12 +73,12 @@ var bullets = {
                 //计算每个动画循环导弹可以转过的角度
                 var turnAmount = this.turnSpeed*game.turnSpeedAdjustmentFactor;
                 if(Math.abs(difference)>turnAmount){
-                    this.direction = warpDirection(this.direction+turnAmount*Math.abs(difference)/difference,this.directions);
+                    this.direction = wrapDirection(this.direction+turnAmount*Math.abs(difference)/difference,this.directions);
                 }
             }
 
             var movement = this.speed*game.speedAdjustmentFactor;
-            console.log(movement);
+            //console.log(movement);
             this.distanceTravelled += movement;//统计路程
 
             var angleRadians = -((this.direction)/this.directions)*2*Math.PI;
@@ -95,7 +95,7 @@ var bullets = {
                 return (item.x<=this.x && item.x>=this.x-item.baseWidth/game.gridSize 
                     && item.y<=this.y && item.y>=this.y-item.baseHeight/game.gridSize);
             }else if(item.type=="aircraft"){
-                return (Math.pow(item.x-this.x,2)+Math.pow(item.y-(this.y-item.pixelShadowHeight/game.gridSize),2)
+                return (Math.pow(item.x-this.x,2)+Math.pow(item.y-(this.y+item.pixelShadowHeight/game.gridSize),2)
                 <Math.pow(item.radius/game.gridSize,2));
             }else{
                 return (Math.pow(item.x-this.x,2)+Math.pow(item.y-this.y,2)
@@ -110,7 +110,7 @@ var bullets = {
                     //向目标移动，进入射程后停止
                     var reachedTarget = false;
                     if(this.distanceTravelled>this.range || (reachedTarget = this.reachedTarget())){
-                        console.log(reachedTarget);
+                        //console.log(reachedTarget);
                         if(reachedTarget){
                             //击中目标
                             this.target.life -= this.damage;

@@ -193,7 +193,7 @@ function findFiringAngle(target,source,directions){
     var dx = target.x-source.x;
     
     if(target.type == "buildings"){
-        console.log(target.baseWidth);
+        //console.log(target.baseWidth);
         dy += target.baseWidth/2/game.gridSize;
         dx += target.baseHeight/2/game.gridSize;
     }else if(target.type == "aircraft"){
@@ -203,7 +203,7 @@ function findFiringAngle(target,source,directions){
     if(source.type == "buildings"){
         dy -= source.baseWidth/2/game.gridSize;
         dx -= source.baseHeight/2/game.gridSize;
-    }else if(unit.type == "aircraft"){
+    }else if(source.type == "aircraft"){
         dy += source.pixelShadowHeight/game.gridSize;
     }
 
@@ -249,8 +249,10 @@ function angleDiff(angle1,angle2,directions){
 
 //战斗有关的公用方法
 function isValidTarget(item){
-    return item.team !=this.team && (this.canAttackLand && (item.type == "buildings" || item.type == "vehicles") || 
-    (this.canAttackAir && (item.type == "aircraft")));
+    return item.team !=this.team && (
+        this.canAttackLand && (item.type == "buildings" || item.type == "vehicles") || (this.canAttackAir && (item.type == "aircraft") ) 
+    );
+    
 }
 
 function findTargetsInSight(increment){

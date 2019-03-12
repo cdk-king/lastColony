@@ -167,10 +167,108 @@ var aircraft = {
             game.foregroundContext.lineTo(x,y-this.pixelShadowHeight);
             game.foregroundContext.stroke();
         },
+        isValidTarget:isValidTarget,
+        findTargetsInSight:findTargetsInSight,
         processOrders:function(){
             this.lastMovementX = 0;
             this.lastMovementY = 0;
+            if(this.reloadTimeLeft){
+                this.reloadTimeLeft--;
+            }
+            if (this.orders.to) {
+                var distanceFromDestination = Math.pow(Math.pow(this.orders.to.x - this.x, 2) + Math.pow(this.orders.to.y - this.y, 2), 0.5);
+            }
+
             switch (this.orders.type){
+                case "float":
+                    var targets = this.findTargetsInSight();
+                    if(targets.length>0){
+                        this.orders = {type:"attack",to:targets[0]};
+                    }
+                    break;
+                case "sentry"://哨戒
+                    var targets = this.findTargetsInSight(2);
+                    if(targets.length>0){
+                        this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                    }
+                    break;
+                case "hunt"://搜寻
+                    var targets = this.findTargetsInSight(100);
+                    if(targets.length>0){
+                        this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                    }
+                    break;
+                case "attack":
+                    if(this.orders.to.lifeCode == "dead" || !this.isValidTarget(this.orders.to)){
+                        if(this.orders.nextOrder){
+                            this.orders = this.orders.nextOrder;
+                        }else{
+                            this.orders = {type:"float"};
+                        }
+                        return;
+                    }
+                    if((Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2))<Math.pow(this.sight,2)){
+                        var newDirection = findFiringAngle(this.orders.to,this,this.directions);
+                        var difference = angleDiff(this.direction,newDirection,this.directions);
+                        var turnAmount = this.turnSpeed*game.turnSpeedAdjustmentFactor;
+                        if(Math.abs(difference)>turnAmount){
+                            this.direction = wrapDirection(this.direction+turnAmount*Math.abs(difference)/difference,this.directions);
+                            this.turning = true;
+                        }else{
+                            this.direction = newDirection;
+                            this.turning = false;
+                            if(!this.reloadTimeLeft){
+                                this.reloadTimeLeft = bullets.list[this.weaponType].reloadTime;
+                                var angleRadians = -(Math.round(this.direction)/this.directions)*2*Math.PI; 
+                                var bulletX = this.x-(this.radius*Math.sin(angleRadians)/game.gridSize);
+                                var bulletY = this.y-(this.radius*Math.cos(angleRadians)/game.gridSize)-this.pixelShadowHeight/game.gridSize;
+                                var bullet = game.add({
+                                    name:this.weaponType,
+                                    type:"bullets",
+                                    x:bulletX,
+                                    y:bulletY,
+                                    direction:this.direction,
+                                    target:this.orders.to
+                                });
+                            }
+                        }
+                    }else{
+                        var moving = this.moveTo(this.orders.to,distanceFromDestination);
+                    }
+                    break;
+                case "patrol"://巡逻
+                    var targets = this.findTargetsInSight(1);
+                    if(targets.length>0){
+                        this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                        return;
+                    }
+                    if((Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2))<Math.pow(this.radius/game.gridSize,2)){
+                        var to = this.orders.to;
+                        this.orders.to = this.orders.from;
+                        this.orders.from = to
+                    }else{
+                        this.moveTo(this.orders.to,distanceFromDestination);
+                    }
+                    break;
+                case "guard"://守卫
+                    if(this.orders.to.lifeCode == "dead"){
+                        if(this.orders.nextOrder){
+                            this.orders = this.orders.nextOrder;
+                        }else{
+                            this.orders = {type:"float"};
+                        }
+                        return;
+                    }
+                    if((Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2))<Math.pow(this.sight-2,2)){
+                        var targets = this.findTargetsInSight(1);
+                        if(targets.length>0){
+                            this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                            return;
+                        }
+                    }else{
+                        this.moveTo(this.orders.to,distanceFromDestination);
+                    }
+                    break;
                 case "move":
                     //向目的地移动，直到飞行器与目的地的距离小于飞行器的半径
                     var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
@@ -190,6 +288,7 @@ var aircraft = {
             //计算飞行到目的地的方向
             var newDirection = findAngle(destination,this,this.directions);
             //console.log(this.direction);
+            //console.log(this.x);
             //console.log(newDirection);
             //计算当前方向与新方向差
             var difference = angleDiff(this.direction,newDirection,this.directions);
@@ -212,12 +311,14 @@ var aircraft = {
             //var movement = this.speed*game.speedAdjustmentFactor;
             //计算移动距离的x和y分量
             var angleRadians = -(this.direction/this.directions)*2*Math.PI;
+            //console.log(angleRadians);
+            //console.log(distanceFromDestination);
             this.lastMovementX = -(movement*Math.sin(angleRadians));
             this.lastMovementY = -(movement*Math.cos(angleRadians));
             //console.log(this.direction);
             this.x = (this.x+this.lastMovementX);
             this.y = (this.y+this.lastMovementY);
-                
+            //console.log(this.lastMovementX);
         }
     },
     load:loadItem,
