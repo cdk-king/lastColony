@@ -179,9 +179,18 @@ var vehicles = {
             game.foregroundContext.fill();
             game.foregroundContext.stroke();
         },
+        isValidTarget:isValidTarget,
+        findTargetsInSight:findTargetsInSight,
         processOrders:function(){
             this.lastMovementX = 0;
             this.lastMovementY = 0;
+            if(this.reloadTimeLeft){
+                this.reloadTimeLeft--;
+            }
+            if (this.orders.to) {
+                var distanceFromDestination = Math.pow(Math.pow(this.orders.to.x - this.x, 2) + Math.pow(this.orders.to.y - this.y, 2), 0.5);
+            }
+            var target;
             switch (this.orders.type){
                 case "move":
                     //console.log("move");
@@ -276,6 +285,99 @@ var vehicles = {
                         if (!moving) {
                             this.orders = { type: "stand" };
                         }
+                    }
+                    break;
+                case "stand":
+                    var targets = this.findTargetsInSight();
+                    if(targets.length>0){
+                        this.orders = {type:"attack",to:targets[0]};
+                    }
+                    break;
+                case "sentry"://哨戒
+                    var targets = this.findTargetsInSight(2);
+                    if(targets.length>0){
+                        this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                    }
+                    break;
+                case "hunt"://搜寻
+                    var targets = this.findTargetsInSight(100);
+                    if(targets.length>0){
+                        this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                    }
+                    break;
+                case "attack":
+                    if(this.orders.to.lifeCode == "dead" || !this.isValidTarget(this.orders.to)){
+                        if(this.orders.nextOrder){
+                            this.orders = this.orders.nextOrder;
+                        }else{
+                            this.orders = {type:"stand"};
+                        }
+                        return;
+                    }
+                    if((Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2))<Math.pow(this.sight,2)){
+                        var newDirection = findFiringAngle(this.orders.to,this,this.directions);
+                        var difference = angleDiff(this.direction,newDirection,this.directions);
+                        var turnAmount = this.turnSpeed*game.turnSpeedAdjustmentFactor;
+                        if(Math.abs(difference)>turnAmount){
+                            this.direction = wrapDirection(this.direction+turnAmount*Math.abs(difference)/difference,this.directions);
+                            this.turning = true;
+                        }else{
+                            this.direction = newDirection;
+                            this.turning = false;
+                            if(!this.reloadTimeLeft){
+                                this.reloadTimeLeft = bullets.list[this.weaponType].reloadTime;
+                                var angleRadians = -(Math.round(this.direction)/this.directions)*2*Math.PI; 
+                                var bulletX = this.x-(this.radius*Math.sin(angleRadians)/game.gridSize);
+                                var bulletY = this.y-(this.radius*Math.cos(angleRadians)/game.gridSize);
+                                var bullet = game.add({
+                                    name:this.weaponType,
+                                    type:"bullets",
+                                    x:bulletX,
+                                    y:bulletY,
+                                    direction:this.direction,
+                                    target:this.orders.to
+                                });
+                            }
+                        }
+                    }else{
+                        var moving = this.moveTo(this.orders.to,distanceFromDestination);
+                        if(!moving){
+                            this.orders = {type:"stand"};
+                            return;
+                        }
+                    }
+                    break;
+                case "patrol"://巡逻
+                    var targets = this.findTargetsInSight(1);
+                    if(targets.length>0){
+                        this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                        return;
+                    }
+                    if((Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2))<Math.pow(this.sight/game.gridSize,2)){
+                        var to = this.orders.to;
+                        this.orders.to = this.orders.from;
+                        this.orders.from = to
+                    }else{
+                        this.moveTo(this.orders.to,distanceFromDestination);
+                    }
+                    break;
+                case "guard"://守卫
+                    if(this.orders.to.lifeCode == "dead"){
+                        if(this.orders.nextOrder){
+                            this.orders = this.orders.nextOrder;
+                        }else{
+                            this.orders = {type:"stand"};
+                        }
+                        return;
+                    }
+                    if((Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2))<Math.pow(this.sight-2,2)){
+                        var targets = this.findTargetsInSight(1);
+                        if(targets.length>0){
+                            this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                            return;
+                        }
+                    }else{
+                        this.moveTo(this.orders.to,distanceFromDestination);
                     }
                     break;
             }       
