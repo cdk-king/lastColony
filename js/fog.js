@@ -29,7 +29,7 @@ var fog = {
     animate:function(){
         //迷雾使用半透明的黑色填充
         this.context.drawImage(game.currentMapImage,0,0);
-        this.context.fillStyle = "rgba(0,0,0,0.8)";
+        this.context.fillStyle = "rgba(0,0,0,0.5)";
         this.context.fillRect(0,0,this.canvas.width,this.canvas.height);
 
         //初始化玩家的迷雾格网
@@ -53,15 +53,15 @@ var fog = {
                 for(var j = x0;j<=x1;j++){
                     for(var k = y0;k<=y1;k++){
                         if(this.grid[team][k][j]){
-                            this.context.fillStyle = "rgba(100,0,0,0.9)";
+                            this.context.fillStyle = "rgba(100,0,0,0.5)";
                             this.context.beginPath();
                             this.context.arc(j*game.gridSize+12,k*game.gridSize+12,16,0,2*Math.PI,false);
                             this.context.fill();
-                            this.context.fillStyle = "rgba(100,0,0,0.7)";
+                            this.context.fillStyle = "rgba(100,0,0,0.4)";
                             this.context.beginPath();
                             this.context.arc(j*game.gridSize+12,k*game.gridSize+12,18,0,2*Math.PI,false);
                             this.context.fill();
-                            this.context.fillStyle = "rgba(100,0,0,0.5)";
+                            this.context.fillStyle = "rgba(100,0,0,0.3)";
                             this.context.beginPath();
                             this.context.arc(j*game.gridSize+12,k*game.gridSize+12,24,0,2*Math.PI,false);
                             this.context.fill();
