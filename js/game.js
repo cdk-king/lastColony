@@ -245,6 +245,10 @@ var game = {
             game.currentMapPassableGrid = undefined;
         }
 
+        if(item.type == "bullets"){
+            sounds.play(item.name);
+        }
+
         return item;
     },
     remove:function(item){
