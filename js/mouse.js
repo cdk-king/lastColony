@@ -104,6 +104,7 @@ var mouse = {
                     //接着命令它们攻击被右击的单位
                     if(uids.length>0){
                         game.sendCommand(uids,{type:"attack",toUid:clickedItem.uid});
+                        sounds.play("acknowledge-attacking");
                     }
 
                 }else{
@@ -118,6 +119,7 @@ var mouse = {
                     //接着命令它们守卫被右击的单位
                     if(uids.length>0){
                         game.sendCommand(uids,{type:"guard",toUid:clickedItem.uid});
+                        sounds.play("acknowledge-moving");
                     }
                 }
             }else if(clickedItem.name == "oilfield"){
@@ -134,6 +136,7 @@ var mouse = {
                 //接着命令它在油田上展开
                 if(uids.length>0){
                     game.sendCommand(uids,{type:"deploy",toUid:clickedItem.uid});
+                    sounds.play("acknowledge-moving");
                 }
 
             }
@@ -154,6 +157,7 @@ var mouse = {
                     x:mouse.gameX/game.gridSize,
                     y:mouse.gameY/game.gridSize
                 }});
+                sounds.play("acknowledge-moving");
             }
         }
     },

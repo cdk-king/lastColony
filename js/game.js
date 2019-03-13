@@ -15,6 +15,7 @@ var game = {
         loader.init();
         mouse.init();
         sidebar.init();
+        sounds.init();
 
         // Display the main game menu
         game.hideScreens();
