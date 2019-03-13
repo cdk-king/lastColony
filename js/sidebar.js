@@ -67,7 +67,7 @@ var sidebar = {
                     //console.log(game.currentMapPassableGrid[mouse.gridY][mouse.gridX]);
                     if(game.placementGrid[i][j] 
                     && (mouse.gridY+i>=game.currentLevel.mapGridHeight || mouse.gridX+j>=game.currentLevel.mapGridWidth || 
-                    game.currentMapPassableGrid[mouse.gridY+i][mouse.gridX+j] == 1) 
+                    game.currentMapPassableGrid[mouse.gridY+i][mouse.gridX+j] == 1 || fog.grid[game.team][mouse.gridY+i][mouse.gridX+j]==1) 
                         ){
                             game.canDeployBuilding = false;
                             game.placementGrid[i][j] = 0;
