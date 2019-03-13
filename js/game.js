@@ -431,6 +431,7 @@ var game = {
         }
     },
     showMessage:function(from,message){
+        sounds.play("message-received");
         var character = game.characters[from];
         if(character){
             from = character.name;
