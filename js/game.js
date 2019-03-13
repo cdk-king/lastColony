@@ -133,6 +133,8 @@ var game = {
             return a.y - b.y + ((a.y === b.y) ? (b.x - a.x) : 0);
         });
 
+        fog.animate();
+
         //保存最后一次动画循环完成的时间
         game.lastAnimationTime = (new Date()).getTime();
 
@@ -181,6 +183,8 @@ var game = {
         for(var i = 0;i<=game.bullets.length-1;i++){
             game.bullets[i].draw();
         };
+
+        fog.draw();
 
         //绘制鼠标
         mouse.draw();
@@ -336,10 +340,14 @@ var game = {
         //注意区别for( a in b )
         for(var i in uids){
             var uid = uids[i];
+            //console.log(uid);
             var item = game.getItemByUid(uid);
             //如果uid是合法的单位，则为该单位设置命令
             if(item){
+                
                 item.orders = Object.assign({}, details);
+                //console.log(item);
+                //console.log(item.orders);
                 if(toObject){
                     item.orders.to = toObject;
                 }

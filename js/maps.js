@@ -207,9 +207,9 @@ var maps = {
             //预加载的单位项
             items:[
                 {"type":"buildings","name":"base",x:11,y:14,"team":"blue"},
-                {"type":"buildings","name":"starport",x:18,y:14,"team":"blue"},
+                {"type":"buildings","name":"starport",x:18,y:14,"team":"blue","uid":1},
 
-                {"type":"vehicles","name":"harvester",x:16,y:12,"team":"blue","direction":3,"uid":-1},
+                {"type":"vehicles","name":"harvester",x:16,y:12,"team":"blue","direction":3},
 
                 {"type":"terrain","name":"oilfield",x:3,y:5,"action":"hint"},
                 {"type":"terrain","name":"bigrocks",x:19,y:6,},
@@ -229,17 +229,109 @@ var maps = {
                 {"type":"aircraft","name":"wraith",x:22,y:28,"team":"green","direction":3},
                 
                 {"type":"buildings","name":"base",x:19,y:28,"team":"green"},
-                {"type":"buildings","name":"starport",x:15,y:28,"team":"green"},
+                {"type":"buildings","name":"starport",x:15,y:28,"team":"green","uid":-1},
 
             ],
             "cash":{
                 "blue":5000,
-                "green":1000
+                "green":5000
             },
             /* 条件和时间触发器事件 */
             "triggers":[
                 /* 时间事件 */
-                
+                {
+                    "type":"timed",
+                    "time":1000,
+                    "action":function(){
+                        game.sendCommand([-1],{
+                            type:"construct-unit",
+                            details:{
+                                type:"aircraft",
+                                name:"wraith",
+                                orders:{
+                                    "type":"patrol",
+                                    "from":{"x":22,"y":30},
+                                    "to":{"x":15,"y":22}
+                                }
+                            }
+                        })
+                        
+                    }
+
+                },
+                {
+                    "type":"timed",
+                    "time":5000,
+                    "action":function(){
+                        game.sendCommand([-1],{
+                            type:"construct-unit",
+                            details:{
+                                type:"aircraft",
+                                name:"chopper",
+                                orders:{
+                                    "type":"patrol",
+                                    "from":{"x":15,"y":30},
+                                    "to":{"x":22,"y":22}
+                                }
+                            }
+                        })
+                    }
+
+                },
+                {
+                    "type":"timed",
+                    "time":10000,
+                    "action":function(){
+                        game.sendCommand([-1],{
+                            type:"construct-unit",
+                            details:{
+                                type:"vehicles",
+                                name:"heavy-tank",
+                                orders:{
+                                    "type":"patrol",
+                                    "from":{"x":15,"y":30},
+                                    "to":{"x":22,"y":21}
+                                }
+                            }
+                        })
+                    }
+
+                },
+                {
+                    "type":"timed",
+                    "time":15000,
+                    "action":function(){
+                        game.sendCommand([-1],{
+                            type:"construct-unit",
+                            details:{
+                                type:"vehicles",
+                                name:"scout-tank",
+                                orders:{
+                                    "type":"patrol",
+                                    "from":{"x":22,"y":30},
+                                    "to":{"x":15,"y":21}
+                                }
+                            }
+                        })
+                    }
+
+                },
+                {
+                    "type":"timed",
+                    "time":60000,
+                    "action":function(){
+                        game.showMessage("AI","现在，所有敌方单位向你发起一波攻击。");
+                        var units = [];
+                        for(var i = 0;i<game.items.length;i++){
+                            var item = game.items[i];
+                            if(item.team == "green" && (item.type == "vehicles" || item.type == "aircraft")){
+                                units.push(item.uid);
+                            }
+                        };
+                        game.sendCommand(units,{type:"hunt"});
+                    }
+
+                },
                 /* 条件事件 */
                 
             ]

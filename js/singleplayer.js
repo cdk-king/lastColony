@@ -98,6 +98,7 @@ var singleplayer = {
         game.showScreen("missionscreen");
     },
     play: function() {
+        fog.initLevel();
         // Run the animation loop once
         game.animationLoop();
 

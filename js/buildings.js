@@ -344,8 +344,10 @@ var buildings = {
             game.foregroundContext.strokeRect(x-1,y-1,this.baseWidth+2,this.baseHeight+2);
         },
         processOrders:function(){
+            //console.log(this.orders.type);
             switch (this.orders.type){
                 case "construct-unit":
+                    console.log("construct-unit");
                     if(this.lifeCode!="healthy"){
                         return;
                     }
@@ -364,9 +366,9 @@ var buildings = {
                     var cost = window[this.orders.details.type].list[this.orders.details.name].cost;
                     if(unitOnTop){
                         if(this.team == game.team){
-                            game.showMessage("system","Warning!Cannot teleport unit while landing bay is occupied.");
+                            game.showMessage("system","警告！当登陆舱被占用时，不能传送单位。");
                         }else if(game.cash[this.team]<cost){
-                            game.showMessage("system","Warning!Insufficcent Funds.Need"+cost+" credits.");
+                            game.showMessage("system","警告！不足的资金，需要"+cost+" 金钱。");
                         }
                     }else{
                         this.action = "open";
@@ -381,6 +383,7 @@ var buildings = {
                         game.cash[this.team] -= cost;
                         //this.constructUnit = Object.assign([],itemDetails);
                         this.constructUnit = itemDetails;
+                        console.log(this.constructUnit);
                     }
                     this.orders = {type:"stand"};
                     break;
