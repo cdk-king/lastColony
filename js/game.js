@@ -185,7 +185,8 @@ var game = {
             game.bullets[i].draw();
         };
 
-        fog.draw();
+        //绘制战争迷雾
+        //fog.draw();
 
         //绘制鼠标
         mouse.draw();
@@ -431,8 +432,20 @@ var game = {
     characters:{
         "system":{
             "name":"System",
-            "image":"images/characters/system.png"
-        }
+            "image":"images/characters/system.png",
+        },
+        "操作员":{//操作员
+            "name":"操作员",
+            "image":"images/characters/girl1.png",
+        },
+        "pilot":{//飞行员
+            "name":"Pilot",
+            "image":"images/characters/girl2.png",
+        },
+        "driver":{
+            "name":"Driver",
+            "image":"images/characters/man1.png",
+        },
     },
     showMessage:function(from,message){
         sounds.play("message-received");

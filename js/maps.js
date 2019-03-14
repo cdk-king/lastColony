@@ -3,7 +3,7 @@ var maps = {
     "singleplayer":[
         {//0
             "name":"Introduction",
-            "briefing":"In this level you will learn how to pan across the map.\n\nDon't worry! We will be implementing more features soon.",
+            "briefing":"在这一关卡中，您将学习如何在地图上移动。\n\n不用担心！我们将很快实现更多功能。",
             // 地图细节
             "mapImage":"images/maps/plains-debug.png",
             "startX":4,

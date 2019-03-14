@@ -20,7 +20,7 @@ var fog = {
     },
     isPointOverFog:function(x,y){
         //如果点在地图之外，则认为它是处在迷雾中的
-        if(y<0 || y/game.gridSize>=game.currentLevel.mapGridHeight || x<0 || x/game.gridSize >= game.currentLevel.mapGridHeight){
+        if(y<0 || y/game.gridSize>=game.currentLevel.mapGridHeight || x<0 || x/game.gridSize >= game.currentLevel.mapGridWidth){
             return true;
         }
         //否则，基于玩家的迷雾网格来返回值

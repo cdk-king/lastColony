@@ -5,7 +5,7 @@ var singleplayer = {
         game.hideScreens();
 
         //从第一关开始
-        singleplayer.currentLevel = 3;
+        singleplayer.currentLevel = 0;
         game.type = "singleplayer";
         game.team = "blue";
 
@@ -17,7 +17,7 @@ var singleplayer = {
         game.hideScreens();
         game.showScreen("gamestartscreen");
     },
-    currentLevel: 1,
+    currentLevel: 0,
     startCurrentLevel:function(){
         //获取用来构建关卡的数据
         var level = maps.singleplayer[singleplayer.currentLevel];

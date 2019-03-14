@@ -268,7 +268,7 @@ var mouse = {
             if(game.canDeployBuilding){
                 sidebar.finishDeployingBuilding();
             }else{
-                game.showMessage("system","Warning! Cannot deploy building here.");
+                game.showMessage("system","警告！无法在此处部署建筑。");
             }
             return;
         }
@@ -288,7 +288,9 @@ var mouse = {
         console.log(clickedItem);
     },
     itemUnderMouse:function(){
+        //console.log(mouse.gameX);
         if(fog.isPointOverFog(mouse.gameX,mouse.gameY)){
+            console.log("目标在阴影，无法点击");
             return;
         }
         for(var i = game.items.length-1;i>=0;i--){
