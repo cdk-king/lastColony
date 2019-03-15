@@ -5,7 +5,7 @@ var singleplayer = {
         game.hideScreens();
 
         //从第一关开始
-        singleplayer.currentLevel = 0;
+        singleplayer.currentLevel = 1;
         game.type = "singleplayer";
         game.team = "blue";
 
@@ -117,22 +117,22 @@ var singleplayer = {
         if(success){
             var moreLevels = (singleplayer.currentLevel < maps.singleplayer.length-1);
             if(moreLevels){
-                game.showMessageBox("Mission Accomplished.",function(){
+                game.showMessageBox("任务完成。",function(){
                     game.hideScreens();
                     // Start the next level
                     singleplayer.currentLevel++;
                     singleplayer.startCurrentLevel();
                 });
             }else{
-                game.showMessageBox("Mission Accomplished.<br><br>This was the last mission in the campaign."
-                +"<br<br>Thank you for playing.",function(){
+                game.showMessageBox("任务完成。<br><br>这是战役中的最后一个任务。"
+                +"<br<br>谢谢你的游玩。",function(){
                     game.hideScreens();
                     // Return to the main menu
                     game.showScreen("gamestartscreen");
                 });
             }
         }else{
-            game.showMessageBox("Mission Failed.<br><bt>Try again?",function(){
+            game.showMessageBox("任务失败.<br><bt>再来一次?",function(){
                 game.hideScreens();
                 singleplayer.startCurrentLevel();
             },function(){

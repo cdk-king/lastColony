@@ -258,8 +258,10 @@ var buildings = {
                         this.animationIndex = 0;
                         this.action = "close";
                         //如果constructUnit
+                        //console.log(this.constructUnit);
                         if(this.constructUnit){
-                            game.add(this.constructUnit);
+                            var item = game.add(this.constructUnit);
+                            //console.log(item);
                             this.constructUnit = undefined;
                         }
                     }
@@ -347,7 +349,7 @@ var buildings = {
             //console.log(this.orders.type);
             switch (this.orders.type){
                 case "construct-unit":
-                    console.log("construct-unit");
+                    //console.log("construct-unit");
                     if(this.lifeCode!="healthy"){
                         return;
                     }
@@ -365,16 +367,26 @@ var buildings = {
 
                     var cost = window[this.orders.details.type].list[this.orders.details.name].cost;
                     if(unitOnTop){
+                        console.log("登陆舱被占用");
                         if(this.team == game.team){
                             game.showMessage("system","警告！当登陆舱被占用时，不能传送单位。");
-                        }else if(game.cash[this.team]<cost){
+                        }
+                    }else if(game.cash[this.team]<cost){
+                        console.log("不足的资金");
+                        if(this.team == game.team){
                             game.showMessage("system","警告！不足的资金，需要"+cost+" 金钱。");
                         }
                     }else{
                         this.action = "open";
                         this.animationIndex = 0;
                         //新的单位将出现在星港中心位置上方
-                        var itemDetails = this.orders.details;
+
+                        //??????
+                        //let itemDetails = this.orders.details;
+                        //console.log(this);
+                        //必须深度拷贝，浅拷贝会改变order
+                        let itemDetails = Object.assign({}, this.orders.details);
+                        
                         itemDetails.x = this.x+0.5*this.pixelWidth/game.gridSize;
                         itemDetails.y = this.y+0.5*this.pixelHeight/game.gridSize;
                         //出现新的单位，并从玩家资金中扣除耗费
@@ -383,7 +395,7 @@ var buildings = {
                         game.cash[this.team] -= cost;
                         //this.constructUnit = Object.assign([],itemDetails);
                         this.constructUnit = itemDetails;
-                        console.log(this.constructUnit);
+                        //console.log(this.constructUnit);
                     }
                     this.orders = {type:"stand"};
                     break;

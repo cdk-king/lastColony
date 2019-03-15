@@ -233,8 +233,8 @@ var game = {
     },
     add:function(itemDetails){
         //为每个单位项设置唯一的id
-        if(!itemDetails.uid){
-            itemDetails.uid = game.counter++;
+        if(!itemDetails.uid){   
+            itemDetails.uid = ++game.counter;
         }
         var item = window[itemDetails.type].add(itemDetails);
         //将单位项加入items数组
@@ -346,20 +346,21 @@ var game = {
         //注意区别for( a in b )
         for(var i in uids){
             var uid = uids[i];
-            //console.log(uid);
+            console.log(uid);
             var item = game.getItemByUid(uid);
             //如果uid是合法的单位，则为该单位设置命令
             if(item){
                 
                 item.orders = Object.assign({}, details);
                 //console.log(item);
-                //console.log(item.orders);
+                console.log(item.orders);
                 if(toObject){
                     item.orders.to = toObject;
                 }
             }
+            console.log(item.orders);
         }
-        console.log(item.orders);
+        
     },
     /* Movement related properties */
     speedAdjustmentFactor: 1 / 64,
@@ -438,12 +439,12 @@ var game = {
             "name":"操作员",
             "image":"images/characters/girl1.png",
         },
-        "pilot":{//飞行员
-            "name":"Pilot",
+        "飞行员":{//飞行员
+            "name":"飞行员",
             "image":"images/characters/girl2.png",
         },
-        "driver":{
-            "name":"Driver",
+        "驾驶员":{//驾驶员
+            "name":"驾驶员",
             "image":"images/characters/man1.png",
         },
     },
