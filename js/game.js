@@ -1,12 +1,12 @@
 // Intialize and resize the game once page has fully loaded
 window.addEventListener("load", function() {
-    //game.resize();
+    game.resize();
     game.init();
 }, false);
 
 // Resize the game any time the window is resized
 window.addEventListener("resize", function() {
-    //game.resize();
+    game.resize();
 });
 
 var game = {
@@ -26,6 +26,37 @@ var game = {
 
     },
     scale: 1,
+    resize: function() {
+
+        var maxWidth = window.innerWidth;
+        var maxHeight = window.innerHeight;
+
+        var scale = Math.min(maxWidth / 640, maxHeight / 480);
+
+        var gameContainer = document.getElementById("gamecontainer");
+
+        gameContainer.style.transform = "translate(-50%, -50%) " + "scale(" + scale + ")";
+
+        game.scale = scale;
+
+        // What is the maximum width we can set based on the current scale
+        // Clamp the value between 640 and 1024
+        var width = Math.max(640, Math.min(1024, maxWidth / scale ));
+
+        // Apply this new width to game container and game canvas
+        gameContainer.style.width = width + "px";
+
+        // Subtract 160px for the sidebar
+        var canvasWidth = width - 160;
+
+        // Set a flag in case the canvas was resized
+        if (game.canvasWidth !== canvasWidth) {
+            game.canvasWidth = canvasWidth;
+            game.canvasResized = true;
+            game.refreshBackground = true;
+        }
+
+    },
     canvasWidth: 480,
     canvasHeight: 400,
     initCanvases:function(){
@@ -161,6 +192,21 @@ var game = {
         }
         //绘制背景地图是一项庞大的工作，我们仅在地图改变平移时重新绘制
         if(game.refreshBackground){
+            if (game.canvasResized) {
+                game.backgroundCanvas.width = game.canvasWidth;
+                game.foregroundCanvas.width = game.canvasWidth;
+
+                // Ensure the resizing doesn't cause the map to pan out of bounds
+                if (game.offsetX + game.canvasWidth > game.currentMapImage.width) {
+                    game.offsetX = game.currentMapImage.width - game.canvasWidth;
+                }
+
+                if (game.offsetY + game.canvasHeight > game.currentMapImage.height) {
+                    game.offsetY = game.currentMapImage.height - game.canvasHeight;
+                }
+
+                game.canvasResized = false;
+            }
             game.backgroundContext.drawImage(game.currentMapImage,game.offsetX,game.offsetY,
             game.canvasWidth,game.canvasHeight,0,0,game.canvasWidth,game.canvasHeight);
             game.refreshBackground = false;

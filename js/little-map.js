@@ -7,10 +7,11 @@ var littleMap = {
         this.canvas.height = 150;
         this.canvas.style.position = "absolute";
         this.canvas.style.top = "0px";
-        this.canvas.style.left = "485px";
+        this.canvas.style.right = "5px";
+        this.canvas.style.left = "initial";
         //this.canvas.style.border = "1px solid black";
         this.context = this.canvas.getContext("2d");
-        document.body.appendChild(this.canvas);
+        document.getElementById("gameinterfacescreen").appendChild(this.canvas);
         for(var i = 0;i<game.items.length;i++){
             var item = game.items[i];
             if(item.x>10){
