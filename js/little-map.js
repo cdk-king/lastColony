@@ -3,12 +3,12 @@ var littleMap = {
     scale:10,
     init:function(){
         //设置fog canvas的尺寸为地图大小
-        this.canvas.width = game.foregroundCanvas.width;
-        this.canvas.height = game.foregroundCanvas.height;
+        this.canvas.width = 150;
+        this.canvas.height = 150;
         this.canvas.style.position = "absolute";
-        this.canvas.style.top = "480px";
-        this.canvas.style.left = "20px";
-        this.canvas.style.border = "1px solid black";
+        this.canvas.style.top = "0px";
+        this.canvas.style.left = "485px";
+        //this.canvas.style.border = "1px solid black";
         this.context = this.canvas.getContext("2d");
         document.body.appendChild(this.canvas);
         for(var i = 0;i<game.items.length;i++){
@@ -21,17 +21,15 @@ var littleMap = {
     },
     draw:function(){
         var scale = game.currentMapImage.height/game.currentMapImage.width;
-        var width = 200;
+        var width = 150;
         var height = scale*width;
         this.context.drawImage(game.currentMapImage,0,0,
             game.currentMapImage.width,game.currentMapImage.height,0,(width-height)/2,width,height);
         this.context.fillStyle = "red";
         this.context.strokeStyle = "black";
         this.context.beginPath();
-        this.context.strokeRect(0,0,width,width);
-        this.context.stroke();
-        this.context.arc(300,100,50,0,2*Math.PI,false);
-        this.context.fill();
+        //this.context.strokeRect(0,0,width,width);
+        //this.context.stroke();
         for(var i = 0;i<game.items.length;i++){
             var item = game.items[i];
             if(item && item.type != "bullets"){
@@ -49,7 +47,7 @@ var littleMap = {
         var strokeY = game.offsetY*height/(game.gridSize*game.currentLevel.mapGridHeight)+(width-height)/2;
         var strokeWidth = game.foregroundCanvas.width*width/(game.gridSize*game.currentLevel.mapGridWidth);
         var strokeHeight = game.foregroundCanvas.height*height/(game.gridSize*game.currentLevel.mapGridHeight);
-        this.context.strokeRect(strokeX,strokeY,strokeWidth,strokeHeight);
+        this.context.strokeRect(strokeX,strokeY+1,strokeWidth,strokeHeight-2);
         this.context.stroke();
     }
 }
