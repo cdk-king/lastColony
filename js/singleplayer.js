@@ -98,6 +98,9 @@ var singleplayer = {
         game.showScreen("missionscreen");
     },
     play: function() {
+
+        littleMap.init();
+
         fog.initLevel();
         // Run the animation loop once
         game.animationLoop();

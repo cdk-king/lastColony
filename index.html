@@ -29,14 +29,16 @@
 
     <script src="js/sound.js" type="text/javascript"></script>
 
+    <script src="js/little-map.js" type="text/javascript"></script>
+
     <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 <body>
     <div id="wrapper">
             <div id="gamecontainer">
                 <div id="gamestartscreen" class="gamelayer">
-                    <span id="singleplayer" onclick="singleplayer.start()">Campaign</span><br>
-                    <span id="multiplayer" onclick="multiplayer.start()">multiplayer</span><br>
+                    <span id="singleplayer" onclick="singleplayer.start()">单人战役</span><br>
+                    <span id="multiplayer" onclick="multiplayer.start()">多人游戏</span><br>
                 </div>
 
                 <div id="missionscreen" class="gamelayer">
@@ -54,16 +56,16 @@
                     <div id="callerpicture"></div>
                     <div id="cash"></div>
                     <div id="sidebarbuttons">
-                        <input type="button" id="starportbutton" title="Starport">
-                        <input type="button" id="turretbutton" title="Turret">
+                        <input type="button" id="starportbutton" title="星港">
+                        <input type="button" id="turretbutton" title="炮塔">
                         <!-- <input type="button" id="placeholder1" disabled> -->
 
-                        <input type="button" id="scouttankbutton" title="Scout tank">
-                        <input type="button" id="heavytankbutton" title="Heavy tank">
-                        <input type="button" id="harvesterbutton" title="Harvester">
+                        <input type="button" id="scouttankbutton" title="轻型坦克">
+                        <input type="button" id="heavytankbutton" title="重型坦克">
+                        <input type="button" id="harvesterbutton" title="采油车">
 
-                        <input type="button" id="chopperbutton" title="Copter">
-                        <input type="button" id="wraithbutton" title="Wraith">
+                        <input type="button" id="chopperbutton" title="直升飞机">
+                        <input type="button" id="wraithbutton" title="战斗机">
                         <!-- <input type="button" id="placeholder2" title="disabled"> -->
                     </div>
                     <canvas id="gamebackgroundcanvas" height="400" width="480"></canvas>

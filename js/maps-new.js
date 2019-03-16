@@ -315,7 +315,7 @@ var maps = {
                 {"type":"buildings","name":"starport",x:1,y:29,"team":"blue","uid":-12},
                 {"type":"buildings","name":"starport",x:4,y:32,"team":"blue","uid":-13},
                 {"type":"buildings","name":"harvester",x:1,y:38,"team":"blue","action":"deploy"},
-                // {"type":"buildings","name":"harvester",x:10,y:38,"team":"green","action":"deploy"},
+                {"type":"buildings","name":"harvester",x:8,y:38,"team":"blue","action":"deploy"},
                 {"type":"buildings","name":"ground-turret",x:7,y:28,"team":"blue"},
                 {"type":"buildings","name":"ground-turret",x:8,y:32,"team":"blue"},
                 {"type":"buildings","name":"ground-turret",x:11,y:37,"team":"blue"},
@@ -327,9 +327,9 @@ var maps = {
                 {"type":"vehicles","name":"transport",x:1,y:36,"team":"blue","direction":2,"selectable":false,"uid":-4},                   
 
                 /**上一关留下的直升飞机 */
-                {"type":"aircraft","name":"chopper","x":15,"y":40,"team":"blue","selectable":false,"uid":-5,"orders":{
+                {"type":"aircraft","name":"chopper","x":15,"y":39,"team":"blue","selectable":false,"uid":-5,"orders":{
                     "type":"patrol",
-                    "from":{"x":15,"y":40},
+                    "from":{"x":15,"y":39},
                     "to":{"x":0,"y":25}
                 }},
 
@@ -397,7 +397,7 @@ var maps = {
                 },
                 {//10分钟后，开始等待结束
                     "type":"timed",
-                    "time":600000,
+                    "time":500000,
                     "action":function(){               
                         game.showMessage("操作员","指挥官！！殖民地航空队正在接近。");
                         game.add({"type":"aircraft","name":"wraith","x":-1,"y":30,"team":"blue","orders":{"type":"hunt"}});
@@ -506,11 +506,9 @@ var maps = {
                             var item = game.items[i];
                             if(item.team == "green"){
                                 emeyItemCount++;
-                                console.log(emeyItemCount);
                                 return false;
                             }
                         }
-                        console.log(emeyItemCount);
                         return true;
                     },
                     "action":function(){

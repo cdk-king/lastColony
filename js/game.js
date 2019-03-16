@@ -188,6 +188,8 @@ var game = {
         //绘制战争迷雾
         fog.draw();
 
+        littleMap.draw();
+
         //绘制鼠标
         mouse.draw();
 
