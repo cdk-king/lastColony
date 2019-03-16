@@ -259,7 +259,7 @@ var aircraft = {
                         }
                         return;
                     }
-                    if((Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2))<Math.pow(this.sight,2)){
+                    if((Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2))<Math.pow(this.sight-1,2)){
                         var targets = this.findTargetsInSight(1);
                         if(targets.length>0){
                             this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};

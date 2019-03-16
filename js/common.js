@@ -132,6 +132,10 @@ function loadItem(name){
 }
 ////对于仍不支持object.assign的一些浏览器，polyfill
 //Object.assign(target, ...sources)方法用来将源对象（source）的所有可枚举属性，复制到目标对象（target）。
+//Object.assign() 只是一级属性复制，比浅拷贝多深拷贝了一层而已。用的时候，还是要注意这个问题的。
+//发现一个可以简单实现深拷贝的方法，当然，有一定限制，如下：
+//const obj1 = JSON.parse(JSON.stringify(obj));
+//思路就是将一个对象转成json字符串，然后又将字符串转回对象。
 if(typeof Object.assign!=="function"){
     //垫片
     Object.assign = function(target, varArgs) { 
@@ -194,15 +198,15 @@ function findFiringAngle(target,source,directions){
     
     if(target.type == "buildings"){
         //console.log(target.baseWidth);
-        dy += target.baseWidth/2/game.gridSize;
-        dx += target.baseHeight/2/game.gridSize;
+        dy += target.baseHeight/2/game.gridSize;
+        dx += target.baseWidth/2/game.gridSize;
     }else if(target.type == "aircraft"){
         dy -= target.pixelShadowHeight/game.gridSize;
     }
 
     if(source.type == "buildings"){
-        dy -= source.baseWidth/2/game.gridSize;
-        dx -= source.baseHeight/2/game.gridSize;
+        dy -= source.baseHeight/2/game.gridSize;
+        dx -= source.baseWidth/2/game.gridSize;
     }else if(source.type == "aircraft"){
         dy += source.pixelShadowHeight/game.gridSize;
     }

@@ -304,7 +304,7 @@ var maps = {
                 "terrain":[]
             },
             "cash":{
-                "blue":0,
+                "blue":1000,
                 "green":0
             },
             //预加载的单位项
@@ -312,7 +312,7 @@ var maps = {
 
                 /**被我方接管的敌军基地 */
                 {"type":"buildings","name":"base",x:5,y:36,"team":"blue","uid":-11},
-                {"type":"buildings","name":"starport",x:1,y:30,"team":"blue","uid":-12},
+                {"type":"buildings","name":"starport",x:1,y:29,"team":"blue","uid":-12},
                 {"type":"buildings","name":"starport",x:4,y:32,"team":"blue","uid":-13},
                 {"type":"buildings","name":"harvester",x:1,y:38,"team":"blue","action":"deploy"},
                 // {"type":"buildings","name":"harvester",x:10,y:38,"team":"green","action":"deploy"},
@@ -342,9 +342,9 @@ var maps = {
                 {"type":"buildings","name":"starport",x:33,y:37,"team":"green","uid":-24},
                 {"type":"buildings","name":"harvester",x:28,y:39,"team":"green","action":"deploy"},
                 {"type":"buildings","name":"harvester",x:30,y:39,"team":"green","action":"deploy"},
-                {"type":"buildings","name":"starport",x:3,y:0,"team":"green","uid":-21},
-                {"type":"buildings","name":"starport",x:6,y:0,"team":"green","uid":-22},
-                {"type":"buildings","name":"harvester",x:0,y:2,"team":"green","action":"deploy"},
+                {"type":"buildings","name":"starport",x:3,y:1,"team":"green","uid":-21},
+                {"type":"buildings","name":"starport",x:6,y:1,"team":"green","uid":-22},
+                {"type":"buildings","name":"harvester",x:0,y:3,"team":"green","action":"deploy"},
                 {"type":"buildings","name":"harvester",x:0,y:4,"team":"green","action":"deploy"},
 
             ],
@@ -374,7 +374,7 @@ var maps = {
                     "time":28000,
                     "action":function(){
                         game.showMessage("飞行员","我正在路上。");
-                        game.add({"type":"vehicles","name":"scout-tank","x":57,"y":28,"team":"green","orders":{"type":"hunt"}});
+                        game.add({"type":"vehicles","name":"scout-tank","x":57,"y":30,"team":"green","orders":{"type":"hunt"}});
                         game.add({"type":"aircraft","name":"wraith","x":55,"y":33,"team":"green","orders":{"type":"sentry"}});
                         game.add({"type":"aircraft","name":"wraith","x":53,"y":33,"team":"green","orders":{"type":"sentry"}});
                         game.add({"type":"vehicles","name":"scout-tank","x":35,"y":25,"life":20,"direction":4,"team":"green","orders":{"type":"patrol","from":{"x":35,"y":25},"to":{"x":35,"y":30}}});
@@ -385,7 +385,7 @@ var maps = {
                     "time":48000,
                     "action":function(){               
                         game.showMessage("驾驶员","谢谢！感谢你的支持。好的,我们走吧。");
-                        game.sendCommand([-6],{"type":"move","to":{"x":0,"y":39}});
+                        game.sendCommand([-6],{"type":"move","to":{"x":3,"y":37}});
                     }
                 },
                 {//8分钟后，开始等待结束
@@ -400,16 +400,16 @@ var maps = {
                     "time":600000,
                     "action":function(){               
                         game.showMessage("操作员","指挥官！！殖民地航空队正在接近。");
-                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":30,"team":"blue","orders":{"type":"sentry"}});
-                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":31,"team":"blue","orders":{"type":"sentry"}});
-                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":32,"team":"blue","orders":{"type":"sentry"}});
-                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":33,"team":"blue","orders":{"type":"sentry"}});
-                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":34,"team":"blue","orders":{"type":"sentry"}});
-                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":35,"team":"blue","orders":{"type":"sentry"}});
-                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":36,"team":"blue","orders":{"type":"sentry"}});
-                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":37,"team":"blue","orders":{"type":"sentry"}});
-                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":38,"team":"blue","orders":{"type":"sentry"}});
-                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":39,"team":"blue","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":30,"team":"blue","orders":{"type":"hunt"}});
+                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":31,"team":"blue","orders":{"type":"hunt"}});
+                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":32,"team":"blue","orders":{"type":"hunt"}});
+                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":33,"team":"blue","orders":{"type":"hunt"}});
+                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":34,"team":"blue","orders":{"type":"hunt"}});
+                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":35,"team":"blue","orders":{"type":"hunt"}});
+                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":36,"team":"blue","orders":{"type":"hunt"}});
+                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":37,"team":"blue","orders":{"type":"hunt"}});
+                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":38,"team":"blue","orders":{"type":"hunt"}});
+                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":39,"team":"blue","orders":{"type":"hunt"}});
 
                     }
                 },
@@ -430,7 +430,7 @@ var maps = {
                         var chopperCount = 0;
                         var scoutTankCount = 0;
                         var heavyTankCount = 0;
-                        for(var i = game.items.lengh-1;i>=0;i--){
+                        for(var i = game.items.length-1;i>=0;i--){
                             var item = game.items[i];
                             if(item.team == "green"){
                                 switch (item.name){
@@ -477,7 +477,7 @@ var maps = {
                         }
                         //命令所有的单位进行进攻
                         var uids = [];
-                        for(var i = 0;i<game.items.lengh;i++){
+                        for(var i = 0;i<game.items.length;i++){
                             var item = game.items[i];
                             if(item.team == "green" && item.canAttack){
                                 uids.push(item.uid);
@@ -500,8 +500,18 @@ var maps = {
                 {
                     "type":"conditional",
                     "condition":function(){
-                        var enemyBase = game.getItemByUid(-11);
-                        return (!enemyBase || (enemyBase.life<=enemyBase.hitPoints/2));
+                        var emeyItemCount = 0;
+                        
+                        for(var i = 0;i<game.items.length;i++){
+                            var item = game.items[i];
+                            if(item.team == "green"){
+                                emeyItemCount++;
+                                console.log(emeyItemCount);
+                                return false;
+                            }
+                        }
+                        console.log(emeyItemCount);
+                        return true;
                     },
                     "action":function(){
                         singleplayer.endLevel(true);
@@ -521,11 +531,11 @@ var maps = {
                     "type":"conditional",
                     "condition":function(){
                         var driver = game.getItemByUid(-6);
-                        return (driver && driver.x<2 && driver.y>37);
+                        return (driver && driver.x<5 && driver.y>35);
                     },
                     "action":function(){
                         game.showMessage("驾驶员","叛军不知从哪里冒出来。我们无能为力。她救了我们的命。希望这些供给物值得。");
-                        game.cash["blue"] += 1200;
+                        game.cash["blue"] += 2200;
                     }
                 },
             ]
