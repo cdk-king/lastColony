@@ -5,7 +5,7 @@ var singleplayer = {
         game.hideScreens();
 
         //从第一关开始
-        singleplayer.currentLevel = 1;
+        singleplayer.currentLevel = 2;
         game.type = "singleplayer";
         game.team = "blue";
 

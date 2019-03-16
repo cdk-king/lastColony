@@ -125,6 +125,7 @@ var maps = {
                 },
             ]
         },
+        
         {//袭击
             "name":"Assault",
             "briefing":"多亏了护卫队的补给，我们现在有了一个基地并开始运作。"+
@@ -272,6 +273,259 @@ var maps = {
                     },
                     "action":function(){
                         singleplayer.endLevel(true);
+                    }
+                },
+            ]
+        },
+
+        {//抵抗围攻
+            "name":"Under Siege",
+            "briefing":"多亏你领导的进攻，我们现在控制了叛军基地。我们可以预料叛军会试图报复。"+
+            "\n殖民地派飞机帮助我们撤离到主营地。我们所要做的就是紧紧地挂在这里直到直升机到达。"+
+            "\n幸运的是，在他们到达之前，我们有一些补给和弹药可以自卫。\n不惜一切代价保护运输。",
+            // 地图细节
+            "mapImage":"images/maps/plains-debug.png",
+            "startX":0,
+            "startY":20,
+            /* 被地形阻隔通行区域的地图坐标 */
+            "mapGridWidth":60,
+            "mapGridHeight":40,
+            "mapObstructedTerrain": [[0, 0], [1, 0], [2, 0], [26, 0], [27, 0], [28, 0], [29, 0], [30, 0], [31, 0], [32, 0], [33, 0], [44, 0], [45, 0], [46, 0], [47, 0], [48, 0], [49, 0], [50, 0], [51, 0], [52, 0], [53, 0], [54, 0], [55, 0], [56, 0], [58, 0], [59, 0], [0, 1], [1, 1], [2, 1], [25, 1], [26, 1], [27, 1], [28, 1], [29, 1], [30, 1], [31, 1], [32, 1], [45, 1], [46, 1], [47, 1], [48, 1], [49, 1], [50, 1], [51, 1], [52, 1], [53, 1], [54, 1], [55, 1], [56, 1], [58, 1], [59, 1], [12, 2], [13, 2], [14, 2], [25, 2], [26, 2], [27, 2], [28, 2], [29, 2], [30, 2], [31, 2], [45, 2], [46, 2], [47, 2], [48, 2], [49, 2], [50, 2], [51, 2], [52, 2], [53, 2], [54, 2], [55, 2], [56, 2], [58, 2], [59, 2], [10, 3], [11, 3], [12, 3], [13, 3], [14, 3], [25, 3], [26, 3], [27, 3], [29, 3], [30, 3], [31, 3], [47, 3], [48, 3], [49, 3], [50, 3], [51, 3], [52, 3], [53, 3], [54, 3], [55, 3], [58, 3], [59, 3], [10, 4], [11, 4], [12, 4], [13, 4], [14, 4], [15, 4], [48, 4], [49, 4], [50, 4], [51, 4], [52, 4], [53, 4], [58, 4], [59, 4], [10, 5], [11, 5], [12, 5], [13, 5], [14, 5], [15, 5], [48, 5], [49, 5], [50, 5], [51, 5], [58, 5], [59, 5], [13, 6], [14, 6], [15, 6], [49, 6], [50, 6], [51, 6], [52, 6], [53, 6], [54, 6], [58, 6], 
+            [59, 6], [15, 7], [19, 7], [49, 7], [50, 7], [51, 7], [52, 7], [53, 7], [54, 7], [58, 7], [59, 7], [32, 8], [33, 8], [34, 8], [49, 8], [50, 8], [51, 8], [52, 8], [53, 8], [54, 8], [58, 8], [59, 8], [3, 9], [4, 9], [5, 9], [32, 9], [33, 9], [34, 9], [49, 9], [50, 9], [51, 9], [52, 9], [53, 9], [58, 9], [59, 9], [3, 10], [4, 10], [5, 10], [6, 10], [7, 10], [8, 10], [9, 10], [11, 10], [12, 10], [13, 10], [32, 10], [33, 10], [34, 10], [49, 10], [50, 10], [51, 10], [52, 10], [53, 10], [58, 10], [59, 10], [3, 11], [4, 11], [5, 11], [6, 11], [7, 11], [8, 11], [9, 11], [10, 11], [11, 11], [12, 11], [13, 11], [49, 11], [50, 11], [51, 11], [52, 11], [53, 11], [58, 11], [59, 11], [5, 12], [6, 12], [7, 12], [8, 12], [9, 12], [10, 12], [11, 12], [12, 12], [13, 12], [29, 12], [48, 12], [49, 12], [50, 12], [51, 12], [52, 12], [53, 12], [5, 13], [6, 13], [7, 13], [30, 13], [34, 13], [35, 13], [36, 13], [48, 13], [49, 13], [50, 13], [51, 13], [52, 13], [53, 13], [5, 14], [6, 14], [7, 14], [20, 14], [21, 14], [34, 14], [35, 14], [36, 14], [48, 14], [49, 14], [50, 14], [51, 14], [52, 14], [53, 14], [34, 15], [35, 15], [36, 15], [49, 15], [50, 15], [51, 15], [52, 15], [53, 15], [47, 16], [48, 16], [49, 16], [50, 16],
+            [51, 16], [52, 16], [53, 16], [44, 17], [47, 17], [48, 17], [49, 17], [50, 17], [51, 17], [52, 17], [16, 18], [17, 18], [18, 18], [47, 18], [48, 18], [49, 18], [50, 18], [51, 18], [52, 18], [9, 19], [10, 19], [11, 19], [16, 19], [17, 19], [18, 19], [43, 19], [44, 19], [45, 19], [46, 19], [47, 19], [48, 19], [50, 19], [51, 19], [52, 19], [9, 20], [10, 20], [11, 20], [16, 20], [17, 20], [18, 20], [43, 20], [44, 20], [45, 20], [46, 20], [47, 20], [48, 20], [9, 21], [10, 21], [11, 21], [24, 21], [25, 21], [26, 21], [30, 21], [31, 21], [32, 21], [43, 21], [44, 21], [45, 21], [46, 21], [47, 21], [48, 21], [24, 22], [25, 22], [26, 22], [27, 22], [28, 22], [29, 22], [30, 22], [31, 22], [32, 22], [41, 22], [42, 22], [43, 22], [44, 22], [45, 22], [46, 22], [47, 22], [48, 22], [49, 22], [50, 22], [24, 23], [25, 23], [26, 23], [27, 23], [28, 23], [29, 23], [30, 23], [31, 23], [32, 23], [41, 23], [42, 23], [43, 23], [44, 23], [45, 23], [46, 23], [47, 23], [48, 23], [49, 23], [50, 23], [25, 24], [26, 24], [27, 24], [28, 24], [29, 24], [41, 24], [42, 24], [43, 24], [44, 24], [45, 24], [46, 24], [47, 24], [48, 24], [49, 24], [50, 24], [2, 25], [3, 25], [4, 25], [24, 25], [25, 25], [26, 25], [27, 25], [28, 25], 
+            [29, 25], [43, 25], [44, 25], [45, 25], [46, 25], [47, 25], [2, 26], [3, 26], [4, 26], [24, 26], [25, 26], [26, 26], [27, 26], [28, 26], [29, 26], [43, 26], [44, 26], [45, 26], [46, 26], [47, 26], [2, 27], [3, 27], [4, 27], [24, 27], [25, 27], [26, 27], [27, 27], [28, 27], [29, 27], [43, 27], [44, 27], [45, 27], [46, 27], [47, 27], [25, 28], [26, 28], [27, 28], [28, 28], [29, 28], [43, 28], [44, 28], [45, 28], [46, 28], [47, 28], [54, 28], [8, 29], [9, 29], [23, 29], [24, 29], [25, 29], [26, 29], [27, 29], [28, 29], [29, 29], [43, 29], [44, 29], [45, 29], [46, 29], [47, 29], [59, 29], [9, 30], [23, 30], [24, 30], [25, 30], [26, 30], [27, 30], [28, 30], [43, 30], [44, 30], [45, 30], [46, 30], [47, 30], [59, 30], [23, 31], [24, 31], [25, 31], [26, 31], [27, 31], [28, 31], [36, 31], [59, 31], [17, 32], [18, 32], [19, 32], [25, 32], [26, 32], [27, 32], [28, 32], [46, 32], [55, 32], [59, 32], [17, 33], [18, 33], [19, 33], [23, 33], [24, 33], [25, 33], [26, 33], [27, 33], [28, 33], [33, 33], [34, 33], [35, 33], [59, 33], [17, 34], [18, 34], [19, 34], [23, 34], [24, 34], [25, 34], [26, 34], [27, 34], [28, 34], [33, 34], [34, 34], [35, 34], [59, 34], [23, 35], [24, 35], [25, 35], [26, 35], [27, 35], 
+            [28, 35], [33, 35], [34, 35], [35, 35], [59, 35], [24, 36], [25, 36], [26, 36], [27, 36], [28, 36], [59, 36], [22, 37], [23, 37], [24, 37], [25, 37], [26, 37], [27, 37], [28, 37], [59, 37], [22, 38], [23, 38], [24, 38], [25, 38], [26, 38], [27, 38], [59, 38], [22, 39], [23, 39], [24, 39], [25, 39], [26, 39], [27, 39], [48, 39], [49, 39], [50, 39], [51, 39], [52, 39], [53, 39], [54, 39], [55, 39], [56, 39], [57, 39], [58, 39], [59, 39]],
+
+            //预加载的单位类型
+            "requirements":{
+                "buildings":["base","ground-turret","starport","harvester"],
+                "vehicles":["transport","scout-tank","heavy-tank"],
+                "aircraft":["chopper","wraith"],
+                "terrain":[]
+            },
+            "cash":{
+                "blue":0,
+                "green":0
+            },
+            //预加载的单位项
+            items:[
+
+                /**被我方接管的敌军基地 */
+                {"type":"buildings","name":"base",x:5,y:36,"team":"blue","uid":-11},
+                {"type":"buildings","name":"starport",x:1,y:30,"team":"blue","uid":-12},
+                {"type":"buildings","name":"starport",x:4,y:32,"team":"blue","uid":-13},
+                {"type":"buildings","name":"harvester",x:1,y:38,"team":"blue","action":"deploy"},
+                // {"type":"buildings","name":"harvester",x:10,y:38,"team":"green","action":"deploy"},
+                {"type":"buildings","name":"ground-turret",x:7,y:28,"team":"blue"},
+                {"type":"buildings","name":"ground-turret",x:8,y:32,"team":"blue"},
+                {"type":"buildings","name":"ground-turret",x:11,y:37,"team":"blue"},
+
+                /**需要保护的运输车 */
+                {"type":"vehicles","name":"transport",x:2,y:33,"team":"blue","direction":2,"selectable":false,"uid":-1},
+                {"type":"vehicles","name":"transport",x:1,y:34,"team":"blue","direction":2,"selectable":false,"uid":-2},   
+                {"type":"vehicles","name":"transport",x:2,y:35,"team":"blue","direction":2,"selectable":false,"uid":-3},   
+                {"type":"vehicles","name":"transport",x:1,y:36,"team":"blue","direction":2,"selectable":false,"uid":-4},                   
+
+                /**上一关留下的直升飞机 */
+                {"type":"aircraft","name":"chopper","x":15,"y":40,"team":"blue","selectable":false,"uid":-5,"orders":{
+                    "type":"patrol",
+                    "from":{"x":15,"y":40},
+                    "to":{"x":0,"y":25}
+                }},
+
+                /* 第一波敌军 */
+                {"type":"vehicles","name":"scout-tank",x:15,y:16,"team":"green","direction":4,"orders":{"type":"hunt"}},
+                {"type":"vehicles","name":"scout-tank",x:17,y:16,"team":"green","direction":4,"orders":{"type":"hunt"}},
+
+                /**秘密的敌军基地 */
+                {"type":"buildings","name":"starport",x:35,y:37,"team":"green","uid":-23},
+                {"type":"buildings","name":"starport",x:33,y:37,"team":"green","uid":-24},
+                {"type":"buildings","name":"harvester",x:28,y:39,"team":"green","action":"deploy"},
+                {"type":"buildings","name":"harvester",x:30,y:39,"team":"green","action":"deploy"},
+                {"type":"buildings","name":"starport",x:3,y:0,"team":"green","uid":-21},
+                {"type":"buildings","name":"starport",x:6,y:0,"team":"green","uid":-22},
+                {"type":"buildings","name":"harvester",x:0,y:2,"team":"green","action":"deploy"},
+                {"type":"buildings","name":"harvester",x:0,y:4,"team":"green","action":"deploy"},
+
+            ],
+            
+            /* 条件和时间触发器事件 */
+            "triggers":[
+                /* 时间事件 */
+                {
+                    "type":"timed",
+                    "time":5000,
+                    "action":function(){
+                        game.showMessage("操作员","指挥官！！叛军已经开始进攻，我们需要不惜任何代价保护基地。");
+                        
+                    }
+                },
+                {
+                    "type":"timed",
+                    "time":20000,
+                    "action":function(){
+                        game.add({"type":"vehicles","name":"transport","x":57,"y":3,"team":"blue","direction":4,"selectable":false,"uid":-6});
+                        game.sendCommand([-5],{"type":"guard","toUid":-6});
+                        game.showMessage("驾驶员","指挥官！！殖民地已经运送了一些额外的物资。运输车从东北部通过叛军领土进入。我们可以稍微保护一下。");
+                    }
+                },
+                {//使飞行员提供支援，并添加一些敌人
+                    "type":"timed",
+                    "time":28000,
+                    "action":function(){
+                        game.showMessage("飞行员","我正在路上。");
+                        game.add({"type":"vehicles","name":"scout-tank","x":57,"y":28,"team":"green","orders":{"type":"hunt"}});
+                        game.add({"type":"aircraft","name":"wraith","x":55,"y":33,"team":"green","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"wraith","x":53,"y":33,"team":"green","orders":{"type":"sentry"}});
+                        game.add({"type":"vehicles","name":"scout-tank","x":35,"y":25,"life":20,"direction":4,"team":"green","orders":{"type":"patrol","from":{"x":35,"y":25},"to":{"x":35,"y":30}}});
+                    }
+                },
+                {//开始移动运输车
+                    "type":"timed",
+                    "time":48000,
+                    "action":function(){               
+                        game.showMessage("驾驶员","谢谢！感谢你的支持。好的,我们走吧。");
+                        game.sendCommand([-6],{"type":"move","to":{"x":0,"y":39}});
+                    }
+                },
+                {//8分钟后，开始等待结束
+                    "type":"timed",
+                    "time":480000,
+                    "action":function(){               
+                        game.showMessage("操作员","指挥官！！殖民地航空队支援将在几分钟之后到来。");
+                    }
+                },
+                {//10分钟后，开始等待结束
+                    "type":"timed",
+                    "time":600000,
+                    "action":function(){               
+                        game.showMessage("操作员","指挥官！！殖民地航空队正在接近。");
+                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":30,"team":"blue","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":31,"team":"blue","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":32,"team":"blue","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":33,"team":"blue","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":34,"team":"blue","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":35,"team":"blue","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":36,"team":"blue","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":37,"team":"blue","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"wraith","x":-1,"y":38,"team":"blue","orders":{"type":"sentry"}});
+                        game.add({"type":"aircraft","name":"chopper","x":-1,"y":39,"team":"blue","orders":{"type":"sentry"}});
+
+                    }
+                },
+                {//11分钟后，结束关卡
+                    "type":"timed",
+                    "time":660000,
+                    "action":function(){               
+                        singleplayer.endLevel(true);
+                    }
+                },
+                {//每隔150秒，发送一波敌人部队
+                    "type":"timed",
+                    "time":150000,
+                    "repeat":true,
+                    "action":function(){               
+                        //为敌人的飞行器和坦克计数
+                        var wraithCount = 0;
+                        var chopperCount = 0;
+                        var scoutTankCount = 0;
+                        var heavyTankCount = 0;
+                        for(var i = game.items.lengh-1;i>=0;i--){
+                            var item = game.items[i];
+                            if(item.team == "green"){
+                                switch (item.name){
+                                    case "chopper":
+                                        chopperCount++;
+                                        break;
+                                    case "wraith":
+                                        wraithCount++;
+                                        break;
+                                    case "scout-tank":
+                                        scoutTankCount++;
+                                        break;
+                                    case "heavy-tank":
+                                        heavyTankCount++;
+                                        break;
+                                }
+                            }
+                        }
+                        console.log("greenCash:"+game.cash["green"]);
+                        //确保一波敌人中至少有两架战斗机、两辆重坦克，并加上其他直升飞机和轻坦克
+                        if(wraithCount==0){
+                            //没有战斗机存活，请求星港建造战斗机
+                            game.sendCommand([-23,-24],{type:"construct-unit",details:{type:"aircraft",name:"wraith",orders:{"type":"hunt"}}});
+                        }else if(wraithCount == 1){
+                            //只有一架战斗机存活，请求星港建造一架战斗机和一架直升飞机
+                            game.sendCommand([-23],{type:"construct-unit",details:{type:"aircraft",name:"wraith",orders:{"type":"hunt"}}});
+                            game.sendCommand([-24],{type:"construct-unit",details:{type:"aircraft",name:"chopper",orders:{"type":"hunt"}}});
+                        }else{
+                            //有两架战斗机存活，请求星港建造直升飞机
+                            game.sendCommand([-23,-24],{type:"construct-unit",details:{type:"aircraft",name:"chopper",orders:{"type":"hunt"}}});
+                        }
+
+                        if(heavyTankCount==0){
+                            //没有重坦克存活，请求星港建造重坦克
+                            game.sendCommand([-21,-22],{type:"construct-unit",details:{type:"vehicles",name:"heavy-tank",orders:{"type":"hunt"}}});
+
+                        }else if(heavyTankCount == 1){
+                            //只有一辆重坦克，请求星港建造一辆重坦克和一辆轻坦克
+                            game.sendCommand([-21],{type:"construct-unit",details:{type:"vehicles",name:"heavy-tank",orders:{"type":"hunt"}}});
+                            game.sendCommand([-22],{type:"construct-unit",details:{type:"vehicles",name:"scout-tank",orders:{"type":"hunt"}}});
+                        }else{
+                            //有两辆重坦克存活，请求星港建造轻坦克
+                            game.sendCommand([-21,-22],{type:"construct-unit",details:{type:"vehicles",name:"scout-tank",orders:{"type":"hunt"}}});
+                        }
+                        //命令所有的单位进行进攻
+                        var uids = [];
+                        for(var i = 0;i<game.items.lengh;i++){
+                            var item = game.items[i];
+                            if(item.team == "green" && item.canAttack){
+                                uids.push(item.uid);
+                            }
+                        }
+                        game.sendCommand(uids,{"type":"hunt"});
+                    }
+                },
+
+                /* 条件事件 */
+                {//如果一辆运输车被摧毁，失败
+                    "type":"conditional",
+                    "condition":function(){
+                        return isItemDead(-1) || isItemDead(-2) || isItemDead(-3) || isItemDead(-4);
+                    },
+                    "action":function(){
+                        singleplayer.endLevel(false);
+                    }
+                },
+                {
+                    "type":"conditional",
+                    "condition":function(){
+                        var enemyBase = game.getItemByUid(-11);
+                        return (!enemyBase || (enemyBase.life<=enemyBase.hitPoints/2));
+                    },
+                    "action":function(){
+                        singleplayer.endLevel(true);
+                    }
+                },
+                {//飞行员被攻击时请求支援
+                    "type":"conditional",
+                    "condition":function(){
+                        var pilot = game.getItemByUid(-5);
+                        return (pilot.life<pilot.hitPoints);
+                    },
+                    "action":function(){
+                        game.showMessage("飞行员","我们受到攻击！需要帮助。状态感觉很不好。");
+                    }
+                },
+                {//来自新的运输车的额外物资
+                    "type":"conditional",
+                    "condition":function(){
+                        var driver = game.getItemByUid(-6);
+                        return (driver && driver.x<2 && driver.y>37);
+                    },
+                    "action":function(){
+                        game.showMessage("驾驶员","叛军不知从哪里冒出来。我们无能为力。她救了我们的命。希望这些供给物值得。");
+                        game.cash["blue"] += 1200;
                     }
                 },
             ]

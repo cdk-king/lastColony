@@ -358,7 +358,7 @@ var game = {
                     item.orders.to = toObject;
                 }
             }
-            console.log(item.orders);
+            //console.log(item.orders);
         }
         
     },
