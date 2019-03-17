@@ -301,7 +301,7 @@ var maps = {
                 "buildings":["base","ground-turret","starport","harvester"],
                 "vehicles":["transport","scout-tank","heavy-tank"],
                 "aircraft":["chopper","wraith"],
-                "terrain":[]
+                "terrain":["779-1"]
             },
             "cash":{
                 "blue":1000,
@@ -347,6 +347,7 @@ var maps = {
                 {"type":"buildings","name":"harvester",x:0,y:3,"team":"green","action":"deploy"},
                 {"type":"buildings","name":"harvester",x:0,y:4,"team":"green","action":"deploy"},
 
+                {"type":"terrain","name":"779-1",x:12,y:34,},
             ],
             
             /* 条件和时间触发器事件 */

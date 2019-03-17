@@ -60,6 +60,28 @@ var terrain = {
                 {name:"default",count:1}
             ],
         },
+        "779-1":{
+            name:"779-1",
+            
+            pixelWidth:94,
+            pixelHeight:98,
+            baseWidth:94,
+            baseHeight:40,
+            pixelOffsetX:0,
+            pixelOffsetY:60,
+            buildableGrid:[
+                [1,1,1,1],
+                [1,1,1,1],
+            ],
+            passableGrid:[
+                [1,1,1,1],
+                [1,1,1,1],
+            ],
+            spriteImages:[
+                {name:"default",count:1}
+            ],
+        },
+        
     },
     defaults:{
         type:"terrain",

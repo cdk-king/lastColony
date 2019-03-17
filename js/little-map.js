@@ -54,8 +54,7 @@ var littleMap = {
     },
     mousedownhandler:function(ev){
         littleMap.do(ev);
-        littleMap.mousedown = true;
-        
+        littleMap.mousedown = true; 
     },
     mouseuphandler:function(ev){
         littleMap.mousedown = false;
@@ -90,5 +89,7 @@ var littleMap = {
         }else{
             game.offsetY = (gameY*game.gridSize)-game.canvasHeight/2;
         }
+        //允许刷新地图
+        game.refreshBackground = true;
     }
 }

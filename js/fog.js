@@ -71,7 +71,11 @@ var fog = {
                 }
                 this.context.fillStyle = "rgba(100,0,0,0.7)";
                 this.context.beginPath();
-                this.context.arc(item.x*game.gridSize,item.y*game.gridSize,(item.sight+0.5)*game.gridSize,0,2*Math.PI,false);
+                if(item.type=="buildings"){
+                    this.context.arc(item.x*game.gridSize+item.baseWidth/2,item.y*game.gridSize+item.baseHeight/2,(item.sight+0.5)*game.gridSize,0,2*Math.PI,false);
+                }else{
+                    this.context.arc(item.x*game.gridSize,item.y*game.gridSize,(item.sight+0.5)*game.gridSize,0,2*Math.PI,false);
+                }
                 this.context.fill();
             }
         }
