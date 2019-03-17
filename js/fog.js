@@ -71,7 +71,7 @@ var fog = {
                 }
                 this.context.fillStyle = "rgba(100,0,0,0.7)";
                 this.context.beginPath();
-                this.context.arc(item.x*game.gridSize,item.y*game.gridSize,(item.sight)*game.gridSize,0,2*Math.PI,false);
+                this.context.arc(item.x*game.gridSize,item.y*game.gridSize,(item.sight+0.5)*game.gridSize,0,2*Math.PI,false);
                 this.context.fill();
             }
         }

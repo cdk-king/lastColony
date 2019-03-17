@@ -63,7 +63,7 @@ var mouse = {
     },
     init:function(){
         let canvas = document.getElementById("gameforegroundcanvas");
-        console.log("cdk");
+        //console.log("cdk");
         canvas.addEventListener("mousemove", mouse.mousemovehandler, false);
 
         canvas.addEventListener("mouseenter", mouse.mouseenterhandler, false);

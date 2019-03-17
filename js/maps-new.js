@@ -532,7 +532,18 @@ var maps = {
                         return (driver && driver.x<5 && driver.y>35);
                     },
                     "action":function(){
-                        game.showMessage("驾驶员","叛军不知从哪里冒出来。我们无能为力。她救了我们的命。希望这些供给物值得。");
+                        var pilot = game.getItemByUid(-5);
+                        if(pilot && pilot.life>0){
+                            game.showMessage("驾驶员","叛军不知从哪里冒出来。我们成功击退他们。同时我们带来了这些供给物，希望能有所帮助。");
+                            
+                            game.sendCommand([-5],{
+                                "type":"patrol",
+                                "from":{"x":15,"y":39},
+                                "to":{"x":0,"y":25}
+                            });
+                        }else{
+                            game.showMessage("驾驶员","叛军不知从哪里冒出来。我们无能为力。她救了我们的命。希望这些供给物能有所帮助。");
+                        }
                         game.cash["blue"] += 2200;
                     }
                 },

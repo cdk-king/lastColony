@@ -394,14 +394,14 @@ var game = {
         //注意区别for( a in b )
         for(var i in uids){
             var uid = uids[i];
-            console.log(uid);
+            //console.log(uid);
             var item = game.getItemByUid(uid);
             //如果uid是合法的单位，则为该单位设置命令
             if(item){
                 
                 item.orders = Object.assign({}, details);
                 //console.log(item);
-                console.log(item.orders);
+                //console.log(item.orders);
                 if(toObject){
                     item.orders.to = toObject;
                 }
@@ -502,7 +502,7 @@ var game = {
         if(character){
             from = character.name;
             if(character.image){
-                document.getElementById("callerpicture").innerHTML = '<img src="'+character.image+'"/>';
+                document.getElementById("callerpicture").innerHTML = '<img src="'+character.image+'" class="characters"/>';
                 //6秒后隐藏个人资料
                 setTimeout(function(){
                     document.getElementById("callerpicture").innerHTML = "";
