@@ -1,7 +1,9 @@
 var sidebar = {
     init:function(){
         this.cash = document.getElementById("cash");
-
+        document.getElementById("armoredcarbutton").addEventListener("click",function(){
+            sidebar.constructAtStarport({type:"vehicles","name":"armoredcar"});
+        });
         document.getElementById("scouttankbutton").addEventListener("click",function(){
             sidebar.constructAtStarport({type:"vehicles","name":"scout-tank"});
         });
@@ -25,7 +27,7 @@ var sidebar = {
         document.getElementById("turretbutton").addEventListener("click",function(){
             game.deployBuilding = "ground-turret";
         });
-        
+        this.hideSidebarbuttons();
     },
     constructAtStarport:function(unitDetails){
         var starport;
@@ -88,7 +90,7 @@ var sidebar = {
     },
     enableSidebarButtons:function(){
         //仅当相应的建筑被选中时启用按钮
-        var buttons = document.getElementById("sidebarbuttons").getElementsByTagName("input");
+        var buttons = document.getElementById("sidebar").getElementsByTagName("input");
         
         for(var i = 0;i<buttons.length;i++){
             buttons[i].disabled=true;
@@ -115,8 +117,10 @@ var sidebar = {
         let cashBalance = game.cash[game.team];
 
         //
+        this.hideSidebarbuttons();
         
         if(baseSelected && !game.deployBuilding){
+            document.getElementById("basebtn").style.display = "block";
             if(game.currentLevel.requirements.buildings.indexOf("starport")>-1 && cashBalance>=buildings.list["starport"].cost){
                 document.getElementById("starportbutton").disabled = false;
             }
@@ -126,6 +130,10 @@ var sidebar = {
         }
 
         if(starportSelected){
+            document.getElementById("starportbtn").style.display = "block";
+            if(game.currentLevel.requirements.vehicles.indexOf("armoredcar")>-1 && cashBalance>=vehicles.list["armoredcar"].cost){
+                document.getElementById("armoredcarbutton").disabled = false;
+            }
             if(game.currentLevel.requirements.vehicles.indexOf("scout-tank")>-1 && cashBalance>=vehicles.list["scout-tank"].cost){
                 document.getElementById("scouttankbutton").disabled = false;
             }
@@ -140,6 +148,15 @@ var sidebar = {
             }
             if(game.currentLevel.requirements.aircraft.indexOf("wraith")>-1 && cashBalance>=aircraft.list["wraith"].cost){
                 document.getElementById("wraithbutton").disabled = false;
+            }
+        }
+    },
+    hideSidebarbuttons:function(){
+        var eles = document.getElementsByClassName("sidebarbuttons");
+        if(eles.length>0){
+            for(var i = 0;i<eles.length;i++){
+                var ele = eles[i];
+                ele.style.display = "none";
             }
         }
     },

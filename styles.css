@@ -232,7 +232,7 @@ input[type="button"] {
 }
 
 /* 侧边栏按钮 */
-#gameinterfacescreen #sidebarbuttons{
+#gameinterfacescreen .sidebarbuttons{
     position: absolute;
 
     right: 12px;
@@ -248,7 +248,7 @@ input[type="button"] {
     /* border:1px solid red; */
 }
 
-#gameinterfacescreen #sidebarbuttons input[type="button"]{
+#gameinterfacescreen .sidebarbuttons input[type="button"]{
     width: 64px;
     height: 54px;
     padding: 0;
@@ -267,6 +267,9 @@ input[type="button"] {
 }
 #turretbutton:active,#turretbutton:disabled{
     background-position: -278px -247px;
+}
+#armoredcarbutton:active,#armoredcarbutton:disabled{
+    background-position: -243px -188px;
 }
 #scouttankbutton:active,#scouttankbutton:disabled{
     background-position: -208px -306px;
@@ -300,6 +303,11 @@ input[type="button"] {
 #turretbutton{
     right: 0;
     background-position: -74px -247px;
+}
+#armoredcarbutton{
+    right: 0;
+    top: 55px;
+    background-position: -168px -188px;
 }
 #scouttankbutton{
     left: 0;

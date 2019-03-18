@@ -72,6 +72,26 @@ var vehicles = {
                 {name:"stand",count:1,directions:8}
             ],
         },
+        "armoredcar":{
+            name:"armoredcar",
+            canAttack:true,
+            canAttackLand:true,
+            canAttackAir:true,
+            weaponType:"bullet",
+            pixelWidth:30,
+            pixelHeight:30,
+            pixelOffsetX:15,
+            pixelOffsetY:15,
+            radius:13,
+            speed:25,
+            sight:5,
+            cost:500,
+            hitPoints:40,
+            turnSpeed:4,
+            spriteImages:[
+                {name:"stand",count:1,directions:8}
+            ],
+        },
     },
     defaults:{
         type:"vehicles",

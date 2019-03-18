@@ -299,7 +299,7 @@ var maps = {
             //预加载的单位类型
             "requirements":{
                 "buildings":["base","ground-turret","starport","harvester"],
-                "vehicles":["transport","scout-tank","heavy-tank"],
+                "vehicles":["transport","scout-tank","heavy-tank","armoredcar"],
                 "aircraft":["chopper","wraith"],
                 "terrain":["779-1"]
             },
@@ -319,6 +319,8 @@ var maps = {
                 {"type":"buildings","name":"ground-turret",x:7,y:28,"team":"blue"},
                 {"type":"buildings","name":"ground-turret",x:8,y:32,"team":"blue"},
                 {"type":"buildings","name":"ground-turret",x:11,y:37,"team":"blue"},
+
+                // {"type":"vehicles","name":"armoredcar",x:5,y:28,"team":"blue","direction":2},
 
                 /**需要保护的运输车 */
                 {"type":"vehicles","name":"transport",x:2,y:33,"team":"blue","direction":2,"selectable":false,"uid":-1},
