@@ -1,6 +1,7 @@
 var singleplayer = {
     //开始单人战役
     start:function(){
+        star.stop = true;
         //隐藏开始菜单图层
         game.hideScreens();
 
@@ -13,6 +14,8 @@ var singleplayer = {
         singleplayer.startCurrentLevel();
     },
     exit:function(){
+        star.stop = false;
+        star.animate();
         //显示开始菜单
         game.hideScreens();
         game.showScreen("gamestartscreen");
@@ -98,7 +101,7 @@ var singleplayer = {
         game.showScreen("missionscreen");
     },
     play: function() {
-
+        
         littleMap.init();
 
         fog.initLevel();

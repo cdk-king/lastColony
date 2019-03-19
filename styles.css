@@ -9,9 +9,35 @@ body,html {
     
     cursor: url('images/cursor.cur'), default;
     
-    
+    height:100%;
+    width:100%;
+    /* background: radial-gradient(ellipse at bottom, #fff -300%, #090a0f 100%); */
+    overflow: hidden;
 }
-
+#stars1 {
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    box-shadow:  1944px 550px #FFF ,   1894px 130px #FFF , 77px 262px #FFF ,  1660px 482px #FFF  , 468px 625px #FFF , 1260px 514px #FFF , 790px 553px #FFF , 1103px 758px #FFF, 1712px 528px #FFF , 185px 572px #FFF , 846px 530px #FFF  , 1768px 436px #FFF , 1131px 666px #FFF , 1496px 30px #FFF  , 416px 135px #FFF , 1675px 673px #FFF , 296px 524px #FFF , 1995px 416px #FFF, 542px 603px #FFF  , 982px 365px #FFF , 809px 534px #FFF, 727px 439px #FFF , 1585px 28px #FFF , 1916px 624px #FFF , 1022px 177px #FFF , 807px 619px #FFF , 1657px 338px #FFF  , 175px 989px #FFF , 170px 444px #FFF , 1623px 71px #FFF , 440px 464px #FFF , 1296px 244px #FFF , 1260px 94px #FFF , 652px 905px #FFF  , 947px 822px #FFF , 384px 268px #FFF   , 1679px 473px #FFF , 96px 345px #FFF , 1268px 428px #FFF  , 1242px 867px #FFF , 652px 831px #FFF , 1337px 64px #FFF , 1092px 624px #FFF, 1036px 405px #FFF   , 1756px 583px #FFF , 404px 380px #FFF , 1253px 372px #FFF , 520px 620px #FFF , 1842px 852px #FFF , 490px 387px #FFF , 1251px 143px #FFF , 1814px 537px #FFF , 1405px 623px #FFF , 1286px 896px #FFF , 1626px 990px #FFF , 1288px 939px #FFF , 763px 338px #FFF , 965px 412px #FFF , 1192px 956px #FFF  , 1784px 547px #FFF , 815px 675px #FFF , 1387px 890px #FFF , 1948px 429px #FFF , 1665px 92px #FFF , 1806px 919px #FFF , 1712px 494px #FFF  , 1421px 586px #FFF , 788px 208px #FFF , 380px 250px #FFF , 748px 977px #FFF , 1637px 337px #FFF  , 1776px 710px #FFF , 544px 453px #FFF, 1227px 391px #FFF , 583px 833px #FFF , 658px 278px #FFF , 892px 943px #FFF , 1524px 316px #FFF , 1547px 192px #FFF , 976px 36px #FFF , 1677px 936px #FFF , 1508px 412px #FFF , 1242px 439px #FFF , 1263px 40px #FFF , 639px 906px #FFF , 1349px 373px #FFF , 1055px 969px #FFF , 602px 95px #FFF, 1129px 837px #FFF  , 1188px 414px #FFF , 1931px 325px #FFF   , 1801px 780px #FFF , 633px 529px #FFF , 1500px 33px #FFF  , 1457px 698px #FFF  , 627px 250px #FFF  , 68px 998px #FFF , 951px 85px #FFF , 280px 431px #FFF ,  322px 778px #FFF , 841px 888px #FFF , 700px 568px #FFF , 1846px 442px #FFF , 970px 917px #FFF , 1585px 452px #FFF;
+    animation: animStar 10s linear infinite;
+  }
+  #stars1:after {
+    content: " ";
+    position: absolute;
+    top: 1000px;
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    box-shadow:  1944px 550px #FFF ,   1894px 130px #FFF , 77px 262px #FFF ,  1660px 482px #FFF  , 468px 625px #FFF , 1260px 514px #FFF , 790px 553px #FFF , 1103px 758px #FFF, 1712px 528px #FFF , 185px 572px #FFF , 846px 530px #FFF  , 1768px 436px #FFF , 1131px 666px #FFF , 1496px 30px #FFF  , 416px 135px #FFF , 1675px 673px #FFF , 296px 524px #FFF , 1995px 416px #FFF, 542px 603px #FFF  , 982px 365px #FFF , 809px 534px #FFF, 727px 439px #FFF , 1585px 28px #FFF , 1916px 624px #FFF , 1022px 177px #FFF , 807px 619px #FFF , 1657px 338px #FFF  , 175px 989px #FFF , 170px 444px #FFF , 1623px 71px #FFF , 440px 464px #FFF , 1296px 244px #FFF , 1260px 94px #FFF , 652px 905px #FFF  , 947px 822px #FFF , 384px 268px #FFF   , 1679px 473px #FFF , 96px 345px #FFF , 1268px 428px #FFF  , 1242px 867px #FFF , 652px 831px #FFF , 1337px 64px #FFF , 1092px 624px #FFF, 1036px 405px #FFF   , 1756px 583px #FFF , 404px 380px #FFF , 1253px 372px #FFF , 520px 620px #FFF , 1842px 852px #FFF , 490px 387px #FFF , 1251px 143px #FFF , 1814px 537px #FFF , 1405px 623px #FFF , 1286px 896px #FFF , 1626px 990px #FFF , 1288px 939px #FFF , 763px 338px #FFF , 965px 412px #FFF , 1192px 956px #FFF  , 1784px 547px #FFF , 815px 675px #FFF , 1387px 890px #FFF , 1948px 429px #FFF , 1665px 92px #FFF , 1806px 919px #FFF , 1712px 494px #FFF  , 1421px 586px #FFF , 788px 208px #FFF , 380px 250px #FFF , 748px 977px #FFF , 1637px 337px #FFF  , 1776px 710px #FFF , 544px 453px #FFF, 1227px 391px #FFF , 583px 833px #FFF , 658px 278px #FFF , 892px 943px #FFF , 1524px 316px #FFF , 1547px 192px #FFF , 976px 36px #FFF , 1677px 936px #FFF , 1508px 412px #FFF , 1242px 439px #FFF , 1263px 40px #FFF , 639px 906px #FFF , 1349px 373px #FFF , 1055px 969px #FFF , 602px 95px #FFF, 1129px 837px #FFF  , 1188px 414px #FFF , 1931px 325px #FFF   , 1801px 780px #FFF , 633px 529px #FFF , 1500px 33px #FFF  , 1457px 698px #FFF  , 627px 250px #FFF  , 68px 998px #FFF , 951px 85px #FFF , 280px 431px #FFF ,  322px 778px #FFF , 841px 888px #FFF , 700px 568px #FFF , 1846px 442px #FFF , 970px 917px #FFF , 1585px 452px #FFF;
+  }
+  @keyframes animStar {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-1000px);
+  }
+}
 #wrapper {
     position: absolute;
 
@@ -28,13 +54,15 @@ body,html {
 #gamecontainer{
     width: 640px;
     height: 480px;
-    background: url(images/screens/splashscreen.png);
+    background: url(images/screens/splashscreen1.png) no-repeat;
+    background-size: 100% auto;
     border: 1px solid black;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     transform-origin: center center;
+    transition:all 2s;
 }
 
 .gamelayer{
@@ -46,17 +74,19 @@ body,html {
 
 /* 启动画面与主菜单 */
 #gamestartscreen{
-    padding-top: 320px;
+    padding-top: 220px;
     text-align: left;
     padding-left: 50px;
-    width: 590px;
-    height: 160px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* border:1px solid red; */
 }
 
 #gamestartscreen span{
     margin: 20px;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 48px;
+    font-size: 30px;
     cursor: url('images/hand.cur'), pointer;
     color: white;
     text-shadow: -2px 0 purple, 0 2px purple, 2px 0 purple, 0 -2px purple;
@@ -64,6 +94,22 @@ body,html {
 
 #gamestartscreen span:hover{
     color: yellow;
+}
+
+.game-title {
+    position: absolute;
+
+    top: 10%;
+    
+    text-align: left;
+    width: 100%;
+
+    font-family: "Courier New", Courier, monospace;
+    font-size: 60px!important;
+    line-height: 60px;
+
+    color: white;
+    text-shadow: -2px 0 purple, 0 2px purple, 2px 0 purple, 0 -2px purple;
 }
 
 /* 加载画面 */

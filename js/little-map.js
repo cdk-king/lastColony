@@ -39,6 +39,8 @@ var littleMap = {
                     this.context.fillStyle = "blue";
                 }else if(item.team == "green"){
                     this.context.fillStyle = "red";
+                }else{
+                    this.context.fillStyle = "white";
                 }
                 this.context.fillRect(item.x*width/game.currentLevel.mapGridWidth,item.y*height/game.currentLevel.mapGridHeight+(width-height)/2,4,4);
                 this.context.fill();

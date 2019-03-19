@@ -67,6 +67,10 @@ var loader = {
         return audio;
     },
     itemLoaded:function(ev){
+        //console.log(ev.target.callback);
+        if(ev.target.callback){
+            ev.target.callback();
+        }
         // 加载此项目后，停止侦听其事件类型（加载或canPlayThrough）
         ev.target.removeEventListener(ev.type, loader.itemLoaded, false);
         loader.loadedCount++;
@@ -79,9 +83,12 @@ var loader = {
             //game.hideScreen("loadingscreen");
             //如果loader.onload事件有响应函数，调用
             if(loader.onload){
+
                 setTimeout(function(){
                     game.hideScreen("loadingscreen");
-                    loader.onload();
+                    if(typeof loader.onload=="function"){
+                        loader.onload();
+                    }
                     loader.onload = undefined;
                 },250);
             }

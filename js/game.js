@@ -16,14 +16,58 @@ var game = {
         mouse.init();
         sidebar.init();
         sounds.init();
+        star.init();
 
         // Display the main game menu
         game.hideScreens();
         game.showScreen("gamestartscreen");
-
+        star.animate();
+        //game.initBackground();
+        //game.changeStartBackground();
         // Initialize and store contexts for both the canvases
         game.initCanvases();
 
+    },
+    backgroundIndex:0,
+    backgroundCount:3,
+    backgrounds:[],
+    initBackground:function(){
+        for(var i = 0;i<game.backgroundCount;i++){
+            //game.backgroundIndex = i;
+            var image = loader.loadImage("images/screens/splashscreen"+(i+1)+".png");
+            image.callback = function() {
+                this.scale = this.width/this.height;
+                //console.log(this.scale);
+                //console.log(this.src);
+            }
+            
+            game.backgrounds.push(image);
+        }
+        loader.onload = true;
+    },
+    changeStartBackground:function(){
+        game.changeStartBackgroundInterval = setInterval(function(){
+            console.log(game.backgroundIndex);
+            game.backgroundIndex++;
+            if(game.backgroundIndex>=3){
+                game.backgroundIndex = 0;
+            }
+            console.log(game.backgrounds);
+            console.log(game.backgroundIndex);
+            var gameContainer = document.getElementById("gamecontainer");
+            var scale = game.backgrounds[game.backgroundIndex].scale;
+            var gameScale = gameContainer.clientWidth/gameContainer.clientHeight;
+            console.log(scale);
+            console.log(gameScale);
+            
+            document.getElementById("gamecontainer").style.background="url(images/screens/splashscreen"+(game.backgroundIndex+1)+".png) no-repeat";
+            if(scale>gameScale){
+                //第一个值设置宽度，第二个值设置高度
+                document.getElementById("gamecontainer").style.backgroundSize="auto 100%";
+            }else{
+                document.getElementById("gamecontainer").style.backgroundSize="100% auto";
+            }
+        },10000);
     },
     scale: 1,
     resize: function() {
