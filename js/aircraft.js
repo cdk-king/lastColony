@@ -5,7 +5,8 @@ var aircraft = {
             canAttack:true,
             canAttackLand:true,
             canAttackAir:true,
-            weaponType:"heatseeker",
+            //weaponType:"heatseeker",
+            weaponType:"rocket",
             
             pixelWidth:40,
             pixelHeight:40,

@@ -45,6 +45,25 @@ var bullets = {
                 {name:"explode",count:3}
             ],
         },
+        "rocket":{
+            name:"rocket",
+            reloadTime:40,
+            speed:25,
+            range:15,
+            damage:50,
+            turnSpeed:2,
+            
+            pixelWidth:46,
+            pixelHeight:46,
+            pixelOffsetX:23,
+            pixelOffsetY:23,
+            radius:23,
+        
+            spriteImages:[
+                {name:"fly",count:1,directions:8},
+                {name:"explode",count:16}
+            ],
+        }
     },
     defaults:{
         type:"bullets",
