@@ -6,9 +6,16 @@ var star = {
     lastAnimateTime: (new Date()).getTime(),
     stars:[],
     stop:false,
+    earth:{
+        x:450,
+        y:328,
+        r:160
+    },
     init:function(){
-        this.width = document.getElementById("gamecontainer").clientWidth*game.scale;
-        this.height = document.getElementById("gamecontainer").clientHeight*game.scale;
+        var gameContainer = document.getElementById("gamecontainer");
+        var gameScale = gameContainer.clientWidth/640;
+        this.width = document.getElementById("gamecontainer").clientWidth*gameScale;
+        this.height = document.getElementById("gamecontainer").clientHeight*gameScale;
         //console.log(game.scale);
         //console.log(this.width);
         this.canvas.width = this.width;
@@ -60,10 +67,18 @@ var star = {
         star.context.clearRect(0, 0, star.canvas.width, star.canvas.height);
         for(var j= 0;j<star.stars.length;j++){
             var item = star.stars[j];
+            // if(Math.pow(item.x-star.earth.x,2)+Math.pow(item.y-star.earth.y-2,2)>Math.pow(star.earth.r,2)){
+                
+            // }
             star.context.beginPath();
             star.context.fillStyle = "white";
             star.context.arc(item.x, item.y, 2, 0, Math.PI * 2, false);
             star.context.fill();
+            
         }
+        // star.context.beginPath();
+        // star.context.fillStyle = "white";
+        // star.context.clearRrc(star.earth.x, star.earth.y,  star.earth.r, 0, Math.PI * 2, false);
+        // star.context.fill(); 
     }
 }

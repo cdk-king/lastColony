@@ -275,6 +275,11 @@ var aircraft = {
                     if(distanceFromDestinationSquared < Math.pow(this.radius/game.gridSize,2)){
                         this.orders = {type:"float"};
                     }else{
+                        var targets = this.findTargetsInSight();
+                        if(targets.length>0){
+                            this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                            return;
+                        }
                         var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
                         this.moveTo(this.orders.to,distanceFromDestination);
                     }

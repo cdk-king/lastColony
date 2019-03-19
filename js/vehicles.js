@@ -239,6 +239,13 @@ var vehicles = {
                             }
                         }
                         //试图向目标移动
+
+                        var targets = this.findTargetsInSight();
+                        if(targets.length>0){
+                            this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                            return;
+                        }
+
                         //console.log("试图向目标移动");
                         var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
                         var moving =this.moveTo(this.orders.to,distanceFromDestination);
@@ -390,6 +397,7 @@ var vehicles = {
                         }
                         return;
                     }
+                    //靠近守卫目标时，如果视野内有敌人，攻击它
                     if((Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2))<Math.pow(this.sight-1,2)){
                         var targets = this.findTargetsInSight(1);
                         if(targets.length>0){

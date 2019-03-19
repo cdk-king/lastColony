@@ -135,6 +135,8 @@ var singleplayer = {
                     game.hideScreens();
                     // Return to the main menu
                     game.showScreen("gamestartscreen");
+                    star.stop = false;
+                    star.animate();
                 });
             }
         }else{
