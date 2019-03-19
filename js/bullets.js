@@ -53,11 +53,11 @@ var bullets = {
             damage:50,
             turnSpeed:2,
             
-            pixelWidth:46,
-            pixelHeight:46,
-            pixelOffsetX:23,
-            pixelOffsetY:23,
-            radius:23,
+            pixelWidth:20,
+            pixelHeight:20,
+            pixelOffsetX:10,
+            pixelOffsetY:10,
+            radius:10,
         
             spriteImages:[
                 {name:"fly",count:1,directions:8},
