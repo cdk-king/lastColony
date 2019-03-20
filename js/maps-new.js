@@ -132,7 +132,7 @@ var maps = {
             "\n附近的叛军被证明是个问题。我们需要把他们赶出去。"+
             "\n首先建立基地防御，然后找到并摧毁该地区的所有叛军。\n殖民地将派援军帮助我们。",
             // 地图细节
-            "mapImage":"images/maps/plains-debug.png",
+            "mapImage":"images/maps/plains.png",
             "startX":36,
             "startY":0,
             /* 被地形阻隔通行区域的地图坐标 */
@@ -300,8 +300,8 @@ var maps = {
             "requirements":{
                 "buildings":["base","ground-turret","starport","harvester"],
                 "vehicles":["transport","scout-tank","heavy-tank","armoredcar"],
-                "aircraft":["chopper","wraith"],
-                "terrain":["779-1","bigrocks"]
+                "aircraft":["chopper","wraith","unit_jet"],
+                "terrain":["779-1","bigrocks","woods"]
             },
             "cash":{
                 "blue":1000,
@@ -321,6 +321,8 @@ var maps = {
                 {"type":"buildings","name":"ground-turret",x:11,y:37,"team":"blue"},
 
                 // {"type":"vehicles","name":"armoredcar",x:5,y:28,"team":"blue","direction":2},
+                {"type":"aircraft","name":"unit_jet",x:5,y:28,"team":"blue","direction":2},
+                
 
                 /**需要保护的运输车 */
                 {"type":"vehicles","name":"transport",x:2,y:33,"team":"blue","direction":2,"selectable":false,"uid":-1},
@@ -351,6 +353,7 @@ var maps = {
 
                 {"type":"terrain","name":"779-1",x:11,y:31,},
                 {"type":"terrain","name":"bigrocks",x:12,y:35,},
+                {"type":"terrain","name":"woods",x:5,y:25,},
                 
             ],
             

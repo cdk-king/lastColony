@@ -5,8 +5,8 @@ var aircraft = {
             canAttack:true,
             canAttackLand:true,
             canAttackAir:true,
-            //weaponType:"heatseeker",
-            weaponType:"rocket",
+            weaponType:"heatseeker",
+            //weaponType:"rocket",
             
             pixelWidth:40,
             pixelHeight:40,
@@ -35,6 +35,29 @@ var aircraft = {
             pixelHeight:30,
             pixelOffsetX:15,
             pixelOffsetY:15,
+
+            radius:15,
+            sight:8,
+            cost:600,
+            hitPoints:50,
+            speed:40,
+            turnSpeed:4,
+            pixelShadowHeight:40,
+            spriteImages:[
+                {name:"fly",count:1,directions:8}
+            ],
+        },
+        "unit_jet":{
+            name:"unit_jet",
+            canAttack:true,
+            canAttackLand:false,
+            canAttackAir:true,
+            weaponType:"fireball",
+            
+            pixelWidth:40,
+            pixelHeight:40,
+            pixelOffsetX:20,
+            pixelOffsetY:20,
 
             radius:15,
             sight:8,
@@ -276,11 +299,11 @@ var aircraft = {
                     if(distanceFromDestinationSquared < Math.pow(this.radius/game.gridSize,2)){
                         this.orders = {type:"float"};
                     }else{
-                        var targets = this.findTargetsInSight();
-                        if(targets.length>0){
-                            this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
-                            return;
-                        }
+                        // var targets = this.findTargetsInSight();
+                        // if(targets.length>0){
+                        //     this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                        //     return;
+                        // }
                         var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
                         this.moveTo(this.orders.to,distanceFromDestination);
                     }

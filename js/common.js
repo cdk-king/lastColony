@@ -105,7 +105,12 @@ function loadItem(name){
     if(item.spriteArray){
         return;
     }
-    item.spriteSheet = loader.loadImage("images/"+this.defaults.type+"/"+name+".png");
+    if(item.isSheet){
+        item.spriteSheet = loader.loadImage("images/"+this.defaults.type+"/"+item.sheetName+".png");
+    }else{
+        item.spriteSheet = loader.loadImage("images/"+this.defaults.type+"/"+name+".png");
+    }
+    
     item.spriteArray = [];
     item.spriteCount = 0;
 

@@ -81,6 +81,30 @@ var terrain = {
                 {name:"default",count:1}
             ],
         },
+        "woods":{
+            name:"woods",
+            isSheet:true,
+            sheetName:"ground",
+            sheetX:0,
+            sheetY:48,
+            pixelWidth:48,
+            pixelHeight:48,
+            baseWidth:48,
+            baseHeight:48,
+            pixelOffsetX:0,
+            pixelOffsetY:0,
+            buildableGrid:[
+                [1,1],
+                [1,1],
+            ],
+            passableGrid:[
+                [1,1],
+                [1,1], 
+            ],
+            spriteImages:[
+                {name:"default",count:1}
+            ],
+        },
         
     },
     defaults:{
@@ -113,8 +137,14 @@ var terrain = {
             var x = (this.x*game.gridSize)-game.offsetX-this.pixelOffsetX;
             var y = (this.y*game.gridSize)-game.offsetY-this.pixelOffsetY;
             var colorOffset = 0;
-            game.foregroundContext.drawImage(this.spriteSheet,this.imageOffset*this.pixelWidth,colorOffset,
-                this.pixelWidth,this.pixelHeight,x,y,this.pixelWidth,this.pixelHeight);
+            if(this.isSheet){
+                game.foregroundContext.drawImage(this.spriteSheet,this.sheetX,this.sheetY,
+                    this.pixelWidth,this.pixelHeight,x,y,this.pixelWidth,this.pixelHeight);
+            }else{
+                game.foregroundContext.drawImage(this.spriteSheet,this.imageOffset*this.pixelWidth,colorOffset,
+                    this.pixelWidth,this.pixelHeight,x,y,this.pixelWidth,this.pixelHeight);
+            }
+            
         }
     },
     load:loadItem,

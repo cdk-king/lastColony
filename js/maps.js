@@ -5,7 +5,7 @@ var maps = {
             "name":"Introduction",
             "briefing":"在这一关卡中，您将学习如何在地图上移动。\n\n不用担心！我们将很快实现更多功能。",
             // 地图细节
-            "mapImage":"images/maps/plains-debug.png",
+            "mapImage":"images/maps/plains.png",
             "startX":4,
             "startY":4,
             "mapGridWidth":60,
