@@ -1,6 +1,7 @@
 // Intialize and resize the game once page has fully loaded
 window.addEventListener("load", function() {
     game.resize();
+    keyboard.init();
     game.init();
 }, false);
 
@@ -120,6 +121,9 @@ var game = {
         // Display the game interface
         game.hideScreens();
         game.showScreen("gameinterfacescreen");
+
+        //设置鼠标样式
+        document.getElementById("gameforegroundcanvas").style.cursor = "url('images/cursor.cur'),default";
 
         game.running = true;
         game.refreshBackground = true;

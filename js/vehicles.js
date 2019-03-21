@@ -240,11 +240,11 @@ var vehicles = {
                         }
                         //试图向目标移动
 
-                        var targets = this.findTargetsInSight();
-                        if(targets.length>0){
-                            this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
-                            return;
-                        }
+                        // var targets = this.findTargetsInSight();
+                        // if(targets.length>0){
+                        //     this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                        //     return;
+                        // }
 
                         //console.log("试图向目标移动");
                         var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
@@ -370,6 +370,24 @@ var vehicles = {
                         var moving = this.moveTo(this.orders.to,distanceFromDestination);
                         if(!moving){
                             this.orders = {type:"stand"};
+                            return;
+                        }
+                    }
+                    break;
+                case "moveAndAttack":
+                    //console.log("moveAndAttack");
+                    var targets = this.findTargetsInSight();
+                    if(targets.length>0){
+                        this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                        return;
+                    }else{
+                        var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
+                        var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
+                        let moving = this.moveTo(this.orders.to, distanceFromDestination);
+                        
+                        // Pathfinding couldn't find a path so stop
+                        if (!moving) {
+                            this.orders = { type: "stand" };
                             return;
                         }
                     }

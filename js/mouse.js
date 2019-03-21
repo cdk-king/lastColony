@@ -16,6 +16,8 @@ var mouse = {
     dragSelectThreshold: 5,
     //鼠标是否在canvas区域
     insideCanvas:false,
+    //移动攻击指令
+    moveAndAttack:false, 
 
     click:function(ev,rightClick){
         //玩家在canvas内单机鼠标
@@ -87,6 +89,11 @@ var mouse = {
         if(game.deployBuilding){
             sidebar.cancelDeployingBuilding()
             return;
+        }
+
+        if(mouse.moveAndAttack){
+            mouse.moveAndAttack = false;
+            document.getElementById("gameforegroundcanvas").style.cursor = "url('images/cursor.cur'),default";
         }
 
         var uids = [];
@@ -273,6 +280,51 @@ var mouse = {
             return;
         }
 
+        if(mouse.moveAndAttack){
+            //设置鼠标样式
+            document.getElementById("gameforegroundcanvas").style.cursor = "url('images/cursor.cur'),default";
+            mouse.moveAndAttack = false;
+            var uids = [];
+            if(game.selectedItems.length>0){
+                let clickedItem = mouse.itemUnderMouse();
+                //console.log(clickedItem);
+                if (clickedItem) {
+                    //从选中的单位中挑出具备攻击能力的单位
+                    for(var i = game.selectedItems.length-1;i>=0;i--){
+                        var item = game.selectedItems[i];
+                        if(item.team == game.team && item.canAttack){
+                            uids.push(item.uid);
+                        }
+                    };
+                    //接着命令它们攻击被右击的单位
+                    if(uids.length>0){
+                        game.sendCommand(uids,{type:"attack",toUid:clickedItem.uid});
+                        sounds.play("acknowledge-attacking");
+                    }
+                }else{
+                    console.log("玩家右击地面");
+                    //玩家右击地面
+                    //从队伍中挑出能够移动的单位
+                    for(var i = game.selectedItems.length-1;i>=0;i--){
+                        var item = game.selectedItems[i];
+                        if(item.team == game.team && (item.type ==="vehicles" || item.type === "aircraft")){
+                            uids.push(item.uid);
+                        }
+                    };
+                    //console.log("uids:"+uids);
+                    //接着命令它们移动到右击的位置
+                    if(uids.length>0){
+                        game.sendCommand(uids,{type:"moveAndAttack",to:{
+                            x:mouse.gameX/game.gridSize,
+                            y:mouse.gameY/game.gridSize
+                        }});
+                        sounds.play("acknowledge-moving");
+                    }
+                } 
+            }
+            return;
+        }
+
         let clickedItem = mouse.itemUnderMouse();
         //console.log(clickedItem);
         if (clickedItem) {
@@ -284,7 +336,10 @@ var mouse = {
 
             game.selectItem(clickedItem, shiftPressed);
             
+            
+            
         }
+        
         console.log(clickedItem);
     },
     itemUnderMouse:function(){
