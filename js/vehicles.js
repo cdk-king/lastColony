@@ -422,6 +422,12 @@ var vehicles = {
                             this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
                             return;
                         }
+                        var targetToAttackTo = this.orders.to.findTargetsInSight(1);
+                        if(targetToAttackTo.length>0){
+                            this.orders = {type:"attack",to:targetToAttackTo[0],nextOrder:this.orders};
+                            return;
+                        }
+                        //todo 如何处理视野外的敌人
                     }else{
                         this.moveTo(this.orders.to,distanceFromDestination);
                     }

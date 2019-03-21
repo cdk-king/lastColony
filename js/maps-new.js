@@ -321,7 +321,7 @@ var maps = {
                 {"type":"buildings","name":"ground-turret",x:11,y:37,"team":"blue"},
 
                 // {"type":"vehicles","name":"armoredcar",x:5,y:28,"team":"blue","direction":2},
-                {"type":"aircraft","name":"unit_jet",x:5,y:28,"team":"blue","direction":2},
+                {"type":"aircraft","name":"unit_jet",x:11,y:30,"team":"blue","direction":3},
                 
 
                 /**需要保护的运输车 */

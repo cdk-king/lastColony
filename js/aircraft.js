@@ -289,6 +289,11 @@ var aircraft = {
                             this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
                             return;
                         }
+                        var targetToAttackTo = this.orders.to.findTargetsInSight(1);
+                        if(targetToAttackTo.length>0){
+                            this.orders = {type:"attack",to:targetToAttackTo[0],nextOrder:this.orders};
+                            return;
+                        }
                     }else{
                         this.moveTo(this.orders.to,distanceFromDestination);
                     }
