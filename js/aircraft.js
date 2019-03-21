@@ -315,20 +315,26 @@ var aircraft = {
                     break;
                 case "moveAndAttack":
                     //console.log("moveAndAttack");
+                    //findTargetsInSight里会判断isValidTarget
                     var targets = this.findTargetsInSight();
                     if(targets.length>0){
+                        // for(var i = 0;i<targets.length;i++){
+                        //     var target = targets[i];
+                        //     if(this.isValidTarget(target)){
+                        //         this.orders = {type:"attack",to:targets[i],nextOrder:this.orders};
+                        //         return;
+                        //     }
+                        // }
                         this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                        //console.log("moveAndAttack");
                         return;
+                        // var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
+                        // var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
+                        // this.moveTo(this.orders.to,distanceFromDestination);
                     }else{
                         var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
                         var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
-                        let moving = this.moveTo(this.orders.to, distanceFromDestination);
-                        
-                        // Pathfinding couldn't find a path so stop
-                        if (!moving) {
-                            this.orders = { type: "float" };
-                            return;
-                        }
+                        this.moveTo(this.orders.to,distanceFromDestination);
                     }
                     break;
             }
