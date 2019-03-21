@@ -302,8 +302,7 @@ var mouse = {
                         sounds.play("acknowledge-attacking");
                     }
                 }else{
-                    console.log("玩家右击地面");
-                    //玩家右击地面
+                    
                     //从队伍中挑出能够移动的单位
                     for(var i = game.selectedItems.length-1;i>=0;i--){
                         var item = game.selectedItems[i];

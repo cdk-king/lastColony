@@ -13,6 +13,23 @@ var keyboard = {
                         break;
                     case "113":
                         console.log("按 f2");
+                        if(game.running){
+                            game.clearSelection();
+                            game.selectedItems=[];
+                            for(var i = 0;i<game.items.length;i++){
+                                var item = game.items[i];
+                                if(item.team == game.team 
+                                    && (item.canAttackLand || item.canAttackAir) 
+                                    && (item.type=="aircraft" || item.type=="vehicles")
+                                    ){
+                                    if(item.selectable && !item.selected){
+                                        item.selected = true;
+                                        game.selectedItems.push(item);
+                                    }
+                                }
+                            }
+                        }
+                        
                         break;
                     case "13":
                         console.log("按 enter");
