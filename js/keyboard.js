@@ -65,7 +65,47 @@ var keyboard = {
                         break;
                     case "32":
                         //keyCode 32 = space
-                        console.log("按 space");
+                        //todo 一直按照space
+                        if(game.running){
+                            if(game.selectedItems.length>0){
+                                console.log(game.selectItemIndex);
+                                if(game.selectItemIndex!=undefined){
+                                    
+                                    var item = game.selectedItems[game.selectItemIndex];
+                                    if(game.selectItemIndex<game.selectedItems.length-1){
+                                        game.selectItemIndex++;
+                                    }else if(game.selectItemIndex==game.selectedItems.length-1){
+                                        game.selectItemIndex=0;
+                                    }
+                                    if(item.team == game.team){
+
+                                        if((item.x*game.gridSize)-game.canvasWidth/2<0){
+                                            game.offsetX =0;
+                                        }else if((item.x*game.gridSize)+game.canvasWidth/2>game.currentLevel.mapGridWidth*game.gridSize){
+                                            game.offsetX = game.currentLevel.mapGridWidth*game.gridSize-game.canvasWidth;
+                                        }else{
+                                            game.offsetX = item.x*game.gridSize-game.canvasWidth/2;
+                                        }
+                                        if((item.y*game.gridSize)-game.canvasHeight/2<0){
+                                            game.offsetY =0;
+                                        }else if((item.y*game.gridSize)+game.canvasHeight/2>game.currentLevel.mapGridHeight*game.gridSize){
+                                            game.offsetY = game.currentLevel.mapGridHeight*game.gridSize-game.canvasHeight;
+                                        }else{
+                                            game.offsetY = item.y*game.gridSize-game.canvasHeight/2;
+                                        }
+                                        
+                                        //允许刷新地图
+                                        game.refreshBackground = true;
+                                    }
+                                    
+                                }else{
+                                    game.selectItemIndex = 0;
+                                }
+
+                            }else{
+
+                            }
+                        }
                         break;
                     case "16":
                         //keyCode 16 = Shift_L

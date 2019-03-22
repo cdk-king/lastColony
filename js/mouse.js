@@ -265,6 +265,7 @@ var mouse = {
                 }
             }
         });
+        game.selectItemIndex =0;
         mouse.dragSelect = false;
     },
     // Called whenever player completes a left click on the game canvas
@@ -334,7 +335,7 @@ var mouse = {
             }
 
             game.selectItem(clickedItem, shiftPressed);
-            
+            game.selectItemIndex =0;
             
             
         }

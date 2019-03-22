@@ -11,6 +11,7 @@ window.addEventListener("resize", function() {
 });
 
 var game = {
+    selectItemIndex:0,
     //开始预加载资源
     init:function(){
         loader.init();
