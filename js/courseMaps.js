@@ -1,11 +1,11 @@
-var maps = {
+var courseMaps = {
 
     "singleplayer":[
         {//0
             "name":"Introduction",
             "briefing":"在这一关卡中，您将学习如何在地图上移动。\n\n不用担心！我们将很快实现更多功能。",
             // 地图细节
-            "mapImage":"images/maps/plains.png",
+            "mapImage":"images/maps/plains-debug.png",
             "startX":4,
             "startY":4,
             "mapGridWidth":60,
@@ -107,7 +107,15 @@ var maps = {
                 {"type":"terrain","name":"bigrocks",x:19,y:6,},
                 {"type":"terrain","name":"smallrocks",x:8,y:3,},
 
-            ]
+            ],
+            "cash":{
+                "blue":0,
+                "green":0
+            },
+            /* 条件和时间触发器事件 */
+            "triggers":[
+
+            ],
         },
         {//2
             "name":"Entitties",

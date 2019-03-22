@@ -7,9 +7,22 @@ var singleplayer = {
 
         //从第一关开始
         singleplayer.currentLevel = 2;
+        singleplayer.isCourse = false;
         game.type = "singleplayer";
         game.team = "blue";
 
+        //最后，开始关卡
+        singleplayer.startCurrentLevel();
+    },
+    startCourse:function(){
+        star.stop = true;
+        //隐藏开始菜单图层
+        game.hideScreens();
+        //从第一关开始
+        singleplayer.currentLevel = 1;
+        singleplayer.isCourse = true;
+        game.type = "singleplayer";
+        game.team = "blue";
         //最后，开始关卡
         singleplayer.startCurrentLevel();
     },
@@ -23,7 +36,13 @@ var singleplayer = {
     currentLevel: 0,
     startCurrentLevel:function(){
         //获取用来构建关卡的数据
-        var level = maps.singleplayer[singleplayer.currentLevel];
+        var level;
+        if(singleplayer.isCourse){
+            level = courseMaps.singleplayer[singleplayer.currentLevel];
+        }else{
+            level = maps.singleplayer[singleplayer.currentLevel];
+        }
+        
 
         //加载资源完成之前，禁用“开始任务”按钮
         var enterMissionButton = document.getElementById("entermission");
@@ -121,7 +140,12 @@ var singleplayer = {
         game.end();
         
         if(success){
-            var moreLevels = (singleplayer.currentLevel < maps.singleplayer.length-1);
+            if(singleplayer.isCourse){
+                var moreLevels = (singleplayer.currentLevel < courseMaps.singleplayer.length-1);
+            }else{
+                var moreLevels = (singleplayer.currentLevel < maps.singleplayer.length-1);
+            }
+            
             if(moreLevels){
                 game.showMessageBox("任务完成。",function(){
                     game.hideScreens();

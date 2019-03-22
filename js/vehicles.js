@@ -398,7 +398,12 @@ var vehicles = {
                         //     return;
                         // }
                     }else{
+                        
                         var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
+                        if(this.colliding && distanceFromDestinationSquared < Math.pow(this.radius*3/game.gridSize,2)){
+                            this.orders = {type:"stand"};
+                            return;
+                        }
                         var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
                         let moving = this.moveTo(this.orders.to, distanceFromDestination);
                         
@@ -578,6 +583,13 @@ var vehicles = {
             this.lastMovementY = -(movement*Math.cos(angleRadians));
             this.x = (this.x+this.lastMovementX);
             this.y = (this.y+this.lastMovementY);
+
+            //var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
+            // if(this.colliding && distanceFromDestinationSquared < Math.pow(this.radius*3/game.gridSize,2)){
+            //     this.orders = {type:"stand"};
+            //     return;
+            // }
+
 
             return true;
         },

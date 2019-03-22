@@ -10,6 +10,17 @@ var keyboard = {
                 switch (currKey.toString()){
                     case "27":// 按 Esc
                         console.log("按 esc");
+                        if(game.running){
+                            game.showMessageBox("是否退回菜单界面",function(){
+                                clearInterval(game.animationInterval);
+                                game.end();
+                                game.hideScreens();
+                                
+                                game.showScreen("gamestartscreen");
+                                star.stop = false;
+                                star.animate();
+                            });
+                        }
                         break;
                     case "113":
                         console.log("按 f2");
