@@ -44,8 +44,20 @@ var mouse = {
                         game.foregroundContext.fillStyle = "rgba(255,0,0,0.3)";
                     }
                     game.foregroundContext.fillRect(x+j*game.gridSize,y+i*game.gridSize,game.gridSize,game.gridSize);
+                    
                 }
             }
+            //console.log(buildingType);
+            var colorOffset = 0;
+            if(buildingType.directions){
+                var imageOffset = buildingType.spriteArray["healthy-0"].offset;
+            }else{
+                var imageOffset = buildingType.spriteArray["healthy"].offset;
+            }
+            game.foregroundContext.globalAlpha=0.5;
+            game.foregroundContext.drawImage(buildingType.spriteSheet,imageOffset*buildingType.pixelWidth,colorOffset,buildingType.pixelWidth,buildingType.pixelHeight,
+                x-buildingType.pixelOffsetX,y-buildingType.pixelOffsetY,buildingType.pixelWidth,buildingType.pixelHeight);
+            game.foregroundContext.globalAlpha=1;
         }
     },
     calculateGameCoordinates:function(){
