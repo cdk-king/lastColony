@@ -655,5 +655,21 @@ var game = {
             };
         }
         game.running = false;
+    },
+    changeOffset:function(item){
+        if((item.x*game.gridSize)-game.canvasWidth/2<0){
+            game.offsetX =0;
+        }else if((item.x*game.gridSize)+game.canvasWidth/2>game.currentLevel.mapGridWidth*game.gridSize){
+            game.offsetX = game.currentLevel.mapGridWidth*game.gridSize-game.canvasWidth;
+        }else{
+            game.offsetX = item.x*game.gridSize-game.canvasWidth/2;
+        }
+        if((item.y*game.gridSize)-game.canvasHeight/2<0){
+            game.offsetY =0;
+        }else if((item.y*game.gridSize)+game.canvasHeight/2>game.currentLevel.mapGridHeight*game.gridSize){
+            game.offsetY = game.currentLevel.mapGridHeight*game.gridSize-game.canvasHeight;
+        }else{
+            game.offsetY = item.y*game.gridSize-game.canvasHeight/2;
+        }
     }
 }

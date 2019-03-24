@@ -33,10 +33,7 @@ var keyboard = {
                                     && (item.canAttackLand || item.canAttackAir) 
                                     && (item.type=="aircraft" || item.type=="vehicles")
                                     ){
-                                    if(item.selectable && !item.selected){
-                                        item.selected = true;
-                                        game.selectedItems.push(item);
-                                    }
+                                        game.selectItem(item);
                                 }
                             }
                         }
@@ -103,6 +100,17 @@ var keyboard = {
                                 }
 
                             }else{
+                                //选中主基地
+                                for(var i = 0;i<game.items.length;i++){
+                                    var item = game.items[i];
+                                    if(item.team == game.team && item.name=="base"){
+                                        game.selectItem(item);
+                                        game.changeOffset(item);
+                                        //允许刷新地图
+                                        game.refreshBackground = true;
+                                        return;
+                                    }
+                                }
 
                             }
                         }
