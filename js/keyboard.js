@@ -19,6 +19,8 @@ var keyboard = {
                                 game.showScreen("gamestartscreen");
                                 star.stop = false;
                                 star.animate();
+                            },function(){
+                                game.hideScreen("messageboxscreen");
                             });
                         }
                         break;
