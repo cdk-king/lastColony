@@ -36,6 +36,8 @@
 
     <script src="js/keyboard.js" type="text/javascript"></script>
 
+    <script src="js/setting.js" type="text/javascript"></script>
+
     <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 <body>
@@ -49,6 +51,32 @@
                     <span id="Course" onclick="singleplayer.startCourse()">教学关卡</span><br>
                     <span id="singleplayer" onclick="singleplayer.start()">单人战役</span><br>
                     <span id="multiplayer" onclick="multiplayer.start()">多人游戏</span><br>
+                    <span id="setting" onclick="setting.showSetting()">设置</span><br>
+                </div>
+                <div id="settingscreen" class="gamelayer">
+                    <div id="hideSettingScreen" onclick="setting.hideSettingScreen()">
+                        <span>返回</span>
+                    </div>
+                    <div id="settingContainer">
+                        <div class="settingIitem">
+                            <span>是否全屏</span>
+                            <div class="settingIcon">
+                                <img src="images/icon/zoomIn.png" alt="" onclick="setting.fullScreen(event)">
+                            </div>
+                        </div>
+                        <div class="settingIitem">
+                            <span>背景音效</span>
+                            <div class="settingIcon">
+                                <img src="images/icon/音效关.png" alt="" onclick="setting.backgroundSound(event)"> 
+                            </div>
+                        </div>
+                        <div class="settingIitem">
+                            <span>背景音乐</span>
+                            <div class="settingIcon">
+                                <img src="images/icon/音频开.png" alt="" onclick="setting.backgroundMusic(event)">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="missionscreen" class="gamelayer">

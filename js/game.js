@@ -671,5 +671,6 @@ var game = {
         }else{
             game.offsetY = item.y*game.gridSize-game.canvasHeight/2;
         }
-    }
+    },
+    
 }

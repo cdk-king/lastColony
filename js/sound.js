@@ -1,4 +1,5 @@
 var sounds = {
+    backgroundSound:true,
     list:{
         "bullet":["bullet1","bullet2"],
         "heatseeker":["heatseeker1","heatseeker2"],
@@ -21,14 +22,16 @@ var sounds = {
         }
     },
     play:function(soundName){
-        var sound = sounds.loaded[soundName];
-        if(sound && sound.audioObjects && sound.audioObjects.length>0){
-            if(!sound.counter || sound.counter>=sound.audioObjects.length){
-                sound.counter = 0;
+        if(sounds.backgroundSound){
+            var sound = sounds.loaded[soundName];
+            if(sound && sound.audioObjects && sound.audioObjects.length>0){
+                if(!sound.counter || sound.counter>=sound.audioObjects.length){
+                    sound.counter = 0;
+                }
+                var audioObject = sound.audioObjects[sound.counter];
+                sound.counter++;
+                audioObject.play();
             }
-            var audioObject = sound.audioObjects[sound.counter];
-            sound.counter++;
-            audioObject.play();
         }
     }
 }
