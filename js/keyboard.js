@@ -7,6 +7,7 @@ var keyboard = {
             var currKey=e.keyCode||e.which||e.charCode;
             //console.log("按下键盘");
             if(e){ 
+                //console.log(currKey.toString());
                 switch (currKey.toString()){
                     case "27":// 按 Esc
                         console.log("按 esc");
@@ -124,6 +125,56 @@ var keyboard = {
                     case "17":
                         //keyCode 17 = Control_L
                         console.log("按 Control_L");
+                        break;
+                    case "37":
+                        //左箭头
+                        //console.log("按 左箭头");
+                        if(game.running){
+                            if(game.offsetX>0){
+                                game.refreshBackground = true;
+                                game.offsetX -= game.panningSpeed*2;
+                            }else{
+                                game.offsetX=0;
+                            }
+                        }
+                        break;
+                    case "38":
+                        //上箭头
+                        //console.log("按 上箭头");
+                        if(game.running){
+                            if(game.offsetY>0){
+                                game.refreshBackground = true;
+                                game.offsetY -= game.panningSpeed*2;
+                            }else{
+                                game.offsetY=0;
+                            }
+                        }
+                        break;
+                    case "39":
+                        //右箭头
+                        //console.log("按 右箭头");
+                        if(game.running){
+                            if(game.offsetX+game.canvasWidth<game.currentMapImage.width){
+                                game.refreshBackground = true;
+                                game.offsetX += game.panningSpeed*2;
+                            }else{
+                                game.refreshBackground = true;
+                                game.offsetX=game.currentMapImage.width-game.canvasWidth;
+                            }
+                        }
+                        break;
+                    case "40":
+                        //下箭头
+                        //console.log("按 下箭头");
+                        if(game.running){
+                            if(game.offsetY+game.canvasHeight<game.currentMapImage.height){
+                                game.refreshBackground = true;
+                                game.offsetY += game.panningSpeed*2;
+                            }else{
+                                game.refreshBackground = true;
+                                game.offsetY=game.currentMapImage.height-game.canvasHeight;
+                            }
+                        }
                         break;
                 }
             }
