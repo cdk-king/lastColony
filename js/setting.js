@@ -19,25 +19,37 @@ var setting = {
         (document.body.requestFullscreen&&document.body.requestFullscreen())||
         (document.body.mozRequestFullScreen&&document.body.mozRequestFullScreen())||
         (document.body.webkitRequestFullscreen&&document.body.webkitRequestFullscreen())||(document.body.msRequestFullscreen&&document.body.msRequestFullscreen());
-        target.src = "images/icon/zoomOut.png";
+        target.src = "images/icon/zoomIn.png";
+        setting.showSettingMessage("全屏已开启",2000);
         }else{	//退出全屏,三目运算符
         document.exitFullscreen?document.exitFullscreen():
         document.mozCancelFullScreen?document.mozCancelFullScreen():
         document.webkitExitFullscreen?document.webkitExitFullscreen():'';
-        target.src = "images/icon/zoomIn.png";
+        target.src = "images/icon/zoomOut.png";
+        setting.showSettingMessage("全屏已关闭",2000);
         }
     },
     backgroundSound:function(event){
         var target = event.srcElement||event.target;
         if(sounds.backgroundSound){
             sounds.backgroundSound = false;
-            target.src = "images/icon/音效开.png";
+            target.src = "images/icon/音效关.png";
+            setting.showSettingMessage("音效已关闭",2000);
         }else{
             sounds.backgroundSound = true;
-            target.src = "images/icon/音效关.png";
+            target.src = "images/icon/音效开.png";
+            setting.showSettingMessage("音效已开启",2000);
         }
     },
     backgroundMusic:function(){
         
+    },
+    showSettingMessage:function(content,delay){
+        var el = document.getElementById("settingMessage");
+        el.innerHTML = "<span>"+content+"</span>";
+        var timer = setTimeout(function(){
+            el.innerHTML = "";
+            clearTimeout(timer);
+        },delay);
     }
 }
