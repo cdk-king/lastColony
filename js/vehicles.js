@@ -162,6 +162,8 @@ var vehicles = {
             var colorOffset = colorIndex*this.pixelHeight;
             game.foregroundContext.drawImage(this.spriteSheet,this.imageOffset*this.pixelWidth,colorOffset,
                 this.pixelWidth,this.pixelHeight,x,y,this.pixelWidth,this.pixelHeight);
+            
+            //this.drawOrder();
 
             //绘制出现的光圈
             if(this.brightness){
@@ -169,6 +171,62 @@ var vehicles = {
                 game.foregroundContext.arc(x+this.pixelOffsetX,y+this.pixelOffsetY,this.radius,0,Math.PI*2,false);
                 game.foregroundContext.fillStyle = "rgba(255,255,255,"+this.brightness+")";
                 game.foregroundContext.fill();
+            }
+        },
+        drawOrder:function(){
+            if(this.orders.to && (this.team==game.team)){
+                switch (this.orders.type){
+                    case "move":
+                        var start = [this.x,this.y];
+                        var end = [this.orders.to.x,this.orders.to.y];
+                        game.foregroundContext.beginPath();
+                        game.foregroundContext.strokeStyle = "#FFEC8B";
+                        game.foregroundContext.setLineDash([8]);
+                        game.foregroundContext.moveTo(start[0]*game.gridSize-game.offsetX,start[1]*game.gridSize-game.offsetY);
+
+                        game.foregroundContext.lineTo(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY);
+                        game.foregroundContext.stroke();
+                        game.foregroundContext.beginPath();
+                        game.foregroundContext.setLineDash([0]);
+                        game.foregroundContext.arc(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY,3,0,Math.PI*2,false); 
+                        game.foregroundContext.stroke();
+                        break;
+                    case "attack":
+                        var start = [this.x,this.y];
+                        if(this.orders.to.type=="buildings"){
+                            var end = [this.orders.to.x+this.orders.to.baseWidth/2/game.gridSize,this.orders.to.y+this.orders.to.baseHeight/2/game.gridSize];
+                        }else{
+                            var end = [this.orders.to.x,this.orders.to.y];
+                        }
+                        
+                        game.foregroundContext.beginPath();
+                        game.foregroundContext.strokeStyle = "#FF4040";
+                        game.foregroundContext.setLineDash([8]);
+                        game.foregroundContext.moveTo(start[0]*game.gridSize-game.offsetX,start[1]*game.gridSize-game.offsetY);
+
+                        game.foregroundContext.lineTo(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY);
+                        game.foregroundContext.stroke();
+                        game.foregroundContext.beginPath();
+                        game.foregroundContext.setLineDash([0]);
+                        game.foregroundContext.arc(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY,3,0,Math.PI*2,false); 
+                        game.foregroundContext.stroke();
+                        break;
+                    case "moveAndAttack":
+                        var start = [this.x,this.y];
+                        var end = [this.orders.to.x,this.orders.to.y];
+                        game.foregroundContext.beginPath();
+                        game.foregroundContext.strokeStyle = "#FF4040";
+                        game.foregroundContext.setLineDash([8]);
+                        game.foregroundContext.moveTo(start[0]*game.gridSize-game.offsetX,start[1]*game.gridSize-game.offsetY);
+
+                        game.foregroundContext.lineTo(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY);
+                        game.foregroundContext.stroke();
+                        game.foregroundContext.beginPath();
+                        game.foregroundContext.setLineDash([0]);
+                        game.foregroundContext.arc(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY,3,0,Math.PI*2,false); 
+                        game.foregroundContext.stroke();
+                        break;
+                }
             }
         },
         drawLifeBar:function(){

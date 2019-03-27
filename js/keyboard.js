@@ -48,8 +48,9 @@ var keyboard = {
                     case "65":
                         //keyCode 65 = a A
                         console.log("按 a");
-                        console.log("按 a");
+                        console.log(document.getElementById("gameforegroundcanvas").style.cursor);
                         if(mouse.moveAndAttack){
+                            
                             mouse.moveAndAttack = false;
                             document.getElementById("gameforegroundcanvas").style.cursor = "url('images/cursor.cur'),default";
                         }else{
