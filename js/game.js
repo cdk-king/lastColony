@@ -283,6 +283,7 @@ var game = {
         //绘制战争迷雾
         fog.draw();
 
+        //绘制命令
         for(var i = 0;i<=game.sortedItems.length-1;i++){
             if(game.sortedItems[i].drawOrder && game.sortedItems[i].type!="bullets"){
                 game.sortedItems[i].drawOrder();

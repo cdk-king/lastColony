@@ -295,7 +295,100 @@ function findTargetsInSight(increment){
     return targets;
 }
 
+function findAllTargetsInSight(increment){
+    if(!increment){
+        increment=0;
+    }
+    var targets = [];
+    for(var i = game.items.length-1;i>=0;i--){
+        var item = game.items[i];
+        if(Math.pow(item.x-this.x,2)+Math.pow(item.y-this.y,2)<Math.pow(this.sight+increment,2)){
+            targets.push(item);
+        }
+    };
+
+    //按照与攻击者的距离对目标进行排序
+    var attacker = this;
+    
+    targets.sort(function(a, b) {
+        return (Math.pow(a.x - attacker.x, 2) + Math.pow(a.y - attacker.y, 2)) - (Math.pow(b.x - attacker.x, 2) + Math.pow(b.y - attacker.y, 2));
+    });
+
+    return targets;
+}
+
 function isItemDead(uid){
     var item = game.getItemByUid(uid);
     return (!item || item.lifeCode == "dead");
+}
+
+function drawOrder(){
+    if(this.orders.to && (this.team==game.team)){
+        switch (this.orders.type){
+            case "move":
+                var start = [this.x,this.y];
+                var end = [this.orders.to.x,this.orders.to.y];
+                drawOrderLine(start,end,"#FFEC8B",8,0,3);
+                
+                break;
+            case "attack":
+                if(this.isValidTarget(this.orders.to)){
+                    if(this.type == "aircraft"){
+                        var start = [this.x,this.y-this.pixelShadowHeight/game.gridSize];
+                    }else{
+                        var start = [this.x,this.y];
+                    }
+                    
+                    if(this.orders.to.type=="buildings"){
+                        var end = [this.orders.to.x+this.orders.to.baseWidth/2/game.gridSize,this.orders.to.y+this.orders.to.baseHeight/2/game.gridSize];
+                    }else if(this.orders.to.type=="aircraft"){
+                        var end = [this.orders.to.x,this.orders.to.y-this.orders.to.pixelShadowHeight/game.gridSize];
+                    }
+                    else{
+                        var end = [this.orders.to.x,this.orders.to.y];
+                    }
+                    drawOrderLine(start,end,"#FF4040",8,0,3);
+                    
+                }
+                break;
+            case "moveAndAttack":
+                var start = [this.x,this.y];
+                var end = [this.orders.to.x,this.orders.to.y];
+                drawOrderLine(start,end,"#FF4040",8,0,3);
+                break;
+            case "guard":
+                if(this.type == "aircraft"){
+                    var start = [this.x,this.y-this.pixelShadowHeight/game.gridSize];
+                }else{
+                    var start = [this.x,this.y];
+                }
+                
+                if(this.orders.to.type=="buildings"){
+                    var end = [this.orders.to.x+this.orders.to.baseWidth/2/game.gridSize,this.orders.to.y+this.orders.to.baseHeight/2/game.gridSize];
+                }else if(this.orders.to.type=="aircraft"){
+                    var end = [this.orders.to.x,this.orders.to.y-this.orders.to.pixelShadowHeight/game.gridSize];
+                }
+                else{
+                    var end = [this.orders.to.x,this.orders.to.y];
+                }
+                drawOrderLine(start,end,"#98FB98",0,0,3);
+                
+                break;
+        }
+    }
+}
+
+function drawOrderLine(start,end,color,lineDash,arcDash,r){
+    game.foregroundContext.beginPath();
+    game.foregroundContext.strokeStyle = color;
+    game.foregroundContext.setLineDash([lineDash]);
+    game.foregroundContext.moveTo(start[0]*game.gridSize-game.offsetX,start[1]*game.gridSize-game.offsetY);
+
+    game.foregroundContext.lineTo(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY);
+    game.foregroundContext.stroke();
+    game.foregroundContext.beginPath();
+    game.foregroundContext.setLineDash([arcDash]);
+    game.foregroundContext.arc(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY,r,0,Math.PI*2,false); 
+    game.foregroundContext.stroke();
+    
 }

@@ -154,6 +154,7 @@ var aircraft = {
                 game.foregroundContext.fill();
             }
         },
+        drawOrder:drawOrder,
         drawLifeBar:function(){
             //var x = this.drawingX + this.pixelOffsetX;
             var x = this.drawingX;
@@ -193,6 +194,7 @@ var aircraft = {
         },
         isValidTarget:isValidTarget,
         findTargetsInSight:findTargetsInSight,
+        findAllTargetsInSight:findAllTargetsInSight,
         processOrders:function(){
             this.lastMovementX = 0;
             this.lastMovementY = 0;
@@ -289,10 +291,15 @@ var aircraft = {
                             this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
                             return;
                         }
-                        var targetToAttackTo = this.orders.to.findTargetsInSight(1);
+                        var targetToAttackTo = this.orders.to.findAllTargetsInSight(1);
                         if(targetToAttackTo.length>0){
-                            this.orders = {type:"attack",to:targetToAttackTo[0],nextOrder:this.orders};
-                            return;
+                            for(var i = 0;i<targetToAttackTo.length;i++){
+                                if(this.isValidTarget(targetToAttackTo[i])){
+                                    this.orders = {type:"attack",to:targetToAttackTo[i],nextOrder:this.orders};
+                                    return;
+                                }
+                            }
+                            
                         }
                     }else{
                         this.moveTo(this.orders.to,distanceFromDestination);

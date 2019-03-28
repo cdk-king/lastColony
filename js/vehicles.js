@@ -173,62 +173,7 @@ var vehicles = {
                 game.foregroundContext.fill();
             }
         },
-        drawOrder:function(){
-            if(this.orders.to && (this.team==game.team)){
-                switch (this.orders.type){
-                    case "move":
-                        var start = [this.x,this.y];
-                        var end = [this.orders.to.x,this.orders.to.y];
-                        game.foregroundContext.beginPath();
-                        game.foregroundContext.strokeStyle = "#FFEC8B";
-                        game.foregroundContext.setLineDash([8]);
-                        game.foregroundContext.moveTo(start[0]*game.gridSize-game.offsetX,start[1]*game.gridSize-game.offsetY);
-
-                        game.foregroundContext.lineTo(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY);
-                        game.foregroundContext.stroke();
-                        game.foregroundContext.beginPath();
-                        game.foregroundContext.setLineDash([0]);
-                        game.foregroundContext.arc(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY,3,0,Math.PI*2,false); 
-                        game.foregroundContext.stroke();
-                        break;
-                    case "attack":
-                        var start = [this.x,this.y];
-                        if(this.orders.to.type=="buildings"){
-                            var end = [this.orders.to.x+this.orders.to.baseWidth/2/game.gridSize,this.orders.to.y+this.orders.to.baseHeight/2/game.gridSize];
-                        }else{
-                            var end = [this.orders.to.x,this.orders.to.y];
-                        }
-                        
-                        game.foregroundContext.beginPath();
-                        game.foregroundContext.strokeStyle = "#FF4040";
-                        game.foregroundContext.setLineDash([8]);
-                        game.foregroundContext.moveTo(start[0]*game.gridSize-game.offsetX,start[1]*game.gridSize-game.offsetY);
-
-                        game.foregroundContext.lineTo(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY);
-                        game.foregroundContext.stroke();
-                        game.foregroundContext.beginPath();
-                        game.foregroundContext.setLineDash([0]);
-                        game.foregroundContext.arc(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY,3,0,Math.PI*2,false); 
-                        game.foregroundContext.stroke();
-                        break;
-                    case "moveAndAttack":
-                        var start = [this.x,this.y];
-                        var end = [this.orders.to.x,this.orders.to.y];
-                        game.foregroundContext.beginPath();
-                        game.foregroundContext.strokeStyle = "#FF4040";
-                        game.foregroundContext.setLineDash([8]);
-                        game.foregroundContext.moveTo(start[0]*game.gridSize-game.offsetX,start[1]*game.gridSize-game.offsetY);
-
-                        game.foregroundContext.lineTo(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY);
-                        game.foregroundContext.stroke();
-                        game.foregroundContext.beginPath();
-                        game.foregroundContext.setLineDash([0]);
-                        game.foregroundContext.arc(end[0]*game.gridSize-game.offsetX,end[1]*game.gridSize-game.offsetY,3,0,Math.PI*2,false); 
-                        game.foregroundContext.stroke();
-                        break;
-                }
-            }
-        },
+        drawOrder:drawOrder,
         drawLifeBar:function(){
             //var x = this.drawingX + this.pixelOffsetX;
             var x = this.drawingX;
@@ -259,6 +204,7 @@ var vehicles = {
         },
         isValidTarget:isValidTarget,
         findTargetsInSight:findTargetsInSight,
+        findAllTargetsInSight:findAllTargetsInSight,
         processOrders:function(){
             this.lastMovementX = 0;
             this.lastMovementY = 0;
@@ -502,10 +448,14 @@ var vehicles = {
                             this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
                             return;
                         }
-                        var targetToAttackTo = this.orders.to.findTargetsInSight(1);
+                        var targetToAttackTo = this.orders.to.findAllTargetsInSight(1);
                         if(targetToAttackTo.length>0){
-                            this.orders = {type:"attack",to:targetToAttackTo[0],nextOrder:this.orders};
-                            return;
+                            for(var i = 0;i<targetToAttackTo.length;i++){
+                                if(this.isValidTarget(targetToAttackTo[i])){
+                                    this.orders = {type:"attack",to:targetToAttackTo[i],nextOrder:this.orders};
+                                    return;
+                                }
+                            }
                         }
                         //todo 如何处理视野外的敌人
                     }else{

@@ -13,15 +13,17 @@ var setting = {
     fullScreen:function(event){
         var target = event.srcElement||event.target;
         var isFullscreen=document.fullScreen||document.mozFullScreen||document.webkitIsFullScreen;
+        var el=document.getElementsByTagName('html')[0]; 
         if(!isFullscreen){//进入全屏,多重短路表达式
             console.log("进入全屏");
-            
-        (document.body.requestFullscreen&&document.body.requestFullscreen())||
-        (document.body.mozRequestFullScreen&&document.body.mozRequestFullScreen())||
-        (document.body.webkitRequestFullscreen&&document.body.webkitRequestFullscreen())||(document.body.msRequestFullscreen&&document.body.msRequestFullscreen());
+        
+        (el.requestFullscreen&&el.requestFullscreen())||
+        (el.mozRequestFullScreen&&el.mozRequestFullScreen())||
+        (el.webkitRequestFullscreen&&el.webkitRequestFullscreen())||(el.msRequestFullscreen&&el.msRequestFullscreen());
         target.src = "images/icon/zoomIn.png";
         setting.showSettingMessage("全屏已开启",2000);
         }else{	//退出全屏,三目运算符
+            console.log("退出全屏");
         document.exitFullscreen?document.exitFullscreen():
         document.mozCancelFullScreen?document.mozCancelFullScreen():
         document.webkitExitFullscreen?document.webkitExitFullscreen():'';
