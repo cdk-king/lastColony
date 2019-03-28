@@ -492,7 +492,7 @@ var game = {
             if (item.type === "buildings" || item.type === "terrain") {
                 for (let y = item.passableGrid.length - 1; y >= 0; y--) {
                     for (let x = item.passableGrid[y].length - 1; x >= 0; x--) {
-                        if (item.passableGrid[y][x]) {
+                        if (item.passableGrid[y][x]==1) {
                             game.currentMapPassableGrid[item.y + y][item.x + x] = 1;
                         }
                     }

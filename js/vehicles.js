@@ -459,7 +459,14 @@ var vehicles = {
                         }
                         //todo 如何处理视野外的敌人
                     }else{
-                        this.moveTo(this.orders.to,distanceFromDestination);
+                        var targets = this.findTargetsInSight(1);
+                        if(targets.length>0){
+                            this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                            return;
+                        }else{
+                            this.moveTo(this.orders.to,distanceFromDestination);
+                        }
+                        
                     }
                     break;
             }       
@@ -546,10 +553,11 @@ var vehicles = {
                             forceMagnitude = 1;
                             break;
                         case "attraction":
-                            forceMagnitude = -0.25;
+                            forceMagnitude = -0.5;
                             break;
                     }
                     //console.log(forceMagnitude);
+                    //没有加负号，因此这里是和方向相反的力
                     forceVector.x += (forceMagnitude*Math.sin(objectAngleRadius));
                     forceVector.y += (forceMagnitude*Math.cos(objectAngleRadius));
 
@@ -638,7 +646,8 @@ var vehicles = {
             for(var j = x1;j<=x2;j++){
                 for(var i = y1;i<=y2;i++){
                     if(grid[i][j]==1){
-                        if(Math.pow(j+0.5-newX,2)+Math.pow(i+0.5-newY,2)<Math.pow(this.radius*0.9/game.gridSize,2)){
+                        //0.5网格居中
+                        if(Math.pow(j+0.5-newX,2)+Math.pow(i+0.5-newY,2)<Math.pow(this.radius*1/game.gridSize,2)){
                             //车辆与阻塞网格间距离低于硬碰撞阈值
                             collisionObjects.push(
                                 {
@@ -686,7 +695,7 @@ var vehicles = {
                         );
                         this.colliding = true;
                         this.hardCollision = true;
-                    }else if(Math.pow(vehicle.x-newX,2) + Math.pow(vehicle.y-newY,2)<Math.pow((this.radius*1.5+vehicle.radius)/game.gridSize,2)){
+                    }else if(Math.pow(vehicle.x-newX,2) + Math.pow(vehicle.y-newY,2)<Math.pow((this.radius*1.1+vehicle.radius)/game.gridSize,2)){
                         //车辆间的距离低于硬碰撞阈值（车辆半径之和的1.5倍）
                         collisionObjects.push(
                             {

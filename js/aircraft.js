@@ -299,10 +299,15 @@ var aircraft = {
                                     return;
                                 }
                             }
-                            
                         }
                     }else{
-                        this.moveTo(this.orders.to,distanceFromDestination);
+                        var targets = this.findTargetsInSight(1);
+                        if(targets.length>0){
+                            this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
+                            return;
+                        }else{
+                            this.moveTo(this.orders.to,distanceFromDestination);
+                        }
                     }
                     break;
                 case "move":

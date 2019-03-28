@@ -112,6 +112,7 @@ var buildings = {
             ],
             isValidTarget:isValidTarget,
             findTargetsInSight:findTargetsInSight,
+            findAllTargetsInSight:findAllTargetsInSight,
             processOrders:function(){
                 if(this.reloadTimeLeft){
                     this.reloadTimeLeft--;
