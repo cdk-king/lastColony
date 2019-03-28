@@ -112,7 +112,7 @@ var buildings = {
             ],
             isValidTarget:isValidTarget,
             findTargetsInSight:findTargetsInSight,
-            findAllTargetsInSight:findAllTargetsInSight,
+            
             processOrders:function(){
                 if(this.reloadTimeLeft){
                     this.reloadTimeLeft--;
@@ -193,6 +193,7 @@ var buildings = {
         action:"stand",
         selected:false,
         selectable:true,
+        findAllTargetsInSight:findAllTargetsInSight,
         //建筑的默认动画循环
         animate:function(){
             //生命值大于40%的单位

@@ -323,6 +323,10 @@ function isItemDead(uid){
 }
 
 function drawOrder(){
+    //判断当前单位有无被选中
+    if(!this.selected){
+        return;
+    }
     if(this.orders.to && (this.team==game.team)){
         switch (this.orders.type){
             case "move":
