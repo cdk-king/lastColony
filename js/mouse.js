@@ -93,14 +93,15 @@ var mouse = {
         mouse.canvas = canvas;
     },
     dblclickhandler:function(){
-        console.log("dblclick");
-        console.log(game.selectedItems);
-        var selectItem = game.selectedItems[0];
-        var name = selectItem.name;
-        for(var i = 0;i<game.items.length;i++){
-            var item = game.items[i];
-            if(item.name==name && item.team == game.team && item!=selectItem){
-                game.selectItem(item);
+        console.log("双击");
+        if(game.selectedItems.length>0){
+            var selectItem = game.selectedItems[0];
+            var name = selectItem.name;
+            for(var i = 0;i<game.items.length;i++){
+                var item = game.items[i];
+                if(item.name==name && item.team == game.team && item!=selectItem){
+                    game.selectItem(item);
+                }
             }
         }
     },
@@ -177,19 +178,39 @@ var mouse = {
             console.log("玩家右击地面");
             //玩家右击地面
             //从队伍中挑出能够移动的单位
+            var items = [];
             for(var i = game.selectedItems.length-1;i>=0;i--){
                 var item = game.selectedItems[i];
                 if(item.team == game.team && (item.type ==="vehicles" || item.type === "aircraft")){
                     uids.push(item.uid);
+                    items.push(item);
                 }
             };
             //console.log("uids:"+uids);
             //接着命令它们移动到右击的位置
-            if(uids.length>0){
+            if(uids.length==1){
                 game.sendCommand(uids,{type:"move",to:{
                     x:mouse.gameX/game.gridSize,
                     y:mouse.gameY/game.gridSize
                 }});
+                sounds.play("acknowledge-moving");
+                return;
+            }
+            //大于两个单位时，调整每个单位的目标位置
+            if(uids.length>=2){
+                for(var i = 0;i<uids.length;i++){
+                    var newDirection = findAngle({x:mouse.gameX/game.gridSize,
+                        y:mouse.gameY/game.gridSize},items[i],8);
+                    var angleRadians = -(newDirection/8)*2*Math.PI;
+                    var y = -(10*Math.sin(angleRadians))*((i%2 ==0) ?-1:1);
+                    var x = (10*Math.cos(angleRadians))*((i%2 ==0) ?-1:1);
+                    console.log(x);
+                    console.log(y);
+                    game.sendCommand([uids[i]],{type:"move",to:{
+                        x:(mouse.gameX+x)/game.gridSize,
+                        y:(mouse.gameY+y)/game.gridSize
+                    }});
+                }
                 sounds.play("acknowledge-moving");
             }
         }

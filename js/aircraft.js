@@ -315,7 +315,11 @@ var aircraft = {
                     var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
                     if(distanceFromDestinationSquared < Math.pow(this.radius/game.gridSize,2)){
                         this.orders = {type:"float"};
-                    }else{
+                    }else if(this.colliding && distanceFromDestinationSquared < Math.pow(this.radius*2/game.gridSize,2)){
+                        this.orders = {type:"float"};
+                        return;
+                    }
+                    else{
                         // var targets = this.findTargetsInSight();
                         // if(targets.length>0){
                         //     this.orders = {type:"attack",to:targets[0],nextOrder:this.orders};
@@ -360,6 +364,45 @@ var aircraft = {
             //console.log(this.direction);
             //console.log(this.x);
             //console.log(newDirection);
+            
+
+            //检查按照现有的方向运动是否会产生碰撞
+            var collisionObjects = this.checkCollisionObjects(distanceFromDestination);
+            this.hardCollision = false;
+            if(collisionObjects.length>0){
+                this.colliding = true;
+                //生成力向量对象为所有接触的物体添加斥力
+                var forceVector = {x:0,y:0};
+                for(var i = collisionObjects.length-1;i>=0;i--){
+                    var collObject = collisionObjects[i];
+                    //console.log(collObject);
+                    var objectAngle = findAngle(collObject.with,this,this.directions);
+                    var objectAngleRadius = -(objectAngle/this.directions)*2*Math.PI;
+                    var forceMagnitude;
+                    console.log(collObject.collisionType);
+                    switch (collObject.collisionType){
+                        case "hard":
+                            forceMagnitude = 2;
+                            this.hardCollision = true;
+                            break;
+                        case "soft":
+                            forceMagnitude = 1;
+                            break;
+                    }
+                    //console.log(forceMagnitude);
+                    //没有加负号，因此这里是和方向相反的力
+                    forceVector.x += (forceMagnitude*Math.sin(objectAngleRadius));
+                    forceVector.y += (forceMagnitude*Math.cos(objectAngleRadius));
+
+                };
+                //console.log(forceVector);
+                //根据力向量得到新的方向
+                newDirection = findAngle(forceVector,{x:0,y:0},this.directions);
+            }else{
+                this.colliding = false;
+            }
+            
+
             //计算当前方向与新方向差
             var difference = angleDiff(this.direction,newDirection,this.directions);
             //console.log(difference);
@@ -374,6 +417,7 @@ var aircraft = {
                 this.direction =newDirection;
                 this.turning = false;
             }
+
             // Calculate maximum distance that aircraft can move per animation cycle
             var maximumMovement = this.speed * game.speedAdjustmentFactor * (this.turning ? this.speedAdjustmentWhileTurningFactor : 1);
             var movement = Math.min(maximumMovement, distanceFromDestination);
@@ -389,6 +433,47 @@ var aircraft = {
             this.x = (this.x+this.lastMovementX);
             this.y = (this.y+this.lastMovementY);
             //console.log(this.lastMovementX);
+        },
+        checkCollisionObjects:function(distanceFromDestination){
+            var collisionObjects = [];
+            var maximumMovement = this.speed * game.speedAdjustmentFactor * (this.turning ? this.speedAdjustmentWhileTurningFactor : 1);
+            var movement = Math.min(maximumMovement, distanceFromDestination);
+            //计算每个动画循环飞行器应当移动的距离
+            //var movement = this.speed*game.speedAdjustmentFactor;
+            //计算移动距离的x和y分量
+            var angleRadians = -(this.direction/this.directions)*2*Math.PI;
+            var lastMovementX = -(movement*Math.sin(angleRadians));
+            var lastMovementY = -(movement*Math.cos(angleRadians));
+            //console.log(this.direction);
+            var newX = (this.x+lastMovementX);
+            var newY = (this.y+lastMovementY);
+            for(var i = game.aircraft.length-1;i>=0;i--){
+                var aircraft = game.aircraft[i];
+                //测试距离碰撞少于三步的飞行器
+                if(aircraft != this && Math.abs(aircraft.x-this.x)<3 && Math.abs(aircraft.y-this.y)<3){
+                    if(Math.pow(aircraft.x-newX,2) + Math.pow(aircraft.y-newY,2)<Math.pow((this.radius+aircraft.radius)*0.2/game.gridSize,2)){
+                        //飞行器间的距离低于硬碰撞阈值（飞行器半径之和）
+                        collisionObjects.push(
+                            {
+                                collisionType:"hard",
+                                with:aircraft
+                            }
+                        );
+                        this.colliding = true;
+                        this.hardCollision = true;
+                    }else if(Math.pow(aircraft.x-newX,2) + Math.pow(aircraft.y-newY,2)<Math.pow((this.radius+aircraft.radius)*0.5/game.gridSize,2)){
+                        //车辆间的距离低于硬碰撞阈值（车辆半径之和的1.5倍）
+                        collisionObjects.push(
+                            {
+                                collisionType:"soft", 
+                                with:aircraft
+                            }
+                        );
+                        this.colliding = true;
+                    }
+                }
+            }
+            return collisionObjects;
         }
     },
     load:loadItem,
