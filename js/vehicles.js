@@ -1,5 +1,21 @@
 var vehicles = {
     list:{
+        "scv":{
+            name:"scv",
+            pixelWidth:30,
+            pixelHeight:30,
+            pixelOffsetX:15,
+            pixelOffsetY:15,
+            radius:12,
+            speed:15,
+            sight:3,
+            cost:300,
+            hitPoints:30,
+            turnSpeed:3,
+            spriteImages:[
+                {name:"stand",count:1,directions:8}
+            ],
+        },
         "transport":{
             name:"transport",
             pixelWidth:31,
