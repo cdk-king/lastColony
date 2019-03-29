@@ -85,10 +85,24 @@ var mouse = {
 
         canvas.addEventListener("mousedown", mouse.mousedownhandler, false);
         canvas.addEventListener("mouseup", mouse.mouseuphandler, false);
+        //dblclick
+        canvas.addEventListener("dblclick", mouse.dblclickhandler, false);
 
         canvas.addEventListener("contextmenu", mouse.mouserightclickhandler, false);
 
         mouse.canvas = canvas;
+    },
+    dblclickhandler:function(){
+        console.log("dblclick");
+        console.log(game.selectedItems);
+        var selectItem = game.selectedItems[0];
+        var name = selectItem.name;
+        for(var i = 0;i<game.items.length;i++){
+            var item = game.items[i];
+            if(item.name==name && item.team == game.team && item!=selectItem){
+                game.selectItem(item);
+            }
+        }
     },
     mouserightclickhandler: function(ev) {
         mouse.rightClick();
@@ -283,7 +297,7 @@ var mouse = {
     // Called whenever player completes a left click on the game canvas
     leftClick: function(shiftPressed) {
 
-        //如果游戏处于建造模式
+        //建造模式
         if(game.deployBuilding){
             if(game.canDeployBuilding){
                 sidebar.finishDeployingBuilding();
@@ -293,6 +307,7 @@ var mouse = {
             return;
         }
 
+        //移动攻击
         if(mouse.moveAndAttack){
             //设置鼠标样式
             document.getElementById("gameforegroundcanvas").style.cursor = "url('images/cursor.cur'),default";
@@ -337,6 +352,7 @@ var mouse = {
             return;
         }
 
+        //选中单位
         let clickedItem = mouse.itemUnderMouse();
         //console.log(clickedItem);
         if (clickedItem) {
