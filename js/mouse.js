@@ -58,6 +58,12 @@ var mouse = {
             game.foregroundContext.drawImage(buildingType.spriteSheet,imageOffset*buildingType.pixelWidth,colorOffset,buildingType.pixelWidth,buildingType.pixelHeight,
                 x-buildingType.pixelOffsetX,y-buildingType.pixelOffsetY,buildingType.pixelWidth,buildingType.pixelHeight);
             game.foregroundContext.globalAlpha=1;
+            
+            //绘制视野边缘
+            game.foregroundContext.beginPath();
+            game.foregroundContext.arc(x+buildingType.baseWidth/2,y+buildingType.baseHeight/2,buildingType.sight*game.gridSize,0,Math.PI*2,false);
+            game.foregroundContext.strokeStyle = "rgba(255,255,255,255)";
+            game.foregroundContext.stroke();
         }
     },
     calculateGameCoordinates:function(){

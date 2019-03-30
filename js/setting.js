@@ -17,7 +17,7 @@ var setting = {
         box.style.left = (sounds.volume?sounds.volume:0.5)*cha + 'px';
         barContainerP.innerHTML = (sounds.volume?sounds.volume:0.5)*100 + '%';
         box.onmousedown = function (ev) {
-            console.log("box.onmousedown");
+            //console.log("box.onmousedown");
             let boxL = box.offsetLeft
             let e = ev || window.event //兼容性
             let mouseX = e.clientX //鼠标按下的位置
