@@ -1,6 +1,56 @@
 var setting = {
     init:function(){
-
+        setting.initVolumeController();
+    },
+    initVolumeController:function(){
+        var box = document.getElementsByClassName('box')[0];
+        
+        var bar = document.getElementsByClassName('bar')[0];
+        var barContainer = document.getElementsByClassName('barContainer')[0];
+        var barContainerP = barContainer.getElementsByTagName('p')[0];
+        // console.log(bar.offsetWidth);
+        // console.log(box.offsetWidth);
+        //offsetWidth为可视化宽度
+        var barWidth = getSize(bar).width;
+        var boxWidth = getSize(box).width;
+        var cha = barWidth - boxWidth;
+        box.style.left = (sounds.volume?sounds.volume:0.5)*cha + 'px';
+        barContainerP.innerHTML = (sounds.volume?sounds.volume:0.5)*100 + '%';
+        box.onmousedown = function (ev) {
+            console.log("box.onmousedown");
+            let boxL = box.offsetLeft
+            let e = ev || window.event //兼容性
+            let mouseX = e.clientX //鼠标按下的位置
+            barContainer.onmousemove = function (ev) {
+                let e = ev || window.event;
+                let moveL = e.clientX - mouseX; //鼠标移动的距离
+                let newL = boxL + moveL; //left值
+                
+                if (newL < 0) {
+                    newL = 0;
+                }
+                if (newL >= cha) {
+                    newL = cha;
+                }
+                
+                // 改变left值
+                box.style.left = newL + 'px';
+                let bili = newL / cha * 100;
+                sounds.volume = bili/100;
+                barContainerP.innerHTML = Math.ceil(bili) + '%';
+                return false; //取消默认事件
+            }
+            document.getElementById('settingscreen').onmouseup = function () {
+                barContainer.onmousemove = false; //解绑移动事件
+                return false;
+            }
+            // document.getElementById('settingscreen').onmouseover = function () {
+            //     console.log("onmouseout");
+            //     barContainer.onmousemove = false; //解绑移动事件
+            //     return false;
+            // }
+            return false;
+        }
     },
     showSetting:function(){
         //显示游戏设置界面
@@ -14,7 +64,7 @@ var setting = {
         var target = event.srcElement||event.target;
         var isFullscreen=document.fullScreen||document.mozFullScreen||document.webkitIsFullScreen;
         var el=document.getElementsByTagName('html')[0]; 
-        if(!isFullscreen){//进入全屏,多重短路表达式
+        if(!isFullscreen){//进入全屏,多重短路表达式 
             console.log("进入全屏");
         
         (el.requestFullscreen&&el.requestFullscreen())||

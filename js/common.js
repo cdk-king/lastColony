@@ -396,3 +396,65 @@ function drawOrderLine(start,end,color,lineDash,arcDash,r){
     game.foregroundContext.stroke();
     
 }
+
+//判断对象类型
+function getType(o){
+    var _t;
+    return ((_t = typeof(o)) == "object" ? o==null && "null" || Object.prototype.toString.call(o).slice(8,-1):_t).toLowerCase();
+}
+
+//获取标签对象的css样式
+function getStyle(el, styleName) {
+    return el.style[styleName] ? el.style[styleName] : el.currentStyle ? el.currentStyle[styleName] : window.getComputedStyle(el, null)[styleName];
+}
+
+function getStyleNum(el, styleName) {
+    return parseInt(getStyle(el, styleName).replace(/px|pt|em/ig,''));
+}
+
+//设置标签对象的css样式
+function setStyle(el, obj){
+    if (getType(obj) == "object") {
+        //for in 获取属性名
+        for (s in obj) {
+            console.log(s);
+            var cssArrt = s.split("-");
+            for (var i = 1; i < cssArrt.length; i++) {
+                //大写替换
+                cssArrt[i] = cssArrt[i].replace(cssArrt[i].charAt(0), cssArrt[i].charAt(0).toUpperCase());
+            }
+            //join() 方法用于把数组中的所有元素放入一个字符串。元素是通过指定的分隔符进行分隔的。 
+            var cssArrtnew = cssArrt.join("");
+            console.log(cssArrtnew);
+            el.style[cssArrtnew] = obj[s];
+        }
+    }
+    else 
+        if (getType(obj) == "string") {
+            el.style.cssText = obj; 
+        }
+   }
+//获取标签真实高宽
+function getSize(el) {
+    if (getStyle(el, "display") != "none") {
+        return { width: el.offsetWidth || getStyleNum(el, "width"), height: el.offsetHeight || getStyleNum(el, "height") };
+    }
+    var _addCss = { display: "", position: "absolute", visibility: 'hidden' };
+    var _oldCss = {};
+    for (i in _addCss) {
+        _oldCss[i] = getStyle(el, i);
+    }
+    setStyle(el, _addCss);
+    var _width = el.clientWidth || getStyleNum(el, "width");
+    var _height = el.clientHeight || getStyleNum(el, "height");
+    for (i in _oldCss) {
+        setStyle(el, _oldCss);
+    }
+    return { width: _width, height: _height };
+} 
+// window.onload = function(){
+//     var _addCss = { display: "", position: "absolute", visibility: 'hidden' };
+//     var bar = document.getElementsByClassName("bar")[0];
+//     console.log(bar);
+//     setStyle(bar, _addCss);
+// }

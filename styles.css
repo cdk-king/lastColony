@@ -511,3 +511,57 @@ input[type="button"] {
     top: 80%;
     transform: translate(-50%, -50%);
 }
+
+/*音量控件*/
+.barContainer {
+    width: 150px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    /* border: 1px solid red; */
+    font-size: 12px;
+}
+.barContainer p{
+    position: absolute;
+    top: -10px;
+    left: 65px;
+    margin: 0;
+    padding: 0;
+}
+
+.barContainer .bar{
+    
+    margin: 0;
+    padding: 0;
+    width: 150px;
+    height: 10px;
+    border-radius: 10px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* 垂直居中 */
+    margin: auto;
+    cursor: pointer;
+}
+
+.barContainer .box{
+    
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    margin: auto 0;
+    border: 1px solid black;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: left 0.1s linear 0s;
+}

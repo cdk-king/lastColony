@@ -19,6 +19,7 @@ var game = {
         sidebar.init();
         sounds.init();
         star.init();
+        setting.init();
 
         // Display the main game menu
         game.hideScreens();

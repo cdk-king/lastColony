@@ -1,5 +1,6 @@
 var sounds = {
     backgroundSound:true,
+    volume:0.5,
     list:{
         "bullet":["bullet1","bullet2"],
         "heatseeker":["heatseeker1","heatseeker2"],
@@ -30,6 +31,7 @@ var sounds = {
                 }
                 var audioObject = sound.audioObjects[sound.counter];
                 sound.counter++;
+                audioObject.volume = sounds.volume;
                 audioObject.play();
             }
         }
