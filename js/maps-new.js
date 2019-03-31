@@ -332,7 +332,7 @@ var maps = {
                 {"type":"vehicles","name":"transport",x:2,y:35,"team":"blue","direction":2,"selectable":false,"uid":-3},   
                 {"type":"vehicles","name":"transport",x:1,y:36,"team":"blue","direction":2,"selectable":false,"uid":-4},  
                 
-                {"type":"vehicles","name":"scv",x:11,y:30,"team":"blue","direction":2},
+                {"type":"vehicles","name":"scv",x:10,y:35,"team":"blue","direction":2},
 
                 /**上一关留下的直升飞机 */
                 {"type":"aircraft","name":"chopper","x":15,"y":39,"team":"blue","selectable":false,"uid":-5,"orders":{

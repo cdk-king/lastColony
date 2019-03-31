@@ -221,6 +221,27 @@ var vehicles = {
         isValidTarget:isValidTarget,
         findTargetsInSight:findTargetsInSight,
         findAllTargetsInSight:findAllTargetsInSight,
+        reachedTarget:function(target){
+            var item = target;
+            if(item.type=="buildings"){
+                console.log(item.x+item.baseWidth/game.gridSize);
+                console.log(this.x+this.radius/2/game.gridSize);
+                //rect1.x < rect2.x + rect2.width 
+                //&& rect1.x + rect1.width > rect2.x 
+                //&& rect1.y < rect2.y + rect2.height
+                //&& rect1.height + rect1.y > rect2.y
+                return (item.x<=this.x+this.radius/2/game.gridSize 
+                    && item.x+item.baseWidth/game.gridSize>=this.x-this.radius/2/game.gridSize
+                    && item.y<=this.y+this.radius/2/game.gridSize 
+                    && item.y+item.baseHeight/game.gridSize>=this.y-this.radius/2/game.gridSize);
+            }else if(item.type=="aircraft"){
+                return (Math.pow(item.x-this.x,2)+Math.pow(item.y-(this.y+item.pixelShadowHeight/game.gridSize),2)
+                <Math.pow((item.radius+this.radius)/game.gridSize,2));
+            }else{
+                return (Math.pow(item.x-this.x,2)+Math.pow(item.y-this.y,2)
+                <Math.pow((item.radius+this.radius)/game.gridSize,2));
+            }
+        },
         processOrders:function(){
             this.lastMovementX = 0;
             this.lastMovementY = 0;
@@ -233,9 +254,10 @@ var vehicles = {
             var target;
             switch (this.orders.type){
                 case "move":
-                    //console.log("move");
+                    console.log("move");
                     //向目标位置移动，直到距离小于车辆半径
                     var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
+                   
                     if(distanceFromDestinationSquared < Math.pow(this.radius/game.gridSize,2)){
                         this.orders = {type:"stand"};
                         return;
@@ -254,6 +276,7 @@ var vehicles = {
 
                             // Stop if more than 30 collisions occur
                             if (this.orders.collisionCount > 30) {
+                                console.log(distanceFromDestinationSquared);
                                 this.orders = { type: "stand" };
                                 break;
                             }
@@ -273,6 +296,40 @@ var vehicles = {
                             //寻径算法不能找到路径，停止
                             this.orders = {type:"stand"};
                             return;
+                        }
+                    }
+                    break;
+                case "build":
+                    //建造建筑物
+
+                    //如果建造区域被临时占用，取消命令
+
+                    //移动到建筑网格的中央
+                    var targetBaseWidth = this.orders.details.baseWidth;
+                    var targetBaseHeight = this.orders.details.baseHeight;
+                    var target = {
+                        x:this.orders.details.x+targetBaseWidth/2/game.gridSize,
+                        y:this.orders.details.y+targetBaseHeight/2/game.gridSize,
+                        type:"buildings"
+                    };
+                    console.log("判断是否到达");
+                    //判断是否到达
+                    var distanceFromDestinationSquared = (Math.pow(target.x-this.x,2)+Math.pow(target.y-this.y,2));
+                    if(this.reachedTarget(this.orders.details)){
+                        //到达目标
+                        console.log("到达目标");
+                        var item = game.add(this.orders.details);
+                        game.cash[item.team] -= item.cost;
+                        this.orders = { type: "stand" };
+                    }else{
+                        //未到达
+                        console.log("未到达目标");
+                        var distanceFromDestination = Math.pow(distanceFromDestinationSquared,0.5);
+                        let moving = this.moveTo(this.orders.details, distanceFromDestination);
+                        
+                        
+                        if (!moving) {
+                            this.orders = { type: "stand" };
                         }
                     }
                     break;
@@ -493,6 +550,7 @@ var vehicles = {
         speedAdjustmentWhileTurningFactor: 0.4,
         moveTo:function(destination,distanceFromDestination){
             if(!game.currentMapPassableGrid){
+                console.log("rebuildPassableGrid");
                 game.rebuildPassableGrid();
             }
 
@@ -540,6 +598,7 @@ var vehicles = {
             //检查按照现有的方向运动是否会产生碰撞
             var collisionObjects = this.checkCollisionObjects(grid,distanceFromDestination);
             this.hardCollision = false;
+            //console.log(collisionObjects.length);
             if(collisionObjects.length>0){
                 this.colliding = true;
                 //生成力向量对象为所有接触的物体添加斥力
@@ -585,7 +644,7 @@ var vehicles = {
             }else{
                 this.colliding = false;
             }
-            //console.log(newDirection);
+            
 
             //计算转向新方向的角度量
             var difference = angleDiff(this.direction,newDirection,this.directions);

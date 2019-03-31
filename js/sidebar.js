@@ -27,6 +27,13 @@ var sidebar = {
         document.getElementById("turretbutton").addEventListener("click",function(){
             game.deployBuilding = "ground-turret";
         });
+
+        //初始化scv建造按钮
+        document.getElementById("scvbutton").addEventListener("click",function(){
+            //game.deployBuilding = "scv";
+            
+        });
+
         this.hideSidebarbuttons();
     },
     constructAtStarport:function(unitDetails){
@@ -69,7 +76,7 @@ var sidebar = {
                     //console.log(game.currentMapPassableGrid[mouse.gridY][mouse.gridX]);
                     if(game.placementGrid[i][j] 
                     && (mouse.gridY+i>=game.currentLevel.mapGridHeight || mouse.gridX+j>=game.currentLevel.mapGridWidth || 
-                    game.currentMapPassableGrid[mouse.gridY+i][mouse.gridX+j] == 1 || fog.grid[game.team][mouse.gridY+i][mouse.gridX+j]==1) 
+                    sidebar.currentMapPassableGrid[mouse.gridY+i][mouse.gridX+j] == 1 || fog.grid[game.team][mouse.gridY+i][mouse.gridX+j]==1) 
                         ){
                             game.canDeployBuilding = false;
                             game.placementGrid[i][j] = 0;
@@ -103,6 +110,7 @@ var sidebar = {
         // Check if player has a base or starport selected
         let baseSelected = false;
         let starportSelected = false;
+        let scvSelected = false;
 
         game.selectedItems.forEach(function(item) {
             if (item.team === game.team && item.lifeCode === "healthy" && item.action === "stand") {
@@ -110,6 +118,8 @@ var sidebar = {
                     baseSelected = true;
                 } else if (item.name === "starport") {
                     starportSelected = true;
+                } else if(item.name === "scv"){
+                    scvSelected = true;
                 }
             }
         });
@@ -121,6 +131,19 @@ var sidebar = {
         
         if(baseSelected && !game.deployBuilding){
             document.getElementById("basebtn").style.display = "block";
+            // if(game.currentLevel.requirements.buildings.indexOf("starport")>-1 && cashBalance>=buildings.list["starport"].cost){
+            //     document.getElementById("starportbutton").disabled = false;
+            // }
+            // if(game.currentLevel.requirements.buildings.indexOf("ground-turret")>-1 && cashBalance>=buildings.list["ground-turret"].cost){
+            //     document.getElementById("turretbutton").disabled = false;
+            // }
+            if(game.currentLevel.requirements.vehicles.indexOf("scv")>-1 && cashBalance>=vehicles.list["scv"].cost){
+                document.getElementById("scvbutton").disabled = false;
+            }
+        }
+
+        if(scvSelected && !game.deployBuilding){
+            document.getElementById("scvbtn").style.display = "block";
             if(game.currentLevel.requirements.buildings.indexOf("starport")>-1 && cashBalance>=buildings.list["starport"].cost){
                 document.getElementById("starportbutton").disabled = false;
             }
@@ -162,25 +185,38 @@ var sidebar = {
     },
     cancelDeployingBuilding:function(){
         game.deployBuilding = undefined;
-        sidebar.placementGrid = undefined;
-        sidebar.canDeployBuilding = false;
+        game.placementGrid = undefined;
+        game.canDeployBuilding = false;
     },
     finishDeployingBuilding:function(){
         var buildingName = game.deployBuilding;
-        var base;
+        var builder;
         for(var i = game.selectedItems.length-1;i>=0;i--){
             var item = game.selectedItems[i];
-            if(item.type == "buildings" && item.name == "base" && item.team == game.team 
+            // if(item.type == "buildings" && item.name == "base" && item.team == game.team 
+            // && item.lifeCode == "healthy" && item.action == "stand"){
+            //     base = item;
+            //     break;
+            // }
+            if(item.name == "scv" && item.team == game.team 
             && item.lifeCode == "healthy" && item.action == "stand"){
-                base = item;
+                builder = item;
                 break;
             }
         };
-        if(base){
+        if(builder){
             var buildingDetails = {type:"buildings",name:buildingName,x:mouse.gridX,y:mouse.gridY};
-            game.sendCommand([base.uid],{type:"construct-building",details:buildingDetails});
+            //game.sendCommand([base.uid],{type:"construct-building",details:buildingDetails});   
+            buildingDetails.action = "teleport";
+            buildingDetails.team = builder.team;
+            //出现新的单位，并从玩家资金中扣除耗费
+            var item  = window[buildingDetails.type].add(buildingDetails);
+            console.log(item);
+            //game.currentMapPassableGrid = undefined;
+            game.currentMapPassableGrid = game.rebuildPassableGrid();
+            game.sendCommand([builder.uid],{type:"build",details:item});
         }
         //清除deployBuilding标签
-        game.deployBuilding = undefined;
+        sidebar.cancelDeployingBuilding();
     }
 }

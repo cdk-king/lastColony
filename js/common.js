@@ -188,6 +188,8 @@ function addItem(details){
 
     item.life = item.hitPoints;
 
+    item.isAdd = true;
+
     Object.assign(item, details);
 
     return item;

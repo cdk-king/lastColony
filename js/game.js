@@ -341,7 +341,12 @@ var game = {
         if(!itemDetails.uid){   
             itemDetails.uid = ++game.counter;
         }
-        var item = window[itemDetails.type].add(itemDetails);
+        
+        if(itemDetails.isAdd){
+            var item = itemDetails;
+        }else{
+            var item = window[itemDetails.type].add(itemDetails);
+        }
         //将单位项加入items数组
         game.items.push(item);
         //将单位项加入指定的单位类型数组
@@ -503,7 +508,7 @@ var game = {
         //console.log( game.currentMapPassableGrid[3][5]);
     },
     rebuildBuildableGrid:function(){
-        game.currentMapPassableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
+        sidebar.currentMapPassableGrid = game.makeArrayCopy(game.currentMapTerrainGrid);
 
         // Also mark all building and terrain as unpassable items
         for (let i = game.items.length - 1; i >= 0; i--) {
@@ -513,7 +518,7 @@ var game = {
                 for (let y = item.passableGrid.length - 1; y >= 0; y--) {
                     for (let x = item.passableGrid[y].length - 1; x >= 0; x--) {
                         if (item.passableGrid[y][x]) {
-                            game.currentMapPassableGrid[item.y + y][item.x + x] = 1;
+                            sidebar.currentMapPassableGrid[item.y + y][item.x + x] = 1;
                         }
                     }
                 }
@@ -528,7 +533,7 @@ var game = {
                 for (var x = x1; x <= x2; x++) {
                     for (var y = y1; y <= y2; y++) {
                         
-                        game.currentMapPassableGrid[y][x] = 1;
+                        sidebar.currentMapPassableGrid[y][x] = 1;
                     }
                 }
             }

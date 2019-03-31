@@ -305,6 +305,11 @@ input[type="button"] {
 }
 
 /* 按钮变灰状态 */
+
+
+#scvbutton:active,#scvbutton:disabled{
+    background-position: -243px -125px;
+}
 #starportbutton:active,#starportbutton:disabled{
     background-position: -208px -247px;
 }
@@ -337,7 +342,11 @@ input[type="button"] {
 }
 
 /* 按钮正常状态 */
-
+#scvbutton{
+    left: 0;
+    top: 0;
+    background-position: -168px -125px;
+}
 #starportbutton{
     left: 0;
     top: 0;
