@@ -3,6 +3,10 @@ var buildings = {
         "base":{
             name:"base",
             //绘图属性
+            station:{
+                offsetX:40,
+                offsetY:20
+            },
             pixelWidth:60,
             pixelHeight:60,
             baseWidth:40,
@@ -351,7 +355,34 @@ var buildings = {
             //console.log(this.orders.type);
             switch (this.orders.type){
                 case "construct-unit":
-                    //console.log("construct-unit");
+                    console.log("construct-unit");
+                    //基地
+                    if(this.name=="base"){
+                        console.log("base-construct-unit");
+                        //确认集结地有无其他单位
+
+                        //
+                        this.action = "construct";
+                        this.animationIndex = 0;
+                        //深度拷贝
+                        let itemDetails = Object.assign({}, this.orders.details);
+                        var radius = window[this.orders.details.type].list[this.orders.details.name].radius;
+                        itemDetails.x = this.x+(this.station.offsetX+radius)/game.gridSize;
+                        itemDetails.y = this.y+this.station.offsetY/game.gridSize;
+                        //出现新的单位，并从玩家资金中扣除耗费
+                        itemDetails.action = "teleport";
+                        itemDetails.team = this.team;
+                        var cost = window[this.orders.details.type].list[this.orders.details.name].cost;
+                        game.cash[this.team] -= cost;
+                        //this.constructUnit = Object.assign([],itemDetails);
+                        this.constructUnit = itemDetails;
+                        var item = game.add(this.constructUnit);
+                        //console.log(item);
+                        this.constructUnit = undefined;
+                        this.orders = {type:"stand"};
+                        return;
+                    }
+                    //星港
                     if(this.lifeCode!="healthy"){
                         return;
                     }

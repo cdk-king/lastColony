@@ -31,6 +31,7 @@ var sidebar = {
         //初始化scv建造按钮
         document.getElementById("scvbutton").addEventListener("click",function(){
             //game.deployBuilding = "scv";
+            sidebar.constructAtBase({type:"vehicles","name":"scv"});
             
         });
 
@@ -48,6 +49,20 @@ var sidebar = {
         };
         if(starport){
             game.sendCommand([starport.uid],{type:"construct-unit",details:unitDetails});
+        }
+    },
+    constructAtBase:function(unitDetails){
+        var base;
+        //在选中的单位中找到第一个合适的基地
+        for(var i = game.selectedItems.length-1;i>=0;i--){
+            var item = game.selectedItems[i];
+            if(item.type == "buildings" && item.name == "base" && item.team==game.team && item.lifeCode == "healthy" && item.action == "stand"){
+                base = item;
+                break;
+            }
+        };
+        if(base){
+            game.sendCommand([base.uid],{type:"construct-unit",details:unitDetails});
         }
     },
     animate:function(){
