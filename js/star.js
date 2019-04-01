@@ -9,6 +9,9 @@ var star = {
     twinklingStarsNum:20,
     star_pic:new Image(),
     star2_pic:new Image(),
+    earth_pic:new Image(),
+    turnSpeed:0.05,
+    turnAngle:0,
     stop:false,
     earth:{
         x:450,
@@ -18,11 +21,19 @@ var star = {
     init:function(){
         this.star_pic.src = "images/star2.png";
         this.star2_pic.src = "images/star1.png";
+        this.earth_pic.src = "images/screens/earth.png";
 
         var gameContainer = document.getElementById("gamecontainer");
         var gameScale = gameContainer.clientWidth/640;
-        this.width = document.getElementById("gamecontainer").clientWidth*gameScale;
-        this.height = document.getElementById("gamecontainer").clientHeight*gameScale;
+        var maxWidth = window.innerWidth;
+        var maxHeight = window.innerHeight;
+
+        var scale = Math.min(maxWidth / 640, maxHeight / 480);
+        var width = Math.max(640, Math.min(1024, maxWidth / scale ));
+        //console.log(document.getElementById("gamecontainer").style.width);
+        //console.log(document.getElementById("gamecontainer").style.height);
+        this.width = width;
+        this.height = document.getElementById("gamecontainer").clientHeight;
         this.canvas.width = this.width;
         this.canvas.height = this.height;
         this.canvas.style.position = "absolute";
@@ -101,12 +112,27 @@ var star = {
     },
     draw:function(){
         star.context.clearRect(0, 0, star.canvas.width, star.canvas.height);
+        star.drawEarth();
         star.drawRisingStars();
         star.drawTwinklingStars();
         // star.context.beginPath();
         // star.context.fillStyle = "white";
         // star.context.clearRrc(star.earth.x, star.earth.y,  star.earth.r, 0, Math.PI * 2, false);
         // star.context.fill(); 
+    },
+    drawEarth:function(){
+        var width = 2*star.width/3;
+        var height = 3*star.height/4;
+        star.context.beginPath();
+        star.context.translate(width,height);
+        star.context.rotate(star.turnAngle*Math.PI/180);
+        star.context.drawImage(star.earth_pic, -200,-200,400,400);
+        star.context.rotate(-star.turnAngle*Math.PI/180);
+        star.context.translate(-width,-height);
+        star.turnAngle = star.turnAngle+star.turnSpeed;
+        if(star.turnAngle>=360){
+            star.turnAngle=0;
+        }
     },
     drawRisingStars:function(){
         for(var j= 0;j<star.risingstars.length;j++){

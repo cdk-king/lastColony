@@ -93,6 +93,9 @@ var game = {
         // Apply this new width to game container and game canvas
         gameContainer.style.width = width + "px";
 
+        star.canvas.width = width;
+        star.width= width;
+
         // Subtract 160px for the sidebar
         var canvasWidth = width - 160;
 

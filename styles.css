@@ -63,6 +63,7 @@ body,html {
     transform: translate(-50%, -50%);
     transform-origin: center center;
     transition:all 0.5s;
+    /* border:1px solid blue; */
 }
 
 .gamelayer{
