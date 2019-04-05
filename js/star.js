@@ -19,45 +19,8 @@ var star = {
         r:160
     },
     init:function(){
-        //Image对象的src属性要写在onload事件后面
-        //this.star_pic.crossOrigin ='';
-        let image = new Image()
         
-        image.src = "images/star2.png" + '?time=' + new Date().valueOf();
-        image.crossOrigin = "Anonymous"; 
-        //image.setAttribute('crossOrigin', 'anonymous')
-        let that = this;
-        image.onload = () => {
-            var base64 = getBase64Image( this.star_pic);
-            console.log(base64);
-        }
-        image.onerror = (err) => {
-          console.log(err)
-        };
-
-
-        //this.star_pic.src = "images/star2.png";
-        //this.star_pic.setAttribute('crossOrigin', 'anonymous')
-        this.star_pic.onload = function() {
-            //var base64 = getBase64Image( this.star_pic);
-            //console.log(base64);
-        }
-        //this.star_pic.setAttribute("crossOrigin",'Anonymous');
-        this.star_pic.src = "images/star2.png";
-        
-        
-
-        //this.star2_pic.crossOrigin ='';
-        this.star2_pic.onload = function() {
-            
-        }
-        this.star2_pic.src = "images/star1.png";
-        //this.earth_pic.crossOrigin ='';
-        this.earth_pic.onload = function() {
-            
-        }
-        this.earth_pic.src = "images/screens/earth.png";
-        
+        this.initImg();
 
         var gameContainer = document.getElementById("gamecontainer");
         var gameScale = gameContainer.clientWidth/640;
@@ -66,8 +29,6 @@ var star = {
 
         var scale = Math.min(maxWidth / 640, maxHeight / 480);
         var width = Math.max(640, Math.min(1024, maxWidth / scale ));
-        //console.log(document.getElementById("gamecontainer").style.width);
-        //console.log(document.getElementById("gamecontainer").style.height);
         this.width = width;
         this.height = document.getElementById("gamecontainer").clientHeight;
         this.canvas.width = this.width;
@@ -75,7 +36,7 @@ var star = {
         this.canvas.style.position = "absolute";
         this.canvas.style.top = "0px";
         this.canvas.style.left = "0px";
-        this.canvas.style.zIndex = 10;
+        this.canvas.style.zIndex = -2;
         //this.canvas.style.border = "1px solid red";
         this.context = this.canvas.getContext("2d");
         document.getElementById("gamestartscreen").appendChild(this.canvas);
@@ -86,6 +47,23 @@ var star = {
             star.createTwinklingStars();
         }
     },
+    initImg:function(){
+        //Image对象的src属性要写在onload事件后面
+        //this.star_pic.crossOrigin ='';
+        //this.star_pic.setAttribute('crossOrigin', 'anonymous')
+        this.star_pic.onload = function() {
+        }
+        this.star_pic.src = "images/star2.png";
+
+        //this.star2_pic.crossOrigin ='';
+        this.star2_pic.onload = function() {  
+        }
+        this.star2_pic.src = "images/star1.png";
+        //this.earth_pic.crossOrigin ='';
+        
+        this.earth_pic=loader.loadImage("images/screens/earth.png");
+        this.earth_pic.src = "images/screens/earth.png";
+    },
     animate:function(){
        
         var now =  (new Date()).getTime();
@@ -94,7 +72,7 @@ var star = {
             star.lastAnimateTime = now;
             star.createRisingStars();
         }
-        //light.render();
+        light.render();
         star.animateRisingStars();
         star.draw();
         if(!star.stop){

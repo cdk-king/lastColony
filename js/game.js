@@ -26,6 +26,7 @@ var game = {
         game.hideScreens();
         game.showScreen("gamestartscreen");
         star.animate();
+        light.animate();
         //game.initBackground();
         //game.changeStartBackground();
         // Initialize and store contexts for both the canvases
