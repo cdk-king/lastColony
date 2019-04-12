@@ -3,7 +3,7 @@ var light = {
     //https://www.cnblogs.com/miloyip/archive/2010/04/02/1702768.html
     //https://www.cnblogs.com/miloyip/archive/2010/06/14/Kinematics_ParticleSystem.html
     canvas:document.createElement("canvas"),
-    ctx : {} ,
+    //ctx : {} ,
     width:0,
     height:0,
     imageData:[],
@@ -39,7 +39,7 @@ var light = {
         this.canvas.style.top = "0px";
         this.canvas.style.left = "0px";
         this.canvas.style.zIndex = -1;
-        // this.canvas.style.border = "1px solid red";
+        //this.canvas.style.border = "1px solid red";
         //this.context = this.canvas.getContext("2d");
         document.getElementById("gamestartscreen").appendChild(this.canvas);
 
@@ -90,8 +90,9 @@ var light = {
                 this.imageData.data[ index * 4 + 3 ] = 255* light;
             }
         }
+        
     },
-    animate:function(){
+    animate:function(){ 
         light.render();
         light.draw();
         if(!light.stop){

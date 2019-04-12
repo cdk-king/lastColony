@@ -72,7 +72,6 @@ var star = {
             star.lastAnimateTime = now;
             star.createRisingStars();
         }
-        light.render();
         star.animateRisingStars();
         star.draw();
         if(!star.stop){

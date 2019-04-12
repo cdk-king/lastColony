@@ -85,11 +85,11 @@ var setting = {
         var target = event.srcElement||event.target;
         if(sounds.backgroundSound){
             sounds.backgroundSound = false;
-            target.src = "images/icon/音效关.png";
+            target.src = "images/icon/soundClose.png";
             setting.showSettingMessage("音效已关闭",2000);
         }else{
             sounds.backgroundSound = true;
-            target.src = "images/icon/音效开.png";
+            target.src = "images/icon/soundOpen.png";
             setting.showSettingMessage("音效已开启",2000);
         }
     },

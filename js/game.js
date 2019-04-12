@@ -26,7 +26,9 @@ var game = {
         game.hideScreens();
         game.showScreen("gamestartscreen");
         star.animate();
-        light.animate();
+        light.render();
+        light.draw();
+        
         //game.initBackground();
         //game.changeStartBackground();
         // Initialize and store contexts for both the canvases
@@ -97,6 +99,13 @@ var game = {
 
         star.canvas.width = width;
         star.width= width;
+        light.canvas.width = width;
+        light.plane.width = width;
+        if(light.ctx){
+            light.render();
+            light.draw();
+        }
+        
 
         // Subtract 160px for the sidebar
         var canvasWidth = width - 160;
