@@ -12,14 +12,14 @@ var light = {
         width: 660,                 // 宽
         height: 480,              // 高
         normal: [ 0, 0, 1 ],        // 朝向，即法向量
-        color: { r: 255, g: 255, b: 255 }   // 颜色为红色
+        color: { r: 255, g: 255, b: 255 }   // 颜色
     },
     pointLight:{
-        position: [ 700, -150, 100 ],
-        color: {//白
+        position: [ 700, -150, 150 ],
+        color: {
             r: 255,
-            g: 255,
-            b: 255,
+            g: 246,
+            b: 143,
             a: 255
         }
     },
@@ -72,17 +72,17 @@ var light = {
                 var normal = [ 0, 0, 1 ];
                 var reverseLightDirection = this.sub( this.pointLight.position, position );
                 //var currentToLight = normalize( reverseLightDirection );
-                var len = Math.sqrt(reverseLightDirection[0]*reverseLightDirection[0]+reverseLightDirection[1]*reverseLightDirection[1]+reverseLightDirection[2]*reverseLightDirection[2]);
+                var len = Math.pow(reverseLightDirection[0]*reverseLightDirection[0]+reverseLightDirection[1]*reverseLightDirection[1]+reverseLightDirection[2]*reverseLightDirection[2],0.5);
                 //var light = dot( reverseLightDirection, normal );
                 var light = this.dot( reverseLightDirection, normal )/len;
 
-                this.imageData.data[ index * 4 ] = Math.min( 255, ( this.pointLight.color.r + this.plane.color.r ) * light );
-                this.imageData.data[ index * 4 + 1 ] =  Math.min( 255, ( this.pointLight.color.g + this.plane.color.g ) * light );
-                this.imageData.data[ index * 4 + 2 ] =  Math.min( 255, ( this.pointLight.color.b + this.plane.color.b ) * light );
+                //this.imageData.data[ index * 4 ] = Math.min( 255, ( this.pointLight.color.r + this.plane.color.r ) * light );
+                //this.imageData.data[ index * 4 + 1 ] =  Math.min( 255, ( this.pointLight.color.g + this.plane.color.g ) * light );
+                //this.imageData.data[ index * 4 + 2 ] =  Math.min( 255, ( this.pointLight.color.b + this.plane.color.b ) * light );
 
-                // this.imageData.data[ index * 4 ] = Math.min( 255, ( this.pointLight.color.r) * light );
-                // this.imageData.data[ index * 4 + 1 ] =  Math.min( 255, ( this.pointLight.color.g) * light );
-                // this.imageData.data[ index * 4 + 2 ] =  Math.min( 255, ( this.pointLight.color.b) * light );
+                this.imageData.data[ index * 4 ] = Math.min( 255, ( this.pointLight.color.r) * light );
+                this.imageData.data[ index * 4 + 1 ] =  Math.min( 255, ( this.pointLight.color.g) * light );
+                this.imageData.data[ index * 4 + 2 ] =  Math.min( 255, ( this.pointLight.color.b) * light );
 
                 // this.imageData.data[ index * 4 ] = Math.min( 255, ( this.pointLight.color.r ) * light+ this.plane.color.r  );
                 // this.imageData.data[ index * 4 + 1 ] =  Math.min( 255, ( this.pointLight.color.g  ) * light+ this.plane.color.g );
