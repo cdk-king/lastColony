@@ -6,7 +6,8 @@ var singleplayer = {
         game.hideScreens();
 
         //从第一关开始
-        singleplayer.currentLevel = 2;
+        singleplayer.currentLevel = 0;
+        
         singleplayer.isCourse = false;
         game.type = "singleplayer";
         game.team = "blue";
@@ -19,7 +20,7 @@ var singleplayer = {
         //隐藏开始菜单图层
         game.hideScreens();
         //从第一关开始
-        singleplayer.currentLevel = 1;
+        singleplayer.courseCurrentLevel = 2;
         singleplayer.isCourse = true;
         game.type = "singleplayer";
         game.team = "blue";
@@ -34,11 +35,12 @@ var singleplayer = {
         game.showScreen("gamestartscreen");
     },
     currentLevel: 0,
+    courseCurrentLevel: 2,
     startCurrentLevel:function(){
         //获取用来构建关卡的数据
         var level;
         if(singleplayer.isCourse){
-            level = courseMaps.singleplayer[singleplayer.currentLevel];
+            level = courseMaps.singleplayer[singleplayer.courseCurrentLevel];
         }else{
             level = maps.singleplayer[singleplayer.currentLevel];
         }
@@ -141,7 +143,7 @@ var singleplayer = {
         
         if(success){
             if(singleplayer.isCourse){
-                var moreLevels = (singleplayer.currentLevel < courseMaps.singleplayer.length-1);
+                var moreLevels = (singleplayer.courseCurrentLevel < courseMaps.singleplayer.length-1);
             }else{
                 var moreLevels = (singleplayer.currentLevel < maps.singleplayer.length-1);
             }
@@ -150,7 +152,12 @@ var singleplayer = {
                 game.showMessageBox("任务完成。",function(){
                     game.hideScreens();
                     // Start the next level
-                    singleplayer.currentLevel++;
+                    if(singleplayer.isCourse){
+                        singleplayer.courseCurrentLevel++;
+                    }else{
+                        singleplayer.currentLevel++;
+                    }
+                    
                     singleplayer.startCurrentLevel();
                 });
             }else{

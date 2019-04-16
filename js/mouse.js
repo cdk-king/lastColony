@@ -210,8 +210,8 @@ var mouse = {
                     var angleRadians = -(newDirection/8)*2*Math.PI;
                     var y = -(10*Math.sin(angleRadians))*((i%2 ==0) ?-1:1);
                     var x = (10*Math.cos(angleRadians))*((i%2 ==0) ?-1:1);
-                    console.log(x);
-                    console.log(y);
+                    //console.log(x);
+                    //console.log(y);
                     game.sendCommand([uids[i]],{type:"move",to:{
                         x:(mouse.gameX+x)/game.gridSize,
                         y:(mouse.gameY+y)/game.gridSize

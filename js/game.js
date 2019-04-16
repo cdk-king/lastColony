@@ -452,6 +452,15 @@ var game = {
             }
         };
     },
+    getItemByName:function(name,type){
+        var arr = [];
+        for(var i = game.items.length-1;i>=0;i--){
+            if(game.items[i].name==name && game.items[i].type==type){
+                 arr.push(game.items[i]);
+            }
+        };
+        return arr;
+    },
     processCommand:function(uids,details){
         
         //如果时uid类型，那么获取对应的目标对象

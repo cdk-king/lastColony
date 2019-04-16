@@ -224,8 +224,8 @@ var vehicles = {
         reachedTarget:function(target){
             var item = target;
             if(item.type=="buildings"){
-                console.log(item.x+item.baseWidth/game.gridSize);
-                console.log(this.x+this.radius/2/game.gridSize);
+                //console.log(item.x+item.baseWidth/game.gridSize);
+                //console.log(this.x+this.radius/2/game.gridSize);
                 //rect1.x < rect2.x + rect2.width 
                 //&& rect1.x + rect1.width > rect2.x 
                 //&& rect1.y < rect2.y + rect2.height
@@ -254,7 +254,7 @@ var vehicles = {
             var target;
             switch (this.orders.type){
                 case "move":
-                    console.log("move");
+                    //console.log("move");
                     //向目标位置移动，直到距离小于车辆半径
                     var distanceFromDestinationSquared = (Math.pow(this.orders.to.x-this.x,2)+Math.pow(this.orders.to.y-this.y,2));
                    
