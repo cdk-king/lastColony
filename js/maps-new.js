@@ -149,7 +149,7 @@ var maps = {
             //预加载的单位类型
             "requirements":{
                 "buildings":["base","ground-turret","starport","harvester"],
-                "vehicles":["transport","scout-tank","heavy-tank"],
+                "vehicles":["transport","scout-tank","heavy-tank","scv"],
                 "aircraft":["chopper"],
                 "terrain":[]
             },

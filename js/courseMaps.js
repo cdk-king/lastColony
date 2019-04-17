@@ -201,7 +201,7 @@ var courseMaps = {
             "name":"Entitties",
             "briefing":"在这一关，你将开始学习如何建造炮塔来防御敌人的进攻。",
             // 地图细节
-            "mapImage":"images/maps/plains-debug.png",
+            "mapImage":"images/maps/plains.png",
             "startX":4,
             "startY":4,
             "mapGridWidth":60,
@@ -551,6 +551,24 @@ var courseMaps = {
                         game.sendCommand(units,{type:"hunt"});
                     }
 
+                },
+                {
+                    "type":"conditional",
+                    "condition":function(){
+                        var emeyItemCount = 0;
+                        
+                        for(var i = 0;i<game.items.length;i++){
+                            var item = game.items[i];
+                            if(item.team == "green"){
+                                emeyItemCount++;
+                                return false;
+                            }
+                        }
+                        return true;
+                    },
+                    "action":function(){
+                        singleplayer.endLevel(true);
+                    }
                 },
                 /* 条件事件 */
                 

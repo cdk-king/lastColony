@@ -1,4 +1,15 @@
 var keyboard = {
+    //通关指令
+    endLevel:"697868",//end
+    input:"",
+    checkCommend:function(currKey){
+        this.input=this.input+currKey;
+        console.log(this.input);
+        if(this.input.indexOf(this.endLevel)!=-1){
+            this.input="";
+            singleplayer.endLevel(true);
+        }
+    },
     init:function(){
         var body = document.body;
         document.onkeydown=function(event){
@@ -8,6 +19,7 @@ var keyboard = {
             //console.log("按下键盘");
             if(e){ 
                 //console.log(currKey.toString());
+                keyboard.checkCommend(currKey.toString());
                 switch (currKey.toString()){
                     case "27":// 按 Esc
                         console.log("按 esc");

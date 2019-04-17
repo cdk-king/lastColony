@@ -22,7 +22,7 @@ var buildings = {
                 [1,1],
                 [1,1]
             ],
-            sight:3,
+            sight:4,
             hitPoints:500,
             cost:5000,
             spriteImages:[
