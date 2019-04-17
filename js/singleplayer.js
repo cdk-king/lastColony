@@ -20,7 +20,7 @@ var singleplayer = {
         //隐藏开始菜单图层
         game.hideScreens();
         //从第一关开始
-        singleplayer.courseCurrentLevel = 2;
+        singleplayer.courseCurrentLevel = 4;
         singleplayer.isCourse = true;
         game.type = "singleplayer";
         game.team = "blue";

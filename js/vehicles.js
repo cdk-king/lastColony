@@ -8,7 +8,7 @@ var vehicles = {
             pixelOffsetY:15,
             radius:12,
             speed:15,
-            sight:3,
+            sight:4,
             cost:300,
             hitPoints:30,
             turnSpeed:3,

@@ -291,6 +291,7 @@ var buildings = {
                         this.animationIndex = 0;
                         if (this.lifeCode === "healthy") {
                             // Harvesters mine 2 credits of cash per animation cycle
+                            //console.log("cash");
                             game.cash[this.team] += 2;
                         }
                     }
